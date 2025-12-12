@@ -9,7 +9,7 @@ def get_tables():
             return connection.execute(text("SELECT table_name FROM information_schema.tables WHERE table_schema='public'")).fetchall()
 
     except Exception as e:
-        print(f"Error connecting to PostgreSQL: {e}")
+        print(f"Error connecting to PostgresSQL: {e}")
         return []
 
 
@@ -127,4 +127,4 @@ if __name__ == "__main__":
                 print(lesson)
             print("--- Input Schedule ---")
         else:
-            print("Invalid option.")
+            print("\nInvalid option.")
