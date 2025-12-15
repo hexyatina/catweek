@@ -23,7 +23,7 @@ def get_table_data(table_name):
             return table_data
 
     except Exception as e:
-        print(f"Error connecting to PostgreSQL: {e}")
+        print(f"Error connecting to PostgresSQL: {e}")
         return []
 
 
@@ -79,6 +79,31 @@ def get_input_schedule(group, day, week):
         print(f"Error connecting to PostgreSQL: {e}")
         return []
 
+def get_Stepanuk_overall_table_data():
+    try:
+        engine = create_engine(DATABASE_URI)
+        with engine.connect() as connection:
+
+            query = text("""
+                SELECT t.timestart, t.timeend, g.groupname, l.lessonname, 
+                    d.dayname, d.weekid, p.cabinet, p.url
+                FROM overall o 
+                JOIN times t ON o.lessontime = t.timeid
+                JOIN ipz_groups g ON o.groupnames = g.groupid
+                JOIN lessons l ON o.lesson = l.lessonid
+                JOIN days d ON o.dayname = d.dayid
+                JOIN lecturers lec ON o.lecturer = lec.lecturerid
+                JOIN places p ON o.place = p.placeid
+                WHERE  lec.lecturerid = 103
+            """)
+
+            day_data = connection.execute(query)
+            day_data = [dict(row._mapping) for row in day_data]
+            return day_data
+
+    except Exception as e:
+        print(f"Error connecting to PostgreSQL: {e}")
+        return []
 
 if __name__ == "__main__":
     while True:
@@ -89,6 +114,8 @@ if __name__ == "__main__":
         print("2. Get overall table data")
         print("3. Get table data by name")
         print("4. Get schedule for a day and group")
+        print("5. Get schedule for Stepanuk")
+        print("=================")
 
         choice = input("Enter your choice: ")
 
@@ -126,5 +153,13 @@ if __name__ == "__main__":
             for lesson in schedule:
                 print(lesson)
             print("--- Input Schedule ---")
+
+        elif choice == "5":
+            print("\n--- Stepanuk Schedule ---")
+            schedule = get_Stepanuk_overall_table_data()
+            for lesson in schedule:
+                print(lesson)
+            print("--- Stepanuk Schedule ---")
+
         else:
             print("\nInvalid option.")
