@@ -9,9 +9,8 @@ if __name__ == "__main__":
         print("2. Get overall table data")
         print("3. Get table data by name")
         print("4. Get schedule for a day and group")
-        print("5. Get schedule for Stepanuk")
+        print("5. Get schedule for lecturer")
         print("6. Connection test")
-        print("7. Get schedule for lecturer")
         print("=================")
 
         choice = input("Enter your choice: ")
@@ -52,11 +51,12 @@ if __name__ == "__main__":
             print("--- Input Schedule ---")
 
         elif choice == "5":
-            print("\n--- Stepanuk Schedule ---")
-            schedule = get_Stepanuk_overall_table_data()
+            print("\n--- Lecturer Schedule ---")
+            lecturer_name = input("Enter lecturer name: ")
+            schedule = get_lecturer_table_data(lecturer_name)
             for lesson in schedule:
                 print(lesson)
-            print("--- Stepanuk Schedule ---")
+            print("--- Lecturer Schedule ---")
 
         elif choice == "6":
             print("\n--- Connection Test ---")
@@ -66,14 +66,6 @@ if __name__ == "__main__":
             else:
                 print(f"failed {msg}")
             print("--- Connection Test ---")
-
-        elif choice == "7":
-            print("\n--- Lecturer Schedule ---")
-            lecturer_name = input("Enter lecturer name: ")
-            schedule = get_lecturer_table_data(lecturer_name)
-            for lesson in schedule:
-                print(lesson)
-            print("--- Lecturer Schedule ---")
 
         else:
             print("\nInvalid option.")
