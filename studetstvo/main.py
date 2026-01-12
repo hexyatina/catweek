@@ -1,3 +1,5 @@
+from studetstvo.data.database import *
+
 if __name__ == "__main__":
     while True:
         print("\nSelect an option:")
@@ -9,6 +11,7 @@ if __name__ == "__main__":
         print("4. Get schedule for a day and group")
         print("5. Get schedule for Stepanuk")
         print("6. Connection test")
+        print("7. Get schedule for lecturer")
         print("=================")
 
         choice = input("Enter your choice: ")
@@ -63,6 +66,14 @@ if __name__ == "__main__":
             else:
                 print(f"failed {msg}")
             print("--- Connection Test ---")
+
+        elif choice == "7":
+            print("\n--- Lecturer Schedule ---")
+            lecturer_name = input("Enter lecturer name: ")
+            schedule = get_lecturer_table_data(lecturer_name)
+            for lesson in schedule:
+                print(lesson)
+            print("--- Lecturer Schedule ---")
 
         else:
             print("\nInvalid option.")
