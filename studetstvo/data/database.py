@@ -1,10 +1,31 @@
 from sqlalchemy import create_engine, text
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
-DATABASE_URI = "postgresql+psycopg://postgres:1845@localhost:5432/postgres"
+REMOTE_DATABASE = False
+
+if REMOTE_DATABASE:
+    #for remote database using neon console
+    DATABASE = os.getenv('DATABASE_URL')
+    if DATABASE and "+psycopg" not in DATABASE:
+        DATABASE = DATABASE.replace("postgresql://", "postgresql+psycopg://")
+else:
+    #for local database
+    DATABASE = "postgresql+psycopg://postgres:1845@localhost:5432/postgres"
+
+def test_connection():
+    try:
+        engine = create_engine(DATABASE)
+        with engine.connect() as connection:
+            connection.execute(text("SELECT 1"))
+            return True, "Connection successful!"
+    except Exception as e:
+        return False, str(e)
 
 def get_tables():
     try:
-        engine = create_engine(DATABASE_URI)
+        engine = create_engine(DATABASE)
         with engine.connect() as connection:
             return connection.execute(text("SELECT table_name FROM information_schema.tables WHERE table_schema='public'")).fetchall()
 
@@ -15,7 +36,7 @@ def get_tables():
 
 def get_table_data(table_name):
     try:
-        engine = create_engine(DATABASE_URI)
+        engine = create_engine(DATABASE)
         with engine.connect() as connection:
 
             table_data = connection.execute(text(f"SELECT * FROM {table_name}"))
@@ -29,7 +50,7 @@ def get_table_data(table_name):
 
 def get_overall_table_data():
     try:
-        engine = create_engine(DATABASE_URI)
+        engine = create_engine(DATABASE)
         with engine.connect() as connection:
 
             query = text("""
@@ -55,7 +76,7 @@ def get_overall_table_data():
 
 def get_input_schedule(group, day, week):
     try:
-        engine = create_engine(DATABASE_URI)
+        engine = create_engine(DATABASE)
         with engine.connect() as connection:
 
             query = text("""
@@ -78,10 +99,40 @@ def get_input_schedule(group, day, week):
     except Exception as e:
         print(f"Error connecting to PostgreSQL: {e}")
         return []
+"""
+@app.route('/api/schedule/<group_name>')
+def get_schedule(group_name):
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    cur.execute('''SELECT t.timestart,
+                       t.timeend,
+                       g.groupname,
+                       l.lessonname,
+                       d.dayname,
+                       lec.lecturername,
+                       p.cabinet,
+                       p.url
+                FROM overall o
+                         JOIN times t ON o.lessontime = t.timeid
+                         JOIN ipz_groups g ON o.groupnames = g.groupid
+                         JOIN lessons l ON o.lesson = l.lessonid
+                         JOIN days d ON o.dayname = d.dayid
+                         JOIN lecturers lec ON o.lecturer = lec.lecturerid
+                         JOIN places p ON o.place = p.placeid
+                WHERE g.groupname = %s
+                ORDER BY d.dayid, t.timeid''', (group_name,))
+
+    schedule = cur.fetchall()
+    cur.close()
+    conn.close()
+
+    return jsonify(schedule)
+"""
 
 def get_Stepanuk_overall_table_data():
     try:
-        engine = create_engine(DATABASE_URI)
+        engine = create_engine(DATABASE)
         with engine.connect() as connection:
 
             query = text("""
@@ -105,61 +156,45 @@ def get_Stepanuk_overall_table_data():
         print(f"Error connecting to PostgreSQL: {e}")
         return []
 
-if __name__ == "__main__":
-    while True:
-        print("\nSelect an option:")
-        print("=================")
-        print("0. Exit")
-        print("1. Get all tables")
-        print("2. Get overall table data")
-        print("3. Get table data by name")
-        print("4. Get schedule for a day and group")
-        print("5. Get schedule for Stepanuk")
-        print("=================")
+def get_lecturer_table_data(lecturer_name):
+    try:
+        engine = create_engine(DATABASE)
+        with engine.connect() as connection:
+            query = text("""
+                SELECT t.timestart, t.timeend, l.lessonname, lec.lecturername, p.cabinet, p.url
+                FROM overall o 
+                JOIN times t ON o.lessontime = t.timeid
+                JOIN lessons l ON o.lesson = l.lessonid
+                JOIN lecturers lec ON o.lecturer = lec.lecturerid
+                JOIN places p ON o.place = p.placeid
+                JOIN days d ON o.dayname = d.dayid
+                JOIN ipz_groups g ON o.groupnames = g.groupid
+                WHERE d.dayname = :day AND g.groupname = :group AND d.weekid = :week
+                ORDER BY t.timestart
+            """)
 
-        choice = input("Enter your choice: ")
+            cur.execute('''SELECT t.timestart,
+                                  t.timeend,
+                                  g.groupname,
+                                  l.lessonname,
+                                  d.dayname,
+                                  lec.lecturername,
+                                  p.cabinet,
+                                  p.url
+                           FROM overall o
+                                    JOIN times t ON o.lessontime = t.timeid
+                                    JOIN ipz_groups g ON o.groupnames = g.groupid
+                                    JOIN lessons l ON o.lesson = l.lessonid
+                                    JOIN days d ON o.dayname = d.dayid
+                                    JOIN lecturers lec ON o.lecturer = lec.lecturerid
+                                    JOIN places p ON o.place = p.placeid
+                           WHERE g.groupname = %s
+                           ORDER BY d.dayid, t.timeid''', (group_name,))
 
-        if choice == "0":
-            break
+            data = connection.execute(query, {"group": group, "day": day, "week": week})
+            data = [dict(row._mapping) for row in day_data]
+            return day_data
 
-        elif choice == "1":
-            print("\n--- All Tables ---")
-            tables = get_tables()
-            for table in tables:
-                print(table)
-            print("--- All Tables ---")
-
-        elif choice == "2":
-            print("\n--- Overall Table ---")
-            rows = get_overall_table_data()
-            for row in rows:
-                print(row)
-            print("--- Overall Table ---")
-
-        elif choice == "3":
-            table = input("Enter table name: ")
-            print("\n--- Input Table ---")
-            rows = get_table_data(table)
-            for row in rows:
-                print(row)
-            print("--- Input Table ---")
-
-        elif choice == "4":
-            group = input("Enter group: ")
-            day = input("Enter day: ")
-            week = input("Enter week: ")
-            print("\n--- Input Schedule ---")
-            schedule = get_input_schedule(group, day, week)
-            for lesson in schedule:
-                print(lesson)
-            print("--- Input Schedule ---")
-
-        elif choice == "5":
-            print("\n--- Stepanuk Schedule ---")
-            schedule = get_Stepanuk_overall_table_data()
-            for lesson in schedule:
-                print(lesson)
-            print("--- Stepanuk Schedule ---")
-
-        else:
-            print("\nInvalid option.")
+    except Exception as e:
+        print(f"Error connecting to PostgreSQL: {e}")
+        return []

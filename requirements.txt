@@ -1,6 +1,5 @@
+sqlalchemy~=2.0.44
+python-dotenv~=1.2.1
 Flask~=3.1.2
-SQLAlchemy~=2.0.44
-flask-login
-psycopg2 ~=2.9.11
-dotenv ~=1.2.1
-os
+MarkupSafe~=3.0.3
+Flask-Login~=0.6.3
