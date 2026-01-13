@@ -34,14 +34,18 @@ venv/
 ENV/
 env/
 
-# PyCharm / IntelliJ
+#ignoring IDEs
 .idea/
-
-# VS Code
 .vscode/
+.swp
+.swo
 
 # Environment variables
 .env
 
 # macOS
 .DS_Store
+
+#Flask
+instance/
+.webassets-cache
