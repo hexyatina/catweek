@@ -1,0 +1,16 @@
+#environment variables
+.env
+#Python
+__pycache__/
+#ignoring IDEs
+.idea/
+.vscode/
+.swp
+.swo
+#virtual environment
+venv/
+env/
+ENV/
+#Flask
+instance/
+.webassets-cache
