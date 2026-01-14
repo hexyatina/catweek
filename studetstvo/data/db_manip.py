@@ -1,18 +1,7 @@
 from sqlalchemy import create_engine, text
-from dotenv import load_dotenv
-import os
 
-REMOTE_DATABASE = False
 
-if REMOTE_DATABASE:
-    #for remote database using neon console
-    load_dotenv()
-    DATABASE = os.getenv('DATABASE_URL')
-    if DATABASE and "+psycopg" not in DATABASE:
-        DATABASE = DATABASE.replace("postgresql://", "postgresql+psycopg://")
-else:
-    #for local database
-    DATABASE = "postgresql+psycopg://postgres:1845@localhost:5432/postgres"
+
 
 def get_tables():
     try:
@@ -47,44 +36,17 @@ def add_user_column(table_name):
     except Exception as e:
         print(f"Error connecting to PostgresSQL: {e}")
         return []
+"""
+def lala():
+    try:
+        with engine.connect() as conn:
+            result = conn.execute(
+                text("SELECT day_name, day_id FROM days WHERE day_id = :day_id"), {"day_id": 2})
+            for row in result:
+                print(f"day: {row.day_name}, id: {row.day_id}")
 
+    except Exception as e:
+        print(f"Error connecting to PostgresSQL: {e}")
 
-if __name__ == "__main__":
-    while True:
-        print("\nSelect an option:")
-        print("=================")
-        print("0. Exit")
-        print("1. Get all tables")
-        print("2. Get table data by name")
-        print("3. Add user column to table")
-        print("=================")
-
-        choice = input("Enter your choice: ")
-
-        if choice == "0":
-            break
-
-        elif choice == "1":
-            print("\n--- All Tables ---")
-            tables = get_tables()
-            for table in tables:
-                print(table)
-            print("--- All Tables ---")
-
-
-        elif choice == "2":
-            table = input("Enter table name: ")
-            print("\n--- Input Table ---")
-            rows = get_table_data(table)
-            for row in rows:
-                print(row)
-            print("--- Input Table ---")
-
-        elif choice == "3":
-            table = input("Enter table name: ")
-            print("\n--- Add user column ---")
-
-            print("--- Add user column ---")
-
-        else:
-            print("\nInvalid option.")
+lala()
+"""

@@ -1,10 +1,9 @@
-from sqlalchemy import create_engine, text
-from sqlalchemy import MetaData
-from sqlalchemy import Table, Column, Integer, String, Time, Identity, ForeignKey, CheckConstraint, Boolean
+from sqlalchemy import (
+    create_engine, text, MetaData, Table, Column, Integer, String, Time, Identity,
+    ForeignKey, CheckConstraint, Boolean, UniqueConstraint
+)
 from dotenv import load_dotenv
 import os
-
-from sqlalchemy.sql.schema import UniqueConstraint
 
 load_dotenv()
 
@@ -16,17 +15,17 @@ def create_engine_metadata(remote_database: bool = False):
     if not database_url:
         raise ValueError(f"{env_var} is not set in .env file")
 
-    engine_test = create_engine(database_url)
+    db_engine = create_engine(database_url)
 
     try:
-        with engine_test.connect() as conn:
+        with db_engine.connect() as conn:
             conn.execute(text("SELECT 1"))
     except Exception as e:
         raise ConnectionError(f"Error connecting to PostgresSQL: {e}")
 
-    metadata_test = MetaData()
+    metadata = MetaData()
 
-    return engine_test, metadata_test
+    return db_engine, metadata
 
 engine, metadata_obj = create_engine_metadata(False)
 
@@ -49,7 +48,7 @@ lessons = Table(
     "lessons",
     metadata_obj,
     Column("lesson_id", Integer, Identity(), primary_key=True),
-    Column("lesson_name", String(100), nullable=False, unique=True),
+    Column("lesson_name", String(255), nullable=False, unique=True),
     Column("lesson_code", String(100), unique=True)
 )
 
@@ -103,18 +102,18 @@ group_presence = Table(
     CheckConstraint("week_id IN (1, 2)", name="check_week_id_range")
 )
 
+overall_schedule = Table(
+    "overall_schedule",
+    metadata_obj,
+    Column("schedule_id", Integer, Identity(), primary_key=True),
+    Column("time_id", Integer, ForeignKey("times.time_id", ondelete="CASCADE"), nullable=False),
+    Column("group_id", Integer, ForeignKey("student_groups.group_id", ondelete="CASCADE"), nullable=False),
+    Column("lesson_id", Integer, ForeignKey("lessons.lesson_id", ondelete="CASCADE"), nullable=False),
+    Column("day_id", Integer, ForeignKey("days.day_id", ondelete="CASCADE"), nullable=False),
+    Column("week_id", Integer, nullable=False),
+    Column("lecturer_id", Integer, ForeignKey("lecturers.lecturer_id", ondelete="CASCADE"), nullable=False),
+    Column("place_id", Integer, ForeignKey("places.place_id", ondelete="CASCADE"), nullable=False),
+    CheckConstraint("week_id IN (1, 2)", name="check_week_id_range")
+)
 
-"""
-def lala():
-    try:
-        with engine.connect() as conn:
-            result = conn.execute(
-                text("SELECT day_name, day_id FROM days WHERE day_id = :day_id"), {"day_id": 2})
-            for row in result:
-                print(f"day: {row.day_name}, id: {row.day_id}")
-
-    except Exception as e:
-        print(f"Error connecting to PostgresSQL: {e}")
-
-lala()
-"""
+metadata_obj.create_all(engine)
