@@ -5,18 +5,14 @@ if __name__ == "__main__":
         print("\nSelect an option:")
         print("=================")
         print("0. Exit")
-        print("1. Get all tables")
-        print("2. Get overall table data")
-        print("3. Get table data by name")
-        print("4. Get schedule for a day and group")
-        print("5. Get schedule for lecturer")
-        print("6. Connection test")
+        print("1. Fill database")
         print("=================")
 
-        choice = input("Enter your choice: ")
+        cmd = input("Enter your choice: ")
 
-        if choice == "0":
-            break
+        match cmd:
+            case "0":
+        break
 
         elif choice == "1":
             print("\n--- All Tables ---")
