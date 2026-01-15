@@ -1,19 +1,24 @@
-from studetstvo.data.database import *
-
+from studetstvo.data import *
 if __name__ == "__main__":
     while True:
-        print("\nSelect an option:")
-        print("=================")
+        print("\n" + "=" * 40)
+        print("MAIN MENU")
+        print("=" * 40)
         print("0. Exit")
-        print("1. Fill database")
-        print("=================")
+        print("1. Manipulate Database")
+        print("=" * 40)
 
-        cmd = input("Enter your choice: ")
+        cmd = input("Enter your choice: ").strip()
 
         match cmd:
             case "0":
-        break
-
+                print("Exit")
+                break
+            case "1":
+                manipulate_database_menu()
+            case _:
+                print("Invalid choice")
+"""
         elif choice == "1":
             print("\n--- All Tables ---")
             tables = get_tables()
@@ -65,3 +70,4 @@ if __name__ == "__main__":
 
         else:
             print("\nInvalid option.")
+"""

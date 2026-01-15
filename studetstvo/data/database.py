@@ -1,30 +1,6 @@
 from sqlalchemy import create_engine, text
 
-from sqlalchemy import MetaData
-from dotenv import load_dotenv
-import os
 
-load_dotenv()
-
-def create_engine_metadata(remote_database: bool = False):
-
-    env_var = 'DATABASE_REMOTE' if remote_database else 'DATABASE_LOCAL'
-    database_url = os.getenv(env_var)
-
-    if not database_url:
-        raise ValueError(f"{env_var} is not set in .env file")
-
-    db_engine = create_engine(database_url)
-
-    try:
-        with db_engine.connect() as conn:
-            conn.execute(text("SELECT 1"))
-    except Exception as e:
-        raise ConnectionError(f"Error connecting to PostgresSQL: {e}")
-
-    metadata = MetaData()
-
-    return db_engine, metadata
 
 def get_tables():
     try:

@@ -1,21 +1,20 @@
-from sqlalchemy import insert, text, select, literal, union_all
-from studetstvo.data.models import ( engine, metadata_obj, days, lecturers,
+from sqlalchemy import insert, select, literal, union_all, true
+from studetstvo.data.models import (engine, metadata_obj, days, lecturers,
                       lessons, times, places, specialties,
                       student_groups, group_presence, overall_schedule
 )
 
-def reset_db():
-    print("Are you sure you want to reset the database?")
-    if input("[Y/N]:") != "Y":
-        print("Aborting")
-        return
-    else:
-        with engine.begin() as conn:
-            conn.execute(text("DROP SCHEMA public CASCADE"))
-            conn.execute(text("CREATE SCHEMA public"))
-        metadata_obj.create_all(engine)
-        print("Database has been reset")
+def reset_database():
+    print("WARNING: This will delete all data in the database!")
+    confirmation = input("Type 'RESET' to confirm: ")
 
+    if confirmation != "RESET":
+        print("Aborting reset")
+        return
+
+    metadata_obj.drop_all(engine)
+    metadata_obj.create_all(engine)
+    print("Database has been reset")
 
 def insert_days(conn):
     conn.execute(
@@ -48,148 +47,288 @@ def insert_lecturers(conn):
         ]
     )
 
-def
-lessons_values = [
-    {"lesson_name": "Математичний аналіз", "lesson_code": "Матан"},
-    {"lesson_name": "Лінійна алгебра", "lesson_code": "Лінійка"},
-    {"lesson_name": "Інженерія програмного забезпечення", "lesson_code": "ІПЗ"},
-    {"lesson_name": "Сервіси та середовище розробки програмного забезпечення", "lesson_code": "РПЗ"},
-    {"lesson_name": "Українська мова", "lesson_code": "Укр"},
-    {"lesson_name": "Англійська мова", "lesson_code": "Англ"},
-    {"lesson_name": "Французька мова", "lesson_code": "Фран"},
-    {"lesson_name": "Основи програмування та алгоритмічні мови", "lesson_code": "ОПАМ"},
-    {"lesson_name": "Фізичне виховання", "lesson_code": "Фізра"},
-    {"lesson_name": "Архітектура комп'ютера і комп'ютерна схемотехніка", "lesson_code": "АККС"},
-    {"lesson_name": "Теорія ймовірності", "lesson_code": "Ймовірності"},
-    {"lesson_name": "Дискретна математика", "lesson_code": "Дискретка"},
-]
-lessons_insert = insert(lessons)
+def insert_lessons(conn):
+    conn.execute(
+        insert(lessons),
+        [
+            {"lesson_name": "Математичний аналіз", "lesson_code": "Матан"},
+            {"lesson_name": "Лінійна алгебра", "lesson_code": "Лінійка"},
+            {"lesson_name": "Інженерія програмного забезпечення", "lesson_code": "ІПЗ"},
+            {"lesson_name": "Сервіси та середовище розробки програмного забезпечення", "lesson_code": "РПЗ"},
+            {"lesson_name": "Українська мова", "lesson_code": "Укр"},
+            {"lesson_name": "Англійська мова", "lesson_code": "Англ"},
+            {"lesson_name": "Французька мова", "lesson_code": "Фран"},
+            {"lesson_name": "Основи програмування та алгоритмічні мови", "lesson_code": "ОПАМ"},
+            {"lesson_name": "Фізичне виховання", "lesson_code": "Фізра"},
+            {"lesson_name": "Архітектура комп'ютера і комп'ютерна схемотехніка", "lesson_code": "АККС"},
+            {"lesson_name": "Теорія ймовірності", "lesson_code": "Ймовірності"},
+            {"lesson_name": "Дискретна математика", "lesson_code": "Дискретка"},
+        ]
+    )
 
+def insert_times(conn):
+    conn.execute(
+        insert(times),
+        [
+            {"time_start": "09:00:00", "time_end": "10:20:00"},
+            {"time_start": "10:30:00", "time_end": "11:50:00"},
+            {"time_start": "12:10:00", "time_end": "13:30:00"},
+            {"time_start": "13:40:00", "time_end": "15:00:00"},
+            {"time_start": "15:10:00", "time_end": "16:30:00"},
+        ]
+    )
 
-times_values = [
-    {"time_start": "09:00:00", "time_end": "10:20:00"},
-    {"time_start": "10:30:00", "time_end": "11:50:00"},
-    {"time_start": "12:10:00", "time_end": "13:30:00"},
-    {"time_start": "13:40:00", "time_end": "15:00:00"},
-    {"time_start": "15:10:00", "time_end": "16:30:00"},
-]
-times_insert = insert(times)
+def insert_places(conn):
+    conn.execute(
+        insert(places),
+        [
+            {"cabinet": "10"},
+            {"cabinet": "14"},
+            {"cabinet": "20"},
+            {"cabinet": "25"},
+            {"cabinet": "26"},
+            {"cabinet": "30"},
+            {"cabinet": "31"},
+            {"cabinet": "34"},
+            {"cabinet": "35"},
+            {"cabinet": "37"},
+            {"cabinet": "39"},
+            {"cabinet": "41"},
+            {"cabinet": "C3"},
+        ]
+    )
 
+    url_entries = [
+        {"lesson_code": "АККС", "url": "https://us05web.zoom.us/j/89525632789?pwd=lvsjsxPulwqMMtIbB5yWCYP4ayMtUW"},
+    ]
 
-cabinet_values = [
-    {"cabinet": "10"},
-    {"cabinet": "14"},
-    {"cabinet": "20"},
-    {"cabinet": "25"},
-    {"cabinet": "26"},
-    {"cabinet": "30"},
-    {"cabinet": "31"},
-    {"cabinet": "34"},
-    {"cabinet": "35"},
-    {"cabinet": "37"},
-    {"cabinet": "39"},
-    {"cabinet": "41"},
-    {"cabinet": "C3"},
-]
-cabinet_insert = insert(places)
+    for entry in url_entries:
+        lesson_id = conn.execute(
+            select(lessons.c.lesson_id)
+            .where(entry["lesson_code"] == lessons.c.lesson_code)
+        ).scalar_one()
 
+        conn.execute(
+            insert(places),
+            [{"lesson_id": lesson_id, "url": entry["url"]}]
+        )
 
-url_values = [
-    {"url": "...", "place_id": "..."},
-]
-url_insert = insert(places)
+def insert_specialties(conn):
+    conn.execute(
+        insert(specialties),
+        [
+            {"specialty_name": "Інженерія Програмного Забезпечення", "specialty_code": "ІПЗ"},
+        ]
+    )
 
+def insert_student_groups(conn):
 
-specialties_values = [
-    {"specialty_name": "Інженерія Програмного Забезпечення", "specialty_code": "ІПЗ"},
-]
-specialties_insert = insert(specialties)
-
-
-spec = (
-    select(specialties.c.specialty_id)
-    .where("ІПЗ" == specialties.c.specialty_code)
-    .cte("spec")
-)
-
-student_groups_values = (union_all(
+    specialty_id = conn.execute(
         select(
-            literal(3).label("course"),
-            literal(1).label("group_number")
-        ),
+            specialties.c.specialty_id
+        ).where(
+            "ІПЗ" == specialties.c.specialty_code
+        )
+    ).scalar_one()
+
+    rows = [
+        {"specialty_id": specialty_id, "course": 3, "group_number": 1},
+        {"specialty_id": specialty_id, "course": 3, "group_number": 2},
+        {"specialty_id": specialty_id, "course": 3, "group_number": 3},
+    ]
+
+    conn.execute(insert(student_groups), rows)
+
+def insert_group_presence(conn):
+
+    target_groups = (
         select(
-            literal(3),
-            literal(2)
-        ),
+            student_groups.c.group_id,
+            student_groups.c.group_number
+        )
+        .join(specialties)
+        .where(
+            specialties.c.specialty_code == "ІПЗ",
+            student_groups.c.course == 3
+        )
+        .cte("target_groups")
+    )
+
+
+    week_rows = (
+        union_all(
+            select(
+                literal(1).label("week_id"),
+                literal(True).label("is_online")
+            ),
+            select(
+                literal(2),
+                literal(False)
+            ),
+        )
+        .cte("week_rows")
+    )
+
+    stmt = insert(group_presence).from_select(
+        ["group_id", "week_id", "is_online"],
         select(
-            literal(3),
-            literal(3)
+            target_groups.c.group_id,
+            week_rows.c.week_id,
+            week_rows.c.is_online
+        )
+        .select_from(
+            target_groups.join(week_rows, true())
+        )
+        .where(
+            target_groups.c.group_number.in_([1, 2, 3])
         )
     )
-    .cte("student_groups_insert_values")
-)
 
-student_groups_insert = insert(student_groups).from_select(
-    ["specialty_id", "course", "group_number"],
-    select(
-        spec.c.specialty_id,
-        student_groups_values.c.course,
-        student_groups_values.c.group_number
-    )
-)
+    conn.execute(stmt)
 
+def insert_all_data(verbose=False):
+    print("Are you sure you want to fill the database with all data?")
+    if input("[Y/N]: ") != "Y":
+        print("Aborting")
+        return
 
-target_groups = (
-    select(
-        student_groups.c.group_id,
-        student_groups.c.group_number
-    )
-    .join(specialties)
-    .where(
-        "ІПЗ" == specialties.c.specialty_code,
-        3 == student_groups.c.course
-    )
-    .cte("target_groups")
-)
-
-week_rows = (union_all(
-        select(
-            literal(1).label("week_id"),
-            literal(True).label("is_online")
-        ),
-        select(
-            literal(2),
-            literal(False)
-        )
-    )
-    .cte("week_rows")
-)
-
-group_presence_insert = insert(group_presence).from_select(
-    ["group_id", "week_id", "is_online"],
-    select(
-        target_groups.c.group_id,
-        week_rows.c.week_id,
-        week_rows.c.is_online
-    )
-    .where(
-        target_groups.c.group_number.in_([1, 2, 3])
-    )
-)
-
-
-
-def fill_db():
     with engine.begin() as conn:
-        conn.execute(days_insert, days_values)
-        conn.execute(lecturers_insert, lecturers_values)
-        conn.execute(lessons_insert, lessons_values)
-        conn.execute(times_insert, times_values)
-        conn.execute(cabinet_insert, cabinet_values)
-        conn.execute(url_insert, url_values)
-        conn.execute(specialties_insert, specialties_values)
-        conn.execute(student_groups_insert)
-        conn.execute(group_presence_insert)
+        try:
+            insert_days(conn)
+            if verbose:
+                print("\n--- Days Table ---")
+                rows = conn.execute(select(days)).fetchall()
+                for row in rows:
+                    print(row)
+                print("--- Days Table ---")
+
+            insert_lecturers(conn)
+            if verbose:
+                print("\n--- Lecturers Table ---")
+                rows = conn.execute(select(lecturers)).fetchall()
+                for row in rows:
+                    print(row)
+                print("--- Lecturers Table ---")
+
+            insert_lessons(conn)
+            if verbose:
+                print("\n--- Lessons Table ---")
+                rows = conn.execute(select(lessons)).fetchall()
+                for row in rows:
+                    print(row)
+                print("--- Lessons Table ---")
+
+            insert_times(conn)
+            if verbose:
+                print("\n--- Times Table ---")
+                rows = conn.execute(select(times)).fetchall()
+                for row in rows:
+                    print(row)
+                print("--- Times Table ---")
+
+            insert_places(conn)
+            if verbose:
+                print("\n--- Places Table ---")
+                rows = conn.execute(select(places)).fetchall()
+                for row in rows:
+                    print(row)
+                print("--- Places Table ---")
+
+            insert_specialties(conn)
+            if verbose:
+                print("\n--- Specialties Table ---")
+                rows = conn.execute(select(specialties)).fetchall()
+                for row in rows:
+                    print(row)
+                print("--- Specialties Table ---")
+
+            insert_student_groups(conn)
+            if verbose:
+                print("\n--- Student Groups Table ---")
+                rows = conn.execute(select(student_groups)).fetchall()
+                for row in rows:
+                    print(row)
+                print("--- Student Groups Table ---")
+
+            insert_group_presence(conn)
+            if verbose:
+                print("\n--- Group Presence Table ---")
+                rows = conn.execute(select(group_presence)).fetchall()
+                for row in rows:
+                    print(row)
+                print("--- Group Presence Table ---")
+
+            print("\nDatabase has been filled successfully")
+        except Exception as e:
+            print(f"Error filling database: {e}")
+            raise
+
+def insert_specific_table(table_name, verbose=False):
+    table_mapping = {
+        "days": (insert_days, days),
+        "lecturers": (insert_lecturers, lecturers),
+        "lessons": (insert_lessons, lessons),
+        "times": (insert_times, times),
+        "places": (insert_places, places),
+        "specialties": (insert_specialties, specialties),
+        "student_groups": (insert_student_groups, student_groups),
+        "group_presence": (insert_group_presence, group_presence),
+        #"overall_schedule": (insert_overall_schedule, overall_schedule),
+    }
+
+    if table_name not in table_mapping:
+        print(f"Table not in standard insert_functions list: {table_name}")
+        return
+
+    insert_func, table_obj = table_mapping[table_name]
+
+    with engine.begin() as conn:
+        try:
+            insert_func(conn)
+
+            if verbose:
+                print(f"\n--- {table_name} Table ---")
+                rows = conn.execute(select(table_obj)).fetchall()
+                for row in rows:
+                    print(row)
+                print(f"--- {table_name} Table ---")
+
+            print(f"\nData inserted into '{table_name}' successfully")
+        except Exception as e:
+            print(f"Error inserting data: {e}")
+
+def clear_specific_table(table_name):
+    table_mapping = {
+        "days": days,
+        "lecturers": lecturers,
+        "lessons": lessons,
+        "times": times,
+        "places": places,
+        "specialties": specialties,
+        "student_groups": student_groups,
+        "group_presence": group_presence,
+        "overall_schedule": overall_schedule,
+    }
+
+    if table_name not in table_mapping:
+        print(f"Unknown table: {table_name}")
+        return
+
+    print(f"WARNING: This will delete all data from '{table_name}' table!")
+    confirmation = input("Type 'DELETE' to confirm: ")
+    if confirmation != "DELETE":
+        print("Aborting")
+        return
+
+    table_obj = table_mapping[table_name]
+
+    with engine.begin() as conn:
+        try:
+            conn.execute(table_obj.delete())
+            print(f"\n--- {table_name} table cleared ---")
+        except Exception as e:
+            print(f"Error dropping table data: {e}")
+
 
 
 """
@@ -227,6 +366,59 @@ def add_user_column(table_name):
         print(f"Error connecting to PostgresSQL: {e}")
         return []
 
-
-reset_db()
 """
+
+
+def manipulate_database_menu():
+
+    verbose = True  # Flag to control verbose output
+
+    while True:
+        print("\n" + "=" * 40)
+        print("DATABASE MANIPULATION")
+        print("=" * 40)
+        print("0. Back to Main Menu")
+        print("1. Reset Database (drop and recreate tables)")
+        print(f"2. Insert All Data (HARDCODED) [Verbose: {'ON' if verbose else 'OFF'}]")
+        print(f"3. Insert Data (HARDCODED) by Table Name [Verbose: {'ON' if verbose else 'OFF'}]")
+        print("4. List AVAILABLE for HARDCODED INSERT Tables")
+        print(f"5. Toggle Verbose Mode (Currently: {'ON' if verbose else 'OFF'})")
+        print("6. Clear Specific table (delete all data)")
+        print("=" * 40)
+
+        choice = input("Enter your choice: ").strip()
+
+        if choice == "0":
+            break
+        elif choice == "1":
+            reset_database()
+        elif choice == "2":
+            insert_all_data(verbose=verbose)
+        elif choice == "3":
+            table_name = input("Enter table name: ").strip()
+            insert_specific_table(table_name, verbose=verbose)
+        elif choice == "4":
+            print("\nAvailable tables for data insertion:")
+            print("-" * 40)
+            tables = [
+                "days",
+                "lecturers",
+                "lessons",
+                "times",
+                "places",
+                "specialties",
+                "student_groups",
+                "group_presence",
+                "overall_schedule",
+            ]
+            for i, table in enumerate(tables, 1):
+                print(f"{i}. {table}")
+            print("-" * 40)
+        elif choice == "5":
+            verbose = not verbose
+            print(f"Verbose mode is now {'ON' if verbose else 'OFF'}")
+        elif choice == "6":
+            table_name = input("Enter table name to clear: ").strip()
+            clear_specific_table(table_name)
+        else:
+            print("Invalid choice")
