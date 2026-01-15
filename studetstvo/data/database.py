@@ -1,27 +1,30 @@
 from sqlalchemy import create_engine, text
+
+from sqlalchemy import MetaData
 from dotenv import load_dotenv
 import os
 
-REMOTE_DATABASE = False
+load_dotenv()
 
-if REMOTE_DATABASE:
-    #for remote database using neon console
-    load_dotenv()
-    DATABASE = os.getenv('DATABASE_URL')
-    if DATABASE and "+psycopg" not in DATABASE:
-        DATABASE = DATABASE.replace("postgresql://", "postgresql+psycopg://")
-else:
-    #for local database
-    DATABASE = "postgresql+psycopg://postgres:1845@localhost:5432/postgres"
+def create_engine_metadata(remote_database: bool = False):
 
-def test_connection():
+    env_var = 'DATABASE_REMOTE' if remote_database else 'DATABASE_LOCAL'
+    database_url = os.getenv(env_var)
+
+    if not database_url:
+        raise ValueError(f"{env_var} is not set in .env file")
+
+    db_engine = create_engine(database_url)
+
     try:
-        engine = create_engine(DATABASE)
-        with engine.connect() as connection:
-            connection.execute(text("SELECT 1"))
-            return True, "Connection successful!"
+        with db_engine.connect() as conn:
+            conn.execute(text("SELECT 1"))
     except Exception as e:
-        return False, str(e)
+        raise ConnectionError(f"Error connecting to PostgresSQL: {e}")
+
+    metadata = MetaData()
+
+    return db_engine, metadata
 
 def get_tables():
     try:
