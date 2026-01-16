@@ -8,7 +8,9 @@ import os
 
 load_dotenv()
 
-def create_engine_metadata(remote_database: bool = False):
+metadata_obj = MetaData()
+
+def create_database_engine(remote_database: bool = False):
 
     env_var = 'DATABASE_REMOTE' if remote_database else 'DATABASE_LOCAL'
     database_url = os.getenv(env_var)
@@ -24,11 +26,8 @@ def create_engine_metadata(remote_database: bool = False):
     except Exception as e:
         raise ConnectionError(f"Error connecting to PostgresSQL: {e}")
 
-    metadata = MetaData()
+    return db_engine, metadata_obj
 
-    return db_engine, metadata
-
-engine, metadata_obj = create_engine_metadata(False)
 
 #Identity(start=1, increment=1) can be used for GENERATED ALWAYS AS IDENTITY
 days = Table(
@@ -116,5 +115,3 @@ overall_schedule = Table(
     Column("place_id", Integer, ForeignKey("places.place_id", ondelete="CASCADE"), nullable=False),
     CheckConstraint("week_id IN (1, 2)", name="check_week_id_range")
 )
-
-metadata_obj.create_all(engine)

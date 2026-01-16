@@ -1,10 +1,12 @@
 from sqlalchemy import insert, select, literal, union_all, true
-from studetstvo.data.models import (engine, metadata_obj, days, lecturers,
+from studetstvo.context import AppContext
+from studetstvo.data.models import (days, lecturers,
                       lessons, times, places, specialties,
                       student_groups, group_presence, overall_schedule
 )
 
-def reset_database():
+
+def reset_database(ctx: AppContext):
     print("WARNING: This will delete all data in the database!")
     confirmation = input("Type 'RESET' to confirm: ")
 
@@ -12,8 +14,8 @@ def reset_database():
         print("Aborting reset")
         return
 
-    metadata_obj.drop_all(engine)
-    metadata_obj.create_all(engine)
+    ctx.metadata.drop_all(ctx.engine)
+    ctx.metadata.create_all(ctx.engine)
     print("Database has been reset")
 
 def insert_days(conn):
@@ -186,16 +188,16 @@ def insert_group_presence(conn):
 
     conn.execute(stmt)
 
-def insert_all_data(verbose=False):
+def insert_all_data(ctx: AppContext):
     print("Are you sure you want to fill the database with all data?")
     if input("[Y/N]: ") != "Y":
         print("Aborting")
         return
 
-    with engine.begin() as conn:
+    with ctx.engine.begin() as conn:
         try:
             insert_days(conn)
-            if verbose:
+            if ctx.verbose:
                 print("\n--- Days Table ---")
                 rows = conn.execute(select(days)).fetchall()
                 for row in rows:
@@ -203,7 +205,7 @@ def insert_all_data(verbose=False):
                 print("--- Days Table ---")
 
             insert_lecturers(conn)
-            if verbose:
+            if ctx.verbose:
                 print("\n--- Lecturers Table ---")
                 rows = conn.execute(select(lecturers)).fetchall()
                 for row in rows:
@@ -211,7 +213,7 @@ def insert_all_data(verbose=False):
                 print("--- Lecturers Table ---")
 
             insert_lessons(conn)
-            if verbose:
+            if ctx.verbose:
                 print("\n--- Lessons Table ---")
                 rows = conn.execute(select(lessons)).fetchall()
                 for row in rows:
@@ -219,7 +221,7 @@ def insert_all_data(verbose=False):
                 print("--- Lessons Table ---")
 
             insert_times(conn)
-            if verbose:
+            if ctx.verbose:
                 print("\n--- Times Table ---")
                 rows = conn.execute(select(times)).fetchall()
                 for row in rows:
@@ -227,7 +229,7 @@ def insert_all_data(verbose=False):
                 print("--- Times Table ---")
 
             insert_places(conn)
-            if verbose:
+            if ctx.verbose:
                 print("\n--- Places Table ---")
                 rows = conn.execute(select(places)).fetchall()
                 for row in rows:
@@ -235,7 +237,7 @@ def insert_all_data(verbose=False):
                 print("--- Places Table ---")
 
             insert_specialties(conn)
-            if verbose:
+            if ctx.verbose:
                 print("\n--- Specialties Table ---")
                 rows = conn.execute(select(specialties)).fetchall()
                 for row in rows:
@@ -243,7 +245,7 @@ def insert_all_data(verbose=False):
                 print("--- Specialties Table ---")
 
             insert_student_groups(conn)
-            if verbose:
+            if ctx.verbose:
                 print("\n--- Student Groups Table ---")
                 rows = conn.execute(select(student_groups)).fetchall()
                 for row in rows:
@@ -251,7 +253,7 @@ def insert_all_data(verbose=False):
                 print("--- Student Groups Table ---")
 
             insert_group_presence(conn)
-            if verbose:
+            if ctx.verbose:
                 print("\n--- Group Presence Table ---")
                 rows = conn.execute(select(group_presence)).fetchall()
                 for row in rows:
@@ -263,30 +265,19 @@ def insert_all_data(verbose=False):
             print(f"Error filling database: {e}")
             raise
 
-def insert_specific_table(table_name, verbose=False):
-    table_mapping = {
-        "days": (insert_days, days),
-        "lecturers": (insert_lecturers, lecturers),
-        "lessons": (insert_lessons, lessons),
-        "times": (insert_times, times),
-        "places": (insert_places, places),
-        "specialties": (insert_specialties, specialties),
-        "student_groups": (insert_student_groups, student_groups),
-        "group_presence": (insert_group_presence, group_presence),
-        #"overall_schedule": (insert_overall_schedule, overall_schedule),
-    }
+def insert_specific_table(table_name, ctx: AppContext, available_inserts):
 
-    if table_name not in table_mapping:
+    if table_name not in available_inserts:
         print(f"Table not in standard insert_functions list: {table_name}")
         return
 
-    insert_func, table_obj = table_mapping[table_name]
+    insert_func, table_obj = available_inserts[table_name]
 
-    with engine.begin() as conn:
+    with ctx.engine.begin() as conn:
         try:
             insert_func(conn)
 
-            if verbose:
+            if ctx.verbose:
                 print(f"\n--- {table_name} Table ---")
                 rows = conn.execute(select(table_obj)).fetchall()
                 for row in rows:
@@ -297,7 +288,7 @@ def insert_specific_table(table_name, verbose=False):
         except Exception as e:
             print(f"Error inserting data: {e}")
 
-def clear_specific_table(table_name):
+def clear_specific_table(table_name, ctx: AppContext):
     table_mapping = {
         "days": days,
         "lecturers": lecturers,
@@ -322,7 +313,7 @@ def clear_specific_table(table_name):
 
     table_obj = table_mapping[table_name]
 
-    with engine.begin() as conn:
+    with ctx.engine.begin() as conn:
         try:
             conn.execute(table_obj.delete())
             print(f"\n--- {table_name} table cleared ---")
@@ -332,30 +323,6 @@ def clear_specific_table(table_name):
 
 
 """
-def get_tables():
-    try:
-
-        with engine.connect() as connection:
-            return connection.execute(text("SELECT table_name FROM information_schema.tables WHERE "
-                                           "table_schema='public'")).fetchall()
-
-    except Exception as e:
-        print(f"Error connecting to PostgresSQL: {e}")
-        return []
-
-def get_table_data(table_name):
-    try:
-
-        with engine.connect() as connection:
-
-            table_data = connection.execute(text(f"SELECT * FROM {table_name}"))
-            table_data = [dict(row._mapping) for row in table_data]
-            return table_data
-
-    except Exception as e:
-        print(f"Error connecting to PostgresSQL: {e}")
-        return []
-
 def add_user_column(table_name):
     try:
 
@@ -369,9 +336,18 @@ def add_user_column(table_name):
 """
 
 
-def manipulate_database_menu():
-
-    verbose = True  # Flag to control verbose output
+def manipulate_database_menu(ctx: AppContext):
+    table_mapping = {
+        "days": (insert_days, days),
+        "lecturers": (insert_lecturers, lecturers),
+        "lessons": (insert_lessons, lessons),
+        "times": (insert_times, times),
+        "places": (insert_places, places),
+        "specialties": (insert_specialties, specialties),
+        "student_groups": (insert_student_groups, student_groups),
+        "group_presence": (insert_group_presence, group_presence),
+        # "overall_schedule": (insert_overall_schedule, overall_schedule),
+    }
 
     while True:
         print("\n" + "=" * 40)
@@ -379,11 +355,12 @@ def manipulate_database_menu():
         print("=" * 40)
         print("0. Back to Main Menu")
         print("1. Reset Database (drop and recreate tables)")
-        print(f"2. Insert All Data (HARDCODED) [Verbose: {'ON' if verbose else 'OFF'}]")
-        print(f"3. Insert Data (HARDCODED) by Table Name [Verbose: {'ON' if verbose else 'OFF'}]")
-        print("4. List AVAILABLE for HARDCODED INSERT Tables")
-        print(f"5. Toggle Verbose Mode (Currently: {'ON' if verbose else 'OFF'})")
-        print("6. Clear Specific table (delete all data)")
+        print(f"2. Insert All Data (HARDCODED) [Verbose: {'ON' if ctx.verbose else 'OFF'}]")
+        print(f"3. Insert Data (HARDCODED) by Table Name [Verbose: {'ON' if ctx.verbose else 'OFF'}]")
+        print("4. List Available for HARDCODED INSERT Tables")
+        print("5. Clear Specific table (delete all data)")
+        print("=" * 40)
+        print(f"v. Toggle Verbose (Currently {'ON' if ctx.verbose else 'OFF'})")
         print("=" * 40)
 
         choice = input("Enter your choice: ").strip()
@@ -391,34 +368,28 @@ def manipulate_database_menu():
         if choice == "0":
             break
         elif choice == "1":
-            reset_database()
+            reset_database(ctx)
+            input("Press enter to continue...")
         elif choice == "2":
-            insert_all_data(verbose=verbose)
+            insert_all_data(ctx)
+            input("Press enter to continue...")
         elif choice == "3":
             table_name = input("Enter table name: ").strip()
-            insert_specific_table(table_name, verbose=verbose)
+            insert_specific_table(table_name, ctx, table_mapping)
+            input("Press enter to continue...")
         elif choice == "4":
             print("\nAvailable tables for data insertion:")
             print("-" * 40)
-            tables = [
-                "days",
-                "lecturers",
-                "lessons",
-                "times",
-                "places",
-                "specialties",
-                "student_groups",
-                "group_presence",
-                "overall_schedule",
-            ]
-            for i, table in enumerate(tables, 1):
-                print(f"{i}. {table}")
+            for i, table_name in enumerate(table_mapping.keys(), 1):
+                print(f"{i}. {table_name}")
             print("-" * 40)
+            input("Press enter to continue...")
+        elif choice == "v":
+            ctx.verbose = not ctx.verbose
+            print(f"Verbose: {'ON' if ctx.verbose else 'OFF'}")
         elif choice == "5":
-            verbose = not verbose
-            print(f"Verbose mode is now {'ON' if verbose else 'OFF'}")
-        elif choice == "6":
             table_name = input("Enter table name to clear: ").strip()
-            clear_specific_table(table_name)
+            clear_specific_table(table_name, ctx)
+            input("Press enter to continue...")
         else:
             print("Invalid choice")
