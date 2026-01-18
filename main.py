@@ -1,7 +1,7 @@
-from studetstvo.core.context import AppContext
-from studetstvo.db.db_build import create_database_engine
-from studetstvo.db.inserts.db_manip import manipulate_database_menu
-from studetstvo.data import retrieve_database_menu
+from catweek.core.context import AppContext
+from catweek.db.db_build import create_database_engine
+from catweek.db.inserts.db_manip import manipulate_database_menu
+from catweek.data import retrieve_database_menu
 
 def init_context(remote = False, verbose = False):
     engine, metadata = create_database_engine(remote_database=remote)

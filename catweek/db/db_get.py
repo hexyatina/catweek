@@ -1,4 +1,4 @@
-from studetstvo.core.context import AppContext
+from catweek.core.context import AppContext
 from sqlalchemy import inspect
 
 

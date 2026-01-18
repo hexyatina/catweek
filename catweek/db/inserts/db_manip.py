@@ -1,9 +1,9 @@
 from sqlalchemy import insert, select, literal, union_all, true
-from studetstvo.core.context import AppContext
-from studetstvo.db.db_build import (days, lecturers,
-                                    lessons, times, places, specialties,
-                                    student_groups, group_presence, overall_schedule
-                                    )
+from catweek.core.context import AppContext
+from catweek.db.db_build import (days, lecturers,
+                                 lessons, times, places, specialties,
+                                 student_groups, group_presence, overall_schedule
+                                 )
 
 
 def reset_database(ctx: AppContext):
