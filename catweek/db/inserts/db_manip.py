@@ -6,7 +6,7 @@ from catweek.db.db_build import (days, lecturers,
                                  )
 
 
-
+def url():
 
     url_entries = [
         {"lesson_code": "АККС", "url": "https://us05web.zoom.us/j/89525632789?pwd=lvsjsxPulwqMMtIbB5yWCYP4ayMtUW"},
@@ -99,6 +99,7 @@ def insert_group_presence(conn):
 def insert_overall_schedule(conn,
                             *,
                             days: list[str], lecturers: list[str], lessons: list[str], times: list[str], places: list[str | None], specialties_code: str, course: int, group_numbers: list[str], weeks: list[tuple[int, bool]], ):
+    pass
 
 def insert_all_data(ctx: AppContext):
     print("Are you sure you want to fill the database with all data?")

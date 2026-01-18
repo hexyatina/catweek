@@ -2,7 +2,7 @@ from catweek.core.context import AppContext
 from catweek.db.db_build import create_database_engine
 from catweek.db.inserts.db_manip import manipulate_database_menu
 from catweek.data import retrieve_database_menu
-
+from catweek.cli import main_menu
 def init_context(remote = False, verbose = False):
     engine, metadata = create_database_engine(remote_database=remote)
     return AppContext(
@@ -14,7 +14,7 @@ def init_context(remote = False, verbose = False):
 
 
 if __name__ == "__main__":
-    main_terminal()
+    main_menu(init_context())
 
 """
         elif choice == "1":

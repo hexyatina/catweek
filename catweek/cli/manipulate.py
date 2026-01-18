@@ -55,3 +55,6 @@ def manipulate_database_menu(ctx: AppContext):
             input("Press enter to continue...")
         else:
             print("Invalid choice")
+
+if __name__ == '__main__':
+    manipulate_database_menu(ctx=AppContext())
