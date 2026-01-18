@@ -1,3 +1,6 @@
+import click
+
+@click.command()
 def main_terminal():
     ctx = init_context()
     ctx.metadata.create_all(ctx.engine)

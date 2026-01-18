@@ -6,99 +6,7 @@ from catweek.db.db_build import (days, lecturers,
                                  )
 
 
-def reset_database(ctx: AppContext):
-    print("WARNING: This will delete all data in the database!")
-    confirmation = input("Type 'RESET' to confirm: ")
 
-    if confirmation != "RESET":
-        print("Aborting reset")
-        return
-
-    ctx.metadata.drop_all(ctx.engine)
-    ctx.metadata.create_all(ctx.engine)
-    print("Database has been reset")
-
-def insert_days(conn):
-    conn.execute(
-        insert(days),
-        [
-            {"day_name": "Понеділок"},
-            {"day_name": "Вівторок"},
-            {"day_name": "Середа"},
-            {"day_name": "Четвер"},
-            {"day_name": "П'ятниця"},
-        ]
-    )
-
-def insert_lecturers(conn):
-    conn.execute(
-        insert(lecturers),
-        [
-            {"lecturer_name": "Затула"},
-            {"lecturer_name": "Капічина"},
-            {"lecturer_name": "Степанюк"},
-            {"lecturer_name": "Ходжаєв"},
-            {"lecturer_name": "Головай"},
-            {"lecturer_name": "Руденко"},
-            {"lecturer_name": "Тільга"},
-            {"lecturer_name": "Таран"},
-            {"lecturer_name": "Мироненко"},
-            {"lecturer_name": "Герасимович"},
-            {"lecturer_name": "Гаращенкo"},
-            {"lecturer_name": "Коваль"},
-        ]
-    )
-
-def insert_lessons(conn):
-    conn.execute(
-        insert(lessons),
-        [
-            {"lesson_name": "Математичний аналіз", "lesson_code": "Матан"},
-            {"lesson_name": "Лінійна алгебра", "lesson_code": "Лінійка"},
-            {"lesson_name": "Інженерія програмного забезпечення", "lesson_code": "ІПЗ"},
-            {"lesson_name": "Сервіси та середовище розробки програмного забезпечення", "lesson_code": "РПЗ"},
-            {"lesson_name": "Українська мова", "lesson_code": "Укр"},
-            {"lesson_name": "Англійська мова", "lesson_code": "Англ"},
-            {"lesson_name": "Французька мова", "lesson_code": "Фран"},
-            {"lesson_name": "Основи програмування та алгоритмічні мови", "lesson_code": "ОПАМ"},
-            {"lesson_name": "Фізичне виховання", "lesson_code": "Фізра"},
-            {"lesson_name": "Архітектура комп'ютера і комп'ютерна схемотехніка", "lesson_code": "АККС"},
-            {"lesson_name": "Теорія ймовірності", "lesson_code": "Ймовірності"},
-            {"lesson_name": "Дискретна математика", "lesson_code": "Дискретка"},
-        ]
-    )
-
-def insert_times(conn):
-    conn.execute(
-        insert(times),
-        [
-            {"time_start": "09:00:00", "time_end": "10:20:00"},
-            {"time_start": "10:30:00", "time_end": "11:50:00"},
-            {"time_start": "12:10:00", "time_end": "13:30:00"},
-            {"time_start": "13:40:00", "time_end": "15:00:00"},
-            {"time_start": "15:10:00", "time_end": "16:30:00"},
-        ]
-    )
-
-def insert_places(conn):
-    conn.execute(
-        insert(places),
-        [
-            {"cabinet": "10"},
-            {"cabinet": "14"},
-            {"cabinet": "20"},
-            {"cabinet": "25"},
-            {"cabinet": "26"},
-            {"cabinet": "30"},
-            {"cabinet": "31"},
-            {"cabinet": "34"},
-            {"cabinet": "35"},
-            {"cabinet": "37"},
-            {"cabinet": "39"},
-            {"cabinet": "41"},
-            {"cabinet": "C3"},
-        ]
-    )
 
     url_entries = [
         {"lesson_code": "АККС", "url": "https://us05web.zoom.us/j/89525632789?pwd=lvsjsxPulwqMMtIbB5yWCYP4ayMtUW"},
@@ -119,7 +27,7 @@ def insert_specialties(conn):
     conn.execute(
         insert(specialties),
         [
-            {"specialty_name": "Інженерія Програмного Забезпечення", "specialty_code": "ІПЗ"},
+            # {"specialty_name": "Інженерія Програмного Забезпечення", "specialty_code": "ІПЗ"},
         ]
     )
 
