@@ -1,19 +1,8 @@
-from studetstvo.context import AppContext
+from studetstvo.core.context import AppContext
 from sqlalchemy import inspect
 
 
 """
-def get_tables():
-    try:
-        engine = create_engine(DATABASE)
-        with engine.connect() as connection:
-            return connection.execute(text("SELECT table_name FROM information_schema.tables WHERE "
-                                           "table_schema='public'")).fetchall()
-    except Exception as e:
-        print(f"Error connecting to PostgresSQL: {e}")
-        return []
-
-
 def get_table_data(table_name):
     try:
         engine = create_engine(DATABASE)
@@ -124,58 +113,3 @@ def return_existing_tables(ctx: AppContext):
     inspector = inspect(ctx.engine)
     tables = inspector.get_table_names()
     return tables
-
-def retrieve_database_menu(ctx: AppContext):
-
-    while True:
-        print("\n" + "=" * 40)
-        print("DATABASE RETRIEVER")
-        print("=" * 40)
-        print("0. Back to Main Menu")
-        print("1. Print all tables in metadata (created via python)")
-        print("2. Print all tables existing in database")
-        print("3. SELECT table")
-        print("4. SELECT table with JOIN")
-        print("5. SELECT all tables")
-        print("6. GET schedule")
-        print("7. GET schedule by table")
-        print("=" * 40)
-
-        choice = input("Enter your choice: ").strip()
-
-        if choice == "0":
-            break
-
-        elif choice == "1":
-            result = return_metadata_tables(ctx)
-            if not result:
-                print("No tables found in metadata")
-            else:
-                print(f"{"\n" + "-" * 20}Metadata Tables{"-" * 20}")
-                for table in result:
-                    print(table)
-                print(f"{"-" * 20}Metadata Tables{"-" * 20}")
-            input("Press enter to continue...")
-
-        elif choice == "2":
-            result = return_existing_tables(ctx)
-            if not result:
-                print("No tables found in database")
-            else:
-                print(f"{"\n" + "-" * 20}Database Tables{"-" * 20}")
-                for table in result:
-                    print(table)
-                print(f"{"-" * 20}Database Tables{"-" * 20}")
-            input("Press enter to continue...")
-        elif choice == "3":
-            table_name = input("Enter table name: ").strip()
-            #insert_specific_table(table_name, verbose=verbose)
-        elif choice == "4":
-            print("\nAvailable tables for data insertion:")
-        elif choice == "5":
-            pass
-        elif choice == "6":
-            table_name = input("Enter table name to clear: ").strip()
-            #clear_specific_table(table_name)
-        else:
-            print("Invalid choice")

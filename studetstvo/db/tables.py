@@ -2,32 +2,7 @@ from sqlalchemy import (
     Table, Column, Integer, String, Time, Identity,
     ForeignKey, CheckConstraint, Boolean, UniqueConstraint, text
 )
-from sqlalchemy import MetaData, create_engine
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-
-metadata_obj = MetaData()
-
-def create_database_engine(remote_database: bool = False):
-
-    env_var = 'DATABASE_REMOTE' if remote_database else 'DATABASE_LOCAL'
-    database_url = os.getenv(env_var)
-
-    if not database_url:
-        raise ValueError(f"{env_var} is not set in .env file")
-
-    db_engine = create_engine(database_url)
-
-    try:
-        with db_engine.connect() as conn:
-            conn.execute(text("SELECT 1"))
-    except Exception as e:
-        raise ConnectionError(f"Error connecting to PostgresSQL: {e}")
-
-    return db_engine, metadata_obj
-
+from .metadata import metadata_obj
 
 #Identity(start=1, increment=1) can be used for GENERATED ALWAYS AS IDENTITY
 days = Table(
@@ -115,3 +90,15 @@ overall_schedule = Table(
     Column("place_id", Integer, ForeignKey("places.place_id", ondelete="CASCADE"), nullable=False),
     CheckConstraint("week_id IN (1, 2)", name="check_week_id_range")
 )
+
+all_tables = [
+    days,
+    lecturers,
+    lessons,
+    times,
+    places,
+    specialties,
+    student_groups,
+    group_presence,
+    overall_schedule
+]
