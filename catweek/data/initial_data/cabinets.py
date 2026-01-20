@@ -1,0 +1,15 @@
+CABINETS = [
+    {"cabinet": "10"},
+    {"cabinet": "14"},
+    {"cabinet": "20"},
+    {"cabinet": "25"},
+    {"cabinet": "26"},
+    {"cabinet": "30"},
+    {"cabinet": "31"},
+    {"cabinet": "34"},
+    {"cabinet": "35"},
+    {"cabinet": "37"},
+    {"cabinet": "39"},
+    {"cabinet": "41"},
+    {"cabinet": "C3"},
+]

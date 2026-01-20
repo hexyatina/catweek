@@ -22,18 +22,7 @@ def get_overall_table_data():
         engine = create_engine(DATABASE)
         with engine.connect() as connection:
 
-            query = text(
-                SELECT t.timestart, t.timeend, g.groupname, l.lessonname, 
-                    d.dayname, d.weekid, lec.lecturername, p.cabinet, p.url
-                FROM overall o 
-                JOIN times t ON o.lessontime = t.timeid
-                JOIN ipz_groups g ON o.groupnames = g.groupid
-                JOIN lessons l ON o.lesson = l.lessonid
-                JOIN days d ON o.dayname = d.dayid
-                JOIN lecturers lec ON o.lecturer = lec.lecturerid
-                JOIN places p ON o.place = p.placeid
-            )
-
+            query = 
             overall_data = connection.execute(query)
             overall_data = [dict(row._mapping) for row in overall_data]
             return overall_data
@@ -103,7 +92,7 @@ def get_lecturer_table_data(lecturer_name):
     except Exception as e:
         print(f"Error connecting to PostgresSQL: {e}")
         return []
-"""
+
 
 def return_metadata_tables(ctx: AppContext):
     tables = ctx.metadata.tables
@@ -113,3 +102,4 @@ def return_existing_tables(ctx: AppContext):
     inspector = inspect(ctx.engine)
     tables = inspector.get_table_names()
     return tables
+"""

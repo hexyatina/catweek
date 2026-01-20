@@ -1,4 +1,4 @@
-LECTURERS = (
+LECTURERS = [
     {"lecturer_name": "Затула"},
     {"lecturer_name": "Капічина"},
     {"lecturer_name": "Степанюк"},
@@ -11,4 +11,4 @@ LECTURERS = (
     {"lecturer_name": "Герасимович"},
     {"lecturer_name": "Гаращенкo"},
     {"lecturer_name": "Коваль"},
-)
+]

@@ -1,4 +1,4 @@
-LESSONS = (
+LESSONS = [
     {"lesson_name": "Математичний аналіз", "lesson_code": "Матан"},
     {"lesson_name": "Лінійна алгебра", "lesson_code": "Лінійка"},
     {"lesson_name": "Інженерія програмного забезпечення", "lesson_code": "ІПЗ"},
@@ -11,4 +11,4 @@ LESSONS = (
     {"lesson_name": "Архітектура комп'ютера і комп'ютерна схемотехніка", "lesson_code": "АККС"},
     {"lesson_name": "Теорія ймовірності", "lesson_code": "Ймовірності"},
     {"lesson_name": "Дискретна математика", "lesson_code": "Дискретка"},
-)
+]

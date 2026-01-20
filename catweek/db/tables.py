@@ -90,15 +90,3 @@ overall_schedule = Table(
     Column("place_id", Integer, ForeignKey("places.place_id", ondelete="CASCADE"), nullable=False),
     CheckConstraint("week_id IN (1, 2)", name="check_week_id_range")
 )
-
-all_tables = [
-    days,
-    lecturers,
-    lessons,
-    times,
-    places,
-    specialties,
-    student_groups,
-    group_presence,
-    overall_schedule
-]
