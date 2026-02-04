@@ -1,0 +1,43 @@
+specialty: ІПЗ
+course: 3
+group: 2
+week: 1
+schedule:
+  Monday:
+    - time: 10:30-11:50
+      lesson: Англ
+      lecturer: Руденко
+      place: url
+    - time: 12:10-13:30
+      lesson: ООП
+      lecturer: Ходжаєв
+      place: url
+    - time: 13:40-15:00
+      lesson: ІАД
+      lecturer: Лумпова
+      place: url
+
+  Tuesday:
+
+  Wednesday:
+
+  Thursday:
+
+  Friday:
+
+---
+
+specialty: ІПЗ
+course: 3
+group: 2
+week: 2
+schedule:
+  Monday:
+
+  Tuesday:
+
+  Wednesday:
+
+  Thursday:
+
+  Friday:

@@ -1,6 +1,5 @@
 
 
-
 def insert_all_data(ctx: AppContext):
     print("Are you sure you want to fill the database with all data?")
     if input("[Y/N]: ") != "Y":

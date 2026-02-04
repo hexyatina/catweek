@@ -11,4 +11,5 @@ LECTURERS = [
     {"lecturer_name": "Герасимович"},
     {"lecturer_name": "Гаращенкo"},
     {"lecturer_name": "Коваль"},
+    {"lecturer_name": "Лумпова"},
 ]

@@ -1,6 +1,8 @@
+from sqlalchemy import insert
+from catweek.db import overall_schedule
+from .resolvers import resolve_overall_schedule
 
 
-def insert_overall_schedule(conn,
-                            *,
-                            days: list[str], lecturers: list[str], lessons: list[str], times: list[str], places: list[str | None], specialties_code: str, course: int, group_numbers: list[str], weeks: list[tuple[int, bool]], ):
-    pass
+def insert_overall_schedule(conn, schedule):
+    rows = resolve_overall_schedule(conn, schedule)
+    conn.execute(insert(overall_schedule), rows)

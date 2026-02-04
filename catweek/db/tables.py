@@ -4,12 +4,12 @@ from sqlalchemy import (
 )
 from .metadata import metadata_obj
 
-#Identity(start=1, increment=1) can be used for GENERATED ALWAYS AS IDENTITY
 days = Table(
     "days",
     metadata_obj,
     Column("day_id", Integer, Identity(), primary_key=True),
-    Column("day_name", String(100), nullable=False)
+    Column("day_name_ua", String(100), nullable=False),
+    Column("day_name_eng", String(100), nullable=False)
 )
 
 lecturers = Table(
@@ -81,12 +81,12 @@ overall_schedule = Table(
     "overall_schedule",
     metadata_obj,
     Column("schedule_id", Integer, Identity(), primary_key=True),
+    Column("week_id", Integer, nullable=False),
+    Column("day_id", Integer, ForeignKey("days.day_id", ondelete="CASCADE"), nullable=False),
     Column("time_id", Integer, ForeignKey("times.time_id", ondelete="CASCADE"), nullable=False),
+    Column("place_id", Integer, ForeignKey("places.place_id", ondelete="CASCADE"), nullable=False),
     Column("group_id", Integer, ForeignKey("student_groups.group_id", ondelete="CASCADE"), nullable=False),
     Column("lesson_id", Integer, ForeignKey("lessons.lesson_id", ondelete="CASCADE"), nullable=False),
-    Column("day_id", Integer, ForeignKey("days.day_id", ondelete="CASCADE"), nullable=False),
-    Column("week_id", Integer, nullable=False),
     Column("lecturer_id", Integer, ForeignKey("lecturers.lecturer_id", ondelete="CASCADE"), nullable=False),
-    Column("place_id", Integer, ForeignKey("places.place_id", ondelete="CASCADE"), nullable=False),
     CheckConstraint("week_id IN (1, 2)", name="check_week_id_range")
 )

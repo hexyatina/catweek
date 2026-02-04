@@ -3,9 +3,9 @@ from .days import DAYS
 from .group_presence import GROUP_PRESENCE
 from .lecturers import LECTURERS
 from .lessons import LESSONS
-from .specialties import SPECIALTIES
+from catweek.data.constants.specialties import SPECIALTIES
 from .student_groups import STUDENT_GROUPS
-from .times import TIMES
+from catweek.data.constants.times import TIMES
 from .urls import URLS
 
 __all__ = [
