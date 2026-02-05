@@ -1,3 +1,3 @@
-from .tables import *
+from catweek.db.models.tables import *
 
 

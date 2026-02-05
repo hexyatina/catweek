@@ -2,7 +2,7 @@ from sqlalchemy import (
     Table, Column, Integer, String, Time, Identity,
     ForeignKey, CheckConstraint, Boolean, UniqueConstraint, text
 )
-from .metadata import metadata_obj
+from catweek.db.metadata import metadata_obj
 
 days = Table(
     "days",

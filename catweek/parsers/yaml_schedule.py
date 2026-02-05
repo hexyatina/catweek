@@ -1,10 +1,18 @@
-
 import yaml
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parents[3]
-
-yaml_path = BASE_DIR / "catweek" / "data" / "schedules" / "IPZ" / "IPZ-3" / "IPZ-32.yaml"
+BASE_DIR = Path(__file__).resolve().parents[2]
+print(BASE_DIR)
+yaml_path = (
+    BASE_DIR
+    / "catweek"
+    / "data"
+    / "schedules"
+    / "IPZ"
+    / "IPZ-3"
+    / "IPZ-32.yaml"
+)
+print(yaml_path)
 
 with yaml_path.open("r", encoding="utf-8") as file:
     data = yaml.safe_load_all(file)
