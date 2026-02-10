@@ -1,5 +1,5 @@
 from .specialty import resolve_specialty_id
-from catweek.db.resolvers.base import resolve_id
+from ..base import resolve_id
 from catweek.db.models import student_groups
 
 def resolve_student_group_id(conn, *, specialty: str, course: int, group: int) -> int:

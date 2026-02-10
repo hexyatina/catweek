@@ -1,5 +1,5 @@
 from sqlalchemy import (
-    Table, Column, Integer, String, Time, Identity,
+    Table, Column, Integer, String, Time, Identity, Index,
     ForeignKey, CheckConstraint, Boolean, UniqueConstraint, Enum
 )
 from .metadata import metadata_obj
@@ -90,5 +90,8 @@ overall_schedule = Table(
     Column("group_id", Integer, ForeignKey("student_groups.group_id", ondelete="CASCADE"), nullable=False),
     Column("lesson_id", Integer, ForeignKey("lessons.lesson_id", ondelete="CASCADE"), nullable=False),
     Column("lecturer_id", Integer, ForeignKey("lecturers.lecturer_id", ondelete="CASCADE"), nullable=False),
+
+    Index("idx_group_week", "group_id", "week_id"),
+    Index("idx_lecturer_week", "lecturer_id", "week_id"),
     CheckConstraint("week_id IN (1, 2)", name="check_week_id_range")
 )

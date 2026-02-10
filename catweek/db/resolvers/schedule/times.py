@@ -1,4 +1,4 @@
-from catweek.db.resolvers.base import resolve_id
+from ..base import resolve_id
 from catweek.db.models import times
 from datetime import time
 

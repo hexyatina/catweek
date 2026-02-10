@@ -1,4 +1,4 @@
-from catweek.db.resolvers.base import is_latin, resolve_id
+from ..base import is_latin, resolve_id
 from catweek.db.models import days
 
 def resolve_day_id(conn, day_name: str) -> int:
