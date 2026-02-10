@@ -2,7 +2,7 @@ specialty: ІПЗ
 course: 3
 group: 2
 week: 1
-schedule:
+days:
   Monday:
     - time:
       lesson:
@@ -24,7 +24,7 @@ specialty: ІПЗ
 course: 3
 group: 2
 week: 2
-schedule:
+days:
   Monday:
 
   Tuesday:
