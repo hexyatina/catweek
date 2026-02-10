@@ -1,8 +1,8 @@
 from sqlalchemy import (
     Table, Column, Integer, String, Time, Identity,
-    ForeignKey, CheckConstraint, Boolean, UniqueConstraint, text
+    ForeignKey, CheckConstraint, Boolean, UniqueConstraint, Enum
 )
-from catweek.db.metadata import metadata_obj
+from .metadata import metadata_obj
 
 days = Table(
     "days",
@@ -39,12 +39,14 @@ places = Table(
     "places",
     metadata_obj,
     Column("place_id", Integer, Identity(), primary_key=True),
+    Column("place_type", Enum("cabinet", "online", name="place_types"), nullable=False),
     Column("cabinet", String(100)),
     Column("url", String(255)),
     Column("lesson_id", Integer, ForeignKey("lessons.lesson_id", ondelete="CASCADE")),
     CheckConstraint(
-        "(cabinet IS NOT NULL AND url IS NULL) OR (cabinet IS NULL AND url IS NOT NULL)",
-        name="cabinet_or_url_xor"
+        "(place_type = 'cabinet' AND cabinet IS NOT NULL) OR "
+        "(place_type = 'online' AND url IS NOT NULL)",
+        name="cabinet_or_url_required_by_type"
     )
 )
 

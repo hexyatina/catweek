@@ -1,12 +1,10 @@
+from catweek.db.resolvers.schedule.specialty import resolve_specialty_id
 
-def resolve_student_groups(conn, groups):
+def resolve_student_groups_seed(conn, groups: list[dict]) -> list[dict]:
     resolved = []
 
     for group in groups:
-        specialty_id = conn.execute(
-            select(specialties.c.specialty_id)
-            .where(specialties.c.specialty_code == group["specialty_code"])
-        ).scalar_one()
+        specialty_id = resolve_specialty_id(conn, group["specialty_code"])
 
         resolved.append(
             {

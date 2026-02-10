@@ -1,6 +1,6 @@
 from sqlalchemy import insert
 from catweek.db import places, student_groups, group_presence
-from .resolvers import resolve_url, resolve_student_groups, resolve_group_presence
+from catweek.db.resolvers import resolve_url, resolve_student_groups, resolve_group_presence
 
 
 def insert_urls(conn, urls):

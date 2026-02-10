@@ -4,26 +4,86 @@ group: 2
 week: 1
 days:
   Monday:
+    - time: 9:00-10:20
+      lesson: Фран
+      lecturer: Мироненко
+      place: online
     - time: 10:30-11:50
       lesson: Англ
       lecturer: Руденко
-      place: url
+      place: online
     - time: 12:10-13:30
       lesson: ООП
       lecturer: Ходжаєв
-      place: url
+      place: online
     - time: 13:40-15:00
       lesson: ІАД
       lecturer: Лумпова
-      place: url
+      place: online
 
   Tuesday:
+    - time: 9:00-10:20
+      lesson: Чисмети
+      lecturer: Капічина
+      place: online
+    - time: 10:30-11:50
+      lesson: АККС
+      lecturer: Таран
+      place: online
+    - time: 12:10-13:30
+      lesson: ІЗВП
+      lecturer: Таран
+      place: online
+    - time: 13:40-15:00
+      lesson: ІПЗ
+      lecturer: Степанюк
+      place: online
 
   Wednesday:
+    - time: 10:30-11:50
+      lesson: Англ
+      lecturer: Руденко
+      place: online
+    - time: 12:10-13:30
+      lesson: Матан
+      lecturer: Затула
+      place: online
+    - time: 13:40-15:00
+      lesson: ООП
+      lecturer: Ходжаєв
+      place: online
 
   Thursday:
+    - time: 9:00-10:20
+      lesson: Чисмети
+      lecturer: Капічина
+      place: online
+    - time: 10:30-11:50
+      lesson: Дифури
+      lecturer: Затула
+      place: online
+    - time: 12:10-13:30
+      lesson: ОПАМ
+      lecturer: Степанюк
+      place: online
+    - time: 13:40-15:00
+      lesson: Фізра
+      lecturer: Тільга
+      place: online
 
   Friday:
+    - time: 10:30-11:50
+      lesson: ІПЗ
+      lecturer: Степанюк
+      place: online
+    - time: 12:10-13:30
+      lesson: ІАД
+      lecturer: Лумпова
+      place: online
+    - time: 13:40-15:00
+      lesson: ОПАМ
+      lecturer: Степанюк
+      place: online
 
 ---
 

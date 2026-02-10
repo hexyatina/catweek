@@ -1,6 +1,6 @@
 from sqlalchemy import insert
 from catweek.db import overall_schedule
-from .resolvers import resolve_overall_schedule
+from catweek.db.resolvers import resolve_overall_schedule
 
 
 def insert_overall_schedule(conn, schedule):
