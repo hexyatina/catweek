@@ -1,4 +1,4 @@
-from .metadata import metadata_obj
+from .metadata import schedule_metadata, identity_metadata
 from .tables import (
     days, lessons, lecturers, times,
     places, specialties, student_groups,
@@ -6,7 +6,7 @@ from .tables import (
 )
 
 __all__ = [
-    "metadata_obj", "days", "lessons", "lecturers",
+    "schedule_metadata", "days", "lessons", "lecturers",
     "times", "places", "specialties", "student_groups",
-    "group_presence", "overall_schedule"
+    "group_presence", "overall_schedule", "identity_metadata"
 ]

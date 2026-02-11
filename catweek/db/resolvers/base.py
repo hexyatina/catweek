@@ -15,5 +15,3 @@ def resolve_id(conn, table, id_column, *, where: dict, label: str):
 
 def is_latin(text: str) -> bool:
     return all("a" <= c.lower() <= "z" for c in text)
-
-

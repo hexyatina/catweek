@@ -2,11 +2,11 @@ from sqlalchemy import (
     Table, Column, Integer, String, Time, Identity, Index,
     ForeignKey, CheckConstraint, Boolean, UniqueConstraint, Enum
 )
-from .metadata import metadata_obj
+from .metadata import schedule_metadata
 
 days = Table(
     "days",
-    metadata_obj,
+    schedule_metadata,
     Column("day_id", Integer, Identity(), primary_key=True),
     Column("day_name_ua", String(100), nullable=False),
     Column("day_name_eng", String(100), nullable=False)
@@ -14,14 +14,14 @@ days = Table(
 
 lecturers = Table(
     "lecturers",
-    metadata_obj,
+    schedule_metadata,
     Column("lecturer_id", Integer, Identity(), primary_key=True),
     Column("lecturer_name", String(100), nullable=False, unique=True)
 )
 
 lessons = Table(
     "lessons",
-    metadata_obj,
+    schedule_metadata,
     Column("lesson_id", Integer, Identity(), primary_key=True),
     Column("lesson_name", String(255), nullable=False, unique=True),
     Column("lesson_code", String(100), unique=True)
@@ -29,7 +29,7 @@ lessons = Table(
 
 times = Table(
     "times",
-    metadata_obj,
+    schedule_metadata,
     Column("time_id", Integer, Identity(), primary_key=True),
     Column("time_start", Time, nullable=False),
     Column("time_end", Time, nullable=False)
@@ -37,7 +37,7 @@ times = Table(
 
 places = Table(
     "places",
-    metadata_obj,
+    schedule_metadata,
     Column("place_id", Integer, Identity(), primary_key=True),
     Column("place_type", Enum("cabinet", "online", name="place_types"), nullable=False),
     Column("cabinet", String(100)),
@@ -52,7 +52,7 @@ places = Table(
 
 specialties = Table(
     "specialties",
-    metadata_obj,
+    schedule_metadata,
     Column("specialty_id", Integer, Identity(), primary_key=True),
     Column("specialty_name", String(100), nullable=False, unique=True),
     Column("specialty_code", String(10), nullable=False, unique=True)
@@ -60,7 +60,7 @@ specialties = Table(
 
 student_groups = Table(
     "student_groups",
-    metadata_obj,
+    schedule_metadata,
     Column("group_id", Integer, Identity(), primary_key=True),
     Column("specialty_id", Integer, ForeignKey("specialties.specialty_id", ondelete="CASCADE")),
     Column("course", Integer, nullable=False),
@@ -71,7 +71,7 @@ student_groups = Table(
 
 group_presence = Table(
     "group_presence",
-    metadata_obj,
+    schedule_metadata,
     Column("presence_id", Integer, Identity(), primary_key=True),
     Column("group_id", Integer, ForeignKey("student_groups.group_id", ondelete="CASCADE")),
     Column("week_id", Integer, nullable=False),
@@ -81,7 +81,7 @@ group_presence = Table(
 
 overall_schedule = Table(
     "overall_schedule",
-    metadata_obj,
+    schedule_metadata,
     Column("schedule_id", Integer, Identity(), primary_key=True),
     Column("week_id", Integer, nullable=False),
     Column("day_id", Integer, ForeignKey("days.day_id", ondelete="CASCADE"), nullable=False),
