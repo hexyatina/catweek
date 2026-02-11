@@ -9,7 +9,7 @@ def create_database_engine(remote: bool = False):
         env_var = 'DATABASE_REMOTE' if remote else 'DATABASE_LOCAL'
         raise ValueError(f"{env_var} is not set in .env file")
 
-    engine = create_engine(url)
+    engine = create_engine(url, pool_pre_ping=True)
 
     try:
         with engine.connect() as conn:
@@ -18,3 +18,8 @@ def create_database_engine(remote: bool = False):
         raise ConnectionError(f"Error connecting to PostgresSQL: {e}")
 
     return engine
+
+def reset_engine(engine, metadata):
+    with engine.begin() as conn:
+        metadata.drop_all(conn)
+        metadata.create_all(conn)

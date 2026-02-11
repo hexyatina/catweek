@@ -10,7 +10,7 @@ def parse_time(value: str) -> tuple[time, time]:
     except ValueError:
         raise ValueError(f"Invalid time format: {value}")
 
-def normalize_yaml(yaml_schedules: list[WeekSchedule]) -> list[dict]:
+def normalize_yaml_doc(yaml_schedules: list[WeekSchedule]) -> list[dict]:
     normalized: list[dict] = []
 
     for schedule in yaml_schedules:
@@ -19,7 +19,9 @@ def normalize_yaml(yaml_schedules: list[WeekSchedule]) -> list[dict]:
                 continue
 
             for lesson in lessons:
+
                 time_start, time_end = parse_time(lesson.time)
+
                 normalized.append({
                     "specialty": schedule.specialty,
                     "course": schedule.course,

@@ -3,10 +3,6 @@ from sqlalchemy import insert
 def insert_simple(conn, table, rows):
     conn.execute(insert(table), rows)
 
-from catweek.db import days, lecturers, lessons, times, places, specialties
-from catweek.data import DAYS, LECTURERS, LESSONS, TIMES, CABINETS, URLS, SPECIALTIES, STUDENT_GROUPS, GROUP_PRESENCE
-from .base import insert_simple, insert_urls, insert_student_groups, insert_group_presence
-
 SIMPLE_INSERTS = [
     (days, DAYS),
     (lecturers, LECTURERS),
