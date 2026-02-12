@@ -1,7 +1,5 @@
 from sqlalchemy import select
-
-class ResolveError(ValueError):
-    pass
+from sqlalchemy.exc import SQLAlchemyError, NoResultFound, MultipleResultsFound
 
 def resolve_id(conn, table, id_column, *, where: dict, label: str):
     stmt = select(id_column).where(
@@ -9,9 +7,12 @@ def resolve_id(conn, table, id_column, *, where: dict, label: str):
     )
     try:
         return conn.execute(stmt).scalar_one()
-    except Exception:
-        raise ResolveError(f"Failed to resolve {label} using criteria: {where}")
-
+    except NoResultFound:
+        raise NoResultFound(f"Lookup Failed: {label} not found with criteria {where}")
+    except MultipleResultsFound:
+        raise MultipleResultsFound(f"Data Integrity Error: Multiple {label} records found for {where}")
+    except SQLAlchemyError as e:
+        raise RuntimeError(f"Database infrastructure error: {e}")
 
 def is_latin(text: str) -> bool:
     return all("a" <= c.lower() <= "z" for c in text)

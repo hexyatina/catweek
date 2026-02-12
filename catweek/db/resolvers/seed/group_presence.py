@@ -1,5 +1,4 @@
-from catweek.db.resolvers.schedule.student_groups import resolve_student_group_id
-
+from ..schedule.student_groups import resolve_student_group_id
 def resolve_group_presence_seed(conn, group_presence: list[dict]) -> list[dict]:
     resolved = []
 

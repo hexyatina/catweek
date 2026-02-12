@@ -1,3 +1,21 @@
+from sqlalchemy import schema, inspect
+from catweek.core.context import AppContext
+
+def init_database(ctx: AppContext):
+    inspector = inspect(ctx.engine)
+    existing_schemas = inspector.get_schema_names()
+
+    with ctx.engine.connect() as conn:
+        for meta in [ctx.schedule_metadata, ctx.identity_metadata]:
+            if meta.schema not in existing_schemas:
+                if ctx.verbose:
+                    print(f"Creating schema: {meta.schema}.")
+                conn.execute(schema.CreateSchema(meta.schema))
+        ctx.schedule_metadata.create_all(ctx.engine)
+        ctx.identity_metadata.create_all(ctx.engine)
+
+    if ctx.verbose:
+        print("Database structure initialized.")
 
     """
     def get_table_data(table_name):

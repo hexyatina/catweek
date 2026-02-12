@@ -20,6 +20,6 @@ class AppContext:
             verbose = verbose,
             remote_database = remote_database,
             engine = engine,
-            schedule_metadata= schedule_metadata,
+            schedule_metadata = schedule_metadata,
             identity_metadata = identity_metadata
         )

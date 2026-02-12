@@ -1,8 +1,28 @@
-from sqlalchemy import insert
-from catweek.db import overall_schedule
-from catweek.db.resolvers import resolve_overall_schedule
+from pathlib import Path
+from sqlalchemy.exc import IntegrityError
+from catweek.parsers.yaml_parser import *
+from catweek.db.resolvers.schedule import resolve_schedule
+from catweek.db.models import overall_schedule
 
+def run_schedule_imports(conn, schedules_dir: Path, verbose: bool = False):
+    yaml_files = list(schedules_dir.rglob("*.yaml"))
 
-def insert_overall_schedule(conn, schedule):
-    rows = resolve_overall_schedule(conn, schedule)
-    conn.execute(insert(overall_schedule), rows)
+    for file in yaml_files:
+        try:
+            normalized = get_normalized_yaml_doc(file, verbose=verbose)
+            resolved = resolve_schedule(conn, normalized, verbose=verbose)
+
+            if not resolved:
+                if verbose:
+                    print(f" Skipping {file.name}, produced no lessons.")
+                continue
+
+            conn.execute(overall_schedule.insert(), resolved)
+
+            if verbose:
+                print(f" Imported {file.name} ({len(resolved)} lessons)")
+
+        except IntegrityError as e:
+            raise RuntimeError(f"Schedule insert failed for {file.name}: {e}")
+        except Exception as e:
+            raise RuntimeError(f"Error processing {file.name}: {e}")

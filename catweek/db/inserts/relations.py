@@ -1,18 +1,22 @@
-from sqlalchemy import insert
-from catweek.db import places, student_groups, group_presence
-from catweek.db.resolvers import resolve_url, resolve_student_groups, resolve_group_presence
+from sqlalchemy.exc import IntegrityError
+from catweek.data import seed
+from catweek.db.models import RELATIONAL_TABLES
+from catweek.db.resolvers.seed import *
 
+SEED_RESOLVER_MAP = {
+    "places": lambda conn: resolve_url_seed(conn, seed.URLS) + seed.CABINETS,
+    "student_groups": lambda conn: resolve_student_groups_seed(conn, seed.STUDENT_GROUPS),
+    "group_presence": lambda conn: resolve_group_presence_seed(conn, seed.GROUP_PRESENCE),
+}
 
-def insert_urls(conn, urls):
-    rows = resolve_url(conn, urls)
-    conn.execute(insert(places), rows)
+def run_relations_insert(conn, target: str, verbose: bool = False):
 
+    table = RELATIONAL_TABLES[target]
+    resolved_data = SEED_RESOLVER_MAP[target](conn)
 
-def insert_student_groups(conn, groups):
-    rows = resolve_student_groups(conn, groups)
-    conn.execute(insert(student_groups), rows)
-
-
-def insert_group_presence(conn, presence):
-    rows = resolve_group_presence(conn, presence)
-    conn.execute(insert(group_presence), rows)
+    try:
+        conn.execute(table.insert(), resolved_data)
+        if verbose:
+            print(f"  [Relations] {target}: +{len(resolved_data)} rows.")
+    except IntegrityError as e:
+        raise RuntimeError(f"Failed to insert relational data for {target}: {e}")

@@ -13,5 +13,5 @@ def load_yaml_doc(file_path: Path) -> list[WeekSchedule]:
             try:
                 yaml_schedules.append(WeekSchedule(**schedule))
             except Exception as e:
-                raise ValueError(f"Invalid schedule {schedule}")
+                raise ValueError(f"Invalid schedule structure: {e}") from e
     return yaml_schedules
