@@ -1,21 +1,9 @@
-from catweek.core.context import AppContext
-from catweek.db.db_build import create_database_engine
-from catweek.db.inserts.db_manip import manipulate_database_menu
-from catweek.data import retrieve_database_menu
-from catweek.cli import main_menu
-def init_context(remote = False, verbose = False):
-    engine, metadata = create_database_engine(remote_database=remote)
-    return AppContext(
-        verbose=verbose,
-        remote_database=remote,
-        engine=engine,
-        metadata=metadata,
-    )
+from catweek.cli.main_menu import cli
+
 
 
 if __name__ == "__main__":
-    main_menu(init_context())
-
+    cli()
 """
         elif choice == "1":
             print("\n--- All Tables ---")

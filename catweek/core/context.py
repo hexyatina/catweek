@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from sqlalchemy import Engine, MetaData
-from .engine import create_database_engine
-from catweek.db.models import schedule_metadata, identity_metadata
+from .my_engine import create_database_engine
+from ..db.models import schedule_metadata, identity_metadata
 
 @dataclass
 class AppContext:
@@ -14,7 +14,7 @@ class AppContext:
     @classmethod
     def create(cls, verbose: bool = False, remote_database: bool = False):
 
-        engine = create_database_engine(remote=False)
+        engine = create_database_engine(remote=remote_database)
 
         return cls(
             verbose = verbose,

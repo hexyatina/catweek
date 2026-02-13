@@ -18,8 +18,3 @@ def create_database_engine(remote: bool = False):
         raise ConnectionError(f"Error connecting to PostgresSQL: {e}")
 
     return engine
-
-def reset_engine(engine, metadata):
-    with engine.begin() as conn:
-        metadata.drop_all(conn)
-        metadata.create_all(conn)
