@@ -1,5 +1,4 @@
-from pydantic import BaseModel, Field, field_validator
-from typing import Optional, List, Dict
+from pydantic import BaseModel, Field
 
 class LessonEntry(BaseModel):
     time: str = Field(..., pattern=r"^\d{2}:\d{2}-\d{2}:\d{2}$")

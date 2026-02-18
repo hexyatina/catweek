@@ -1,21 +1,29 @@
 from sqlalchemy import schema, inspect
-from backend.app.core.context import AppContext
+from app.core import AppContext
+
 
 def init_database(ctx: AppContext):
+
     inspector = inspect(ctx.engine)
     existing_schemas = inspector.get_schema_names()
 
     with ctx.engine.connect() as conn:
         for meta in [ctx.schedule_metadata, ctx.identity_metadata]:
-            if meta.schema not in existing_schemas:
+            if meta.schema and meta.schema not in existing_schemas:
                 if ctx.verbose:
-                    print(f"Creating schema: {meta.schema}.")
+                    print(f"[*] Creating schema: {meta.schema}")
                 conn.execute(schema.CreateSchema(meta.schema))
+                conn.commit()
+
+        if ctx.verbose:
+            print("[*] Creating all tables...")
+
+
         ctx.schedule_metadata.create_all(ctx.engine)
         ctx.identity_metadata.create_all(ctx.engine)
 
     if ctx.verbose:
-        print("Database structure initialized.")
+        print("[SUCCESS] Database structure initialized.")
 
     """
     def get_table_data(table_name):

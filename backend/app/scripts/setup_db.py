@@ -5,10 +5,7 @@ from app.db.models import (
 )
 from app.services.id_resolver import IDResolver
 
-from app.db.seed import (
-    days, times, lecturers, lessons, specialties, cabinets,
-    student_groups, urls, group_presence
-)
+from app.db.seed import *
 
 
 def create_tables(conn):

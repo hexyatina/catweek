@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine, text
-from backend.app.core.config import settings
+from app.core import settings
 
 def create_db_engine(remote: bool = False):
 
