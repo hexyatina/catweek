@@ -1,0 +1,27 @@
+GET http://127.0.0.1:5000/users
+###
+POST http://127.0.0.1:5000/users
+Content-Type: application/json
+
+{
+  "name": "Kyrylo"
+}
+###
+POST 127.0.0.1:5000/users
+Content-Type: application/json
+
+{
+  "name": "Bibka",
+  "id": 2
+}
+###
+GET http://127.0.0.1:5000/users/1
+###
+PUT http://127.0.0.1:5000/users/1
+Content-Type: application/json
+
+{
+  "name": "Vlada"
+}
+###
+DELETE 127.0.0.1:5000/users/1
