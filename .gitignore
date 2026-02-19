@@ -41,7 +41,7 @@ env/
 .swo
 
 # Environment variables
-.env
+backend/.env
 
 # macOS
 .DS_Store
@@ -49,3 +49,5 @@ env/
 #Flask
 instance/
 .webassets-cache
+
+*.xls;xlsx;csv

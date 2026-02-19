@@ -1,5 +1,5 @@
 from sqlalchemy import schema, inspect
-from app.core import AppContext
+from temp.core import AppContext
 
 
 def init_database(ctx: AppContext):
@@ -10,14 +10,9 @@ def init_database(ctx: AppContext):
     with ctx.engine.connect() as conn:
         for meta in [ctx.schedule_metadata, ctx.identity_metadata]:
             if meta.schema and meta.schema not in existing_schemas:
-                if ctx.verbose:
-                    print(f"[*] Creating schema: {meta.schema}")
+
                 conn.execute(schema.CreateSchema(meta.schema))
                 conn.commit()
-
-        if ctx.verbose:
-            print("[*] Creating all tables...")
-
 
         ctx.schedule_metadata.create_all(ctx.engine)
         ctx.identity_metadata.create_all(ctx.engine)

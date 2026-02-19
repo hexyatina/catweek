@@ -1,7 +1,7 @@
 from pathlib import Path
-from app.parsers.yaml_handler import load_and_normalize_yaml_doc
-from app.services.id_resolver import IDResolver
-from app.db.models.schedule_tables import overall_schedule
+from temp.parsers.yaml_handler import load_and_normalize_yaml_doc
+from temp.services.id_resolver import IDResolver
+from app.models.schedule_tables import overall_schedule
 
 def import_yaml_schedules(conn, data_dir: Path):
 

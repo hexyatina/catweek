@@ -1,7 +1,7 @@
 import yaml
 from pathlib import Path
 from datetime import time
-from app.schemas.schedule import WeekSchedule
+from temp.schemas.schedule import WeekSchedule
 from pydantic import ValidationError
 
 def _parse_time(value: str) -> tuple[time, time]:

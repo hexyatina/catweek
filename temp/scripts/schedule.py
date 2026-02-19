@@ -1,7 +1,7 @@
 from pathlib import Path
 from sqlalchemy.exc import IntegrityError
-from backend.app.services.schedule import resolve_schedule
-from backend.app.db.models import overall_schedule
+from temp.services import resolve_schedule
+from app.models import overall_schedule
 
 def run_schedule_imports(conn, schedules_dir: Path, verbose: bool = False):
     yaml_files = list(schedules_dir.rglob("*.yaml"))

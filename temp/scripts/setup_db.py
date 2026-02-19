@@ -1,11 +1,9 @@
 from sqlalchemy import insert
-from app.db.models import (
+from app.models import (
     schedule_metadata, identity_metadata,
-    SIMPLE_TABLES, RELATIONAL_TABLES, ALL_TABLES
+    SIMPLE_TABLES, RELATIONAL_TABLES
 )
-from app.services.id_resolver import IDResolver
-
-from app.db.seed import *
+from temp.services.id_resolver import IDResolver
 
 
 def create_tables(conn):

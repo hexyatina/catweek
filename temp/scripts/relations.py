@@ -1,6 +1,6 @@
 from sqlalchemy.exc import IntegrityError
-from app.db import seed
-from backend.app.db.models import RELATIONAL_TABLES
+from temp.db import seed
+from app.models import RELATIONAL_TABLES
 
 SEED_RESOLVER_MAP = {
     "places": lambda conn: resolve_url_seed(conn, seed.URLS) + seed.CABINETS,

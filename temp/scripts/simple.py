@@ -1,6 +1,6 @@
 from sqlalchemy.exc import IntegrityError
-from app.db import seed
-from backend.app.db.models import SIMPLE_TABLES
+from temp.db import seed
+from app.models import SIMPLE_TABLES
 
 SEED_DATA_MAP = {
     "days": seed.DAYS,

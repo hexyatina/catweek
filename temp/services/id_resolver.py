@@ -1,6 +1,6 @@
 from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound, MultipleResultsFound
-from app.db.models.schedule_tables import days, lecturers, lessons, places, specialties, student_groups, times
+from app.models.schedule_tables import days, lecturers, lessons, places, specialties, student_groups, times
 
 
 class IDResolver:
