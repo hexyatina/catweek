@@ -1,5 +1,5 @@
 from sqlalchemy import inspect, schema
-from .extensions import db
+from ..extensions import db
 
 def init_schemas(app):
 
@@ -15,3 +15,4 @@ def init_schemas(app):
                 if schema_name not in existing_schema:
                     conn.execute(schema.CreateSchema(schema_name))
                     conn.commit()
+

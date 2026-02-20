@@ -1,0 +1,16 @@
+LECTURERS = [
+    {"name": "", "surname": "", "middle_name": ""},
+    {"name": "", "surname": "Затула", "middle_name": ""},
+    {"name": "", "surname": "Капічина", "middle_name": ""},
+    {"name": "", "surname": "Степанюк", "middle_name": ""},
+    {"name": "", "surname": "Ходжаєв", "middle_name": ""},
+    {"name": "", "surname": "Головай", "middle_name": ""},
+    {"name": "", "surname": "Руденко", "middle_name": ""},
+    {"name": "", "surname": "Тільга", "middle_name": ""},
+    {"name": "", "surname": "Таран", "middle_name": ""},
+    {"name": "", "surname": "Мироненко", "middle_name": ""},
+    {"name": "", "surname": "Герасимович", "middle_name": ""},
+    {"name": "", "surname": "Гаращенкo", "middle_name": ""},
+    {"name": "", "surname": "Коваль", "middle_name": ""},
+    {"name": "", "surname": "Лумпова", "middle_name": ""},
+]

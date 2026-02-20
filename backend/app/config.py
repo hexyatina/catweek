@@ -19,6 +19,3 @@ class Settings(BaseSettings):
     )
 
 settings = Settings()
-
-if __name__ == "__main__":
-    print(settings.DATABASE_URL)

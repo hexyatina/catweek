@@ -1,4 +1,4 @@
-from typing import Optional, Literal
+from typing import Optional
 from datetime import time as dt_time
 from sqlalchemy import (
     String, Time, Index, ForeignKey, MetaData,
@@ -8,6 +8,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship, DeclarativeBase
 
 class Base(DeclarativeBase):
     metadata = MetaData(schema="schedule")
+
 class Day(Base):
     __tablename__ = "days"
     id: Mapped[int] = mapped_column("day_id", primary_key=True)
@@ -33,6 +34,10 @@ class Slot(Base):
     id: Mapped[int] = mapped_column("slot_id", primary_key=True)
     time_start: Mapped[dt_time] = mapped_column(Time)
     time_end: Mapped[dt_time] = mapped_column(Time)
+
+    __table_args__ = (
+        UniqueConstraint("time_start", "time_end"),
+    )
 
 class Venue(Base):
     __tablename__ = "venues"

@@ -1,5 +1,5 @@
 from pathlib import Path
-from temp.parsers.yaml_handler import load_and_normalize_yaml_doc
+from app.utils.yaml_parser import load_and_normalize_yaml_doc
 from temp.services.id_resolver import IDResolver
 from app.models.schedule_tables import overall_schedule
 

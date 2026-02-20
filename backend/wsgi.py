@@ -1,4 +1,3 @@
-import typer
 from pathlib import Path
 from temp.core import AppContext
 from temp.scripts.setup_db import create_tables_and_static_seeds
