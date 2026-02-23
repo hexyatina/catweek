@@ -1,8 +1,8 @@
 from flask import Flask
-from .extensions import db, migrate
-from . import models
+from .extensions import db, migrate, swagger
 from .config import settings
 from .cli import manage_cli
+from . import models
 
 def create_app():
 
@@ -13,6 +13,7 @@ def create_app():
 
     db.init_app(app)
     migrate.init_app(app, db)
+    swagger.init_app(app)
 
     app.cli.add_command(manage_cli)
 
