@@ -2,7 +2,6 @@ from flask import Flask
 from .extensions import db, migrate
 from . import models
 from .config import settings
-from app.utils import init_schemas
 from .cli import manage_cli
 
 def create_app():
@@ -16,8 +15,5 @@ def create_app():
     migrate.init_app(app, db)
 
     app.cli.add_command(manage_cli)
-
-    if not app.testing:
-        init_schemas(app)
 
     return app

@@ -1,13 +1,35 @@
+from sqlalchemy import delete
 from ..utils import load_and_normalize_all_yaml, IDResolver
 from ..extensions import db
+from ..models import Schedule
+from pathlib import Path
 
-def import_schedule_from_yaml(file_path):
+class ScheduleService:
 
-    raw_data = load_and_normalize_all_yaml(file_path)
+    @staticmethod
+    def import_schedule_yaml(file_path: str):
 
-    resolver = IDResolver()
+        file_path = Path(file_path)
 
-    for row in raw_data:
-        db.session.add(resolver.resolve_row(row))
+        raw_data = load_and_normalize_all_yaml(file_path)
+        resolver = IDResolver()
 
-    db.session.commit()
+        cleaned_scopes = set()
+
+        for row in raw_data:
+            data = resolver.resolve_row(row)
+            scope = (data["group_id"], data["week_id"])
+
+            if scope not in cleaned_scopes:
+                db.session.execute(
+                    delete(Schedule).where(
+                        Schedule.group_id == data["group_id"],
+                        Schedule.week_id == data["week_id"],
+                    )
+                )
+                cleaned_scopes.add(scope)
+
+            db.session.add(Schedule(**data))
+
+        print(f"Imported {len(raw_data)} rows")
+        db.session.commit()
