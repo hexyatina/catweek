@@ -1,5 +1,4 @@
 LECTURERS = [
-    {"name": "", "surname": "", "middle_name": ""},
     {"name": "", "surname": "Затула", "middle_name": ""},
     {"name": "", "surname": "Капічина", "middle_name": ""},
     {"name": "", "surname": "Степанюк", "middle_name": ""},

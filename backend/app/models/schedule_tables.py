@@ -19,15 +19,15 @@ class Lecturer(Base):
     __tablename__ = "lecturers"
     id: Mapped[int] = mapped_column("lecturer_id", primary_key=True)
     name: Mapped[str] = mapped_column(String(100))
-    surname: Mapped[Optional[str]] = mapped_column(String(100))
-    middle_name: Mapped[Optional[str]] = mapped_column(String(100))
+    surname: Mapped[str] = mapped_column(String(100))
+    middle_name: Mapped[str] = mapped_column(String(100))
 
 class Lesson(Base):
     __tablename__ = "lessons"
     id: Mapped[int] = mapped_column("lesson_id", primary_key=True)
     name: Mapped[str] = mapped_column(String(255), unique=True)
-    code: Mapped[Optional[str]] = mapped_column(String(100), unique=True)
-    url: Mapped[Optional[str]] = mapped_column(String(500))
+    code: Mapped[str] = mapped_column(String(100), unique=True)
+    url: Mapped[str] = mapped_column(String(500))
 
 class Slot(Base):
     __tablename__ = "slots"
