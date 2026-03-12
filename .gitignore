@@ -42,6 +42,7 @@ env/
 
 # Environment variables
 backend/.env
+.env
 
 # macOS
 .DS_Store

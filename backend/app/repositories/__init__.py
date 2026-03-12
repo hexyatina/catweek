@@ -1,1 +1,1 @@
-from schedule_repository import ScheduleRepository
+from .schedule import ScheduleRepository

@@ -2,13 +2,20 @@ from flask import request, jsonify, Blueprint
 from app.repositories import ScheduleRepository
 from app.schemas import ScheduleEntrySchema
 
-bp = Blueprint('v1', __name__, url_prefix='/api/v1/')
+bp = Blueprint('v1', __name__, url_prefix='/api/v1')
 
 @bp.route("/schedule", methods=["GET"])
 def get_schedule():
+    day = request.args.get("day")
+    week = request.args.get("week", type=int)
+    group = request.args.get("group")
+    lecturer = request.args.get("lecturer")
 
-    group_id = request.args.get("group_id", type=int)
+    results = ScheduleRepository.get_filtered(
+        group=group,
+        week=week,
+        day=day,
+        lecturer=lecturer
+    )
 
-    results = ScheduleRepository.get_filtered_entries(group_id=group_id)
-
-    return jsonify([ScheduleEntrySchema.model_validate(r).model_dump() for r in results])
+    return jsonify([ScheduleEntrySchema.from_orm_row(r).model_dump() for r in results])

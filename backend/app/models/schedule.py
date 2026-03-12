@@ -54,9 +54,11 @@ class StudentGroup(Base):
     __tablename__ = "student_groups"
 
     id: Mapped[int] = mapped_column("group_id", primary_key=True)
-    specialty_id: Mapped[int] = mapped_column(ForeignKey("specialties.specialty_id", ondelete="CASCADE"))
+    specialty_id: Mapped[int] = mapped_column(ForeignKey("schedule.specialties.specialty_id", ondelete="CASCADE"))
     course: Mapped[int]
     group_number: Mapped[int]
+
+    specialty: Mapped["Specialty"] = relationship()
 
     __table_args__ = (
         CheckConstraint("course BETWEEN 1 AND 4", name="check_course_range"),
@@ -69,12 +71,12 @@ class Schedule(Base):
     id: Mapped[int] = mapped_column("schedule_id", primary_key=True)
     week_id: Mapped[int]
 
-    day_id: Mapped[int] = mapped_column(ForeignKey("days.day_id", ondelete="CASCADE"))
-    slot_id: Mapped[int] = mapped_column(ForeignKey("slots.slot_id", ondelete="CASCADE"))
-    venue_id: Mapped[Optional[int]] = mapped_column(ForeignKey("venues.venue_id", ondelete="SET NULL"))
-    group_id: Mapped[int] = mapped_column(ForeignKey("student_groups.group_id", ondelete="CASCADE"))
-    lesson_id: Mapped[int] = mapped_column(ForeignKey("lessons.lesson_id", ondelete="CASCADE"))
-    lecturer_id: Mapped[int] = mapped_column(ForeignKey("lecturers.lecturer_id", ondelete="CASCADE"))
+    day_id: Mapped[int] = mapped_column(ForeignKey("schedule.days.day_id", ondelete="CASCADE"))
+    slot_id: Mapped[int] = mapped_column(ForeignKey("schedule.slots.slot_id", ondelete="CASCADE"))
+    venue_id: Mapped[Optional[int]] = mapped_column(ForeignKey("schedule.venues.venue_id", ondelete="SET NULL"))
+    group_id: Mapped[int] = mapped_column(ForeignKey("schedule.student_groups.group_id", ondelete="CASCADE"))
+    lesson_id: Mapped[int] = mapped_column(ForeignKey("schedule.lessons.lesson_id", ondelete="CASCADE"))
+    lecturer_id: Mapped[int] = mapped_column(ForeignKey("schedule.lecturers.lecturer_id", ondelete="CASCADE"))
 
     day: Mapped["Day"] = relationship()
     slot: Mapped["Slot"] = relationship()

@@ -1,4 +1,4 @@
-from .schedule_tables import (
+from .schedule import (
     Base, Day, Lecturer, Lesson,
     Slot, Venue, Specialty, StudentGroup, Schedule
 )
