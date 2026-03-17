@@ -54,3 +54,20 @@ def import_schedule():
     except Exception as e:
         db.session.rollback()
         click.secho(f"Import schedule failed: {e}", fg="red")
+
+@manage_cli.command("seed-if-empty")
+@with_appcontext
+def seed_if_empty():
+    """Seed with YAML schedule only if tables are empty"""
+    from .models import Day
+    from .extensions import db
+    from sqlalchemy import select
+    if db.session.scalars(select(Day)).first() is None:
+        try:
+            DatabaseService.seed_system_data()
+            click.echo(f"Seed successful.")
+        except Exception as e:
+            db.session.rollback()
+            click.secho(f"Seed failed: {e}", fg="red")
+    else:
+        click.echo("Data.exists, skipping seed.")

@@ -1,2 +1,6 @@
 from .schedule import WeekSchedule
-from .api_responses import ScheduleEntrySchema
+from .responses import ScheduleEntrySchema, ScheduleEntryDetailSchema
+from .lookup import (
+    DaySchema, SlotSchema, SpecialtySchema, LecturerSchema,
+    LessonSchema, VenueSchema, GroupSchema
+)

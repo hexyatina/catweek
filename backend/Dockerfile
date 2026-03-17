@@ -1,0 +1,17 @@
+FROM python:3.13-slim
+
+RUN pip install uv
+
+WORKDIR /app
+
+COPY pyproject.toml uv.lock ./
+
+RUN uv sync --frozen --no-dev
+
+COPY . .
+
+RUN chmod +x entrypoint.sh
+
+EXPOSE 5000
+
+CMD ["./entrypoint.sh"]

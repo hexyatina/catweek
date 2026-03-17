@@ -2,7 +2,7 @@ import logging
 from logging.config import fileConfig
 
 from flask import current_app
-
+from sqlalchemy import create_engine
 from alembic import context
 
 # this is the Alembic Config object, which provides
@@ -94,7 +94,8 @@ def run_migrations_online():
     if conf_args.get("process_revision_directives") is None:
         conf_args["process_revision_directives"] = process_revision_directives
 
-    connectable = get_engine()
+    from app.config import settings
+    connectable = create_engine(settings.DATABASE_URL_DIRECT)
 
     with connectable.connect() as connection:
         context.configure(

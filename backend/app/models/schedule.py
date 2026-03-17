@@ -27,17 +27,14 @@ class Lesson(Base):
     id: Mapped[int] = mapped_column("lesson_id", primary_key=True)
     name: Mapped[str] = mapped_column(String(255), unique=True)
     code: Mapped[str] = mapped_column(String(100), unique=True)
-    url: Mapped[str] = mapped_column(String(500))
+    url: Mapped[Optional[str]] = mapped_column(String(500))
 
 class Slot(Base):
     __tablename__ = "slots"
     id: Mapped[int] = mapped_column("slot_id", primary_key=True)
     time_start: Mapped[dt_time] = mapped_column(Time)
     time_end: Mapped[dt_time] = mapped_column(Time)
-
-    __table_args__ = (
-        UniqueConstraint("time_start", "time_end"),
-    )
+    is_short: Mapped[bool] = mapped_column(default=False)
 
 class Venue(Base):
     __tablename__ = "venues"

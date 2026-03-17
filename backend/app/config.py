@@ -2,18 +2,23 @@ from typing import Literal
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-
 class Settings(BaseSettings):
 
     ENV: Literal["dev", "prod"] = "dev"
 
     DATABASE_LOCAL: str = Field(default=...)
     DATABASE_REMOTE: str = Field(default=...)
+    DATABASE_REMOTE_DIRECT: str = Field(default=...)
     SECRET_KEY: str = Field(default=...)
+    API_KEY: str = Field(default=...)
 
     @property
     def DATABASE_URL(self) -> str:
         return self.DATABASE_REMOTE if self.ENV == "prod" else self.DATABASE_LOCAL
+
+    @property
+    def DATABASE_URL_DIRECT(self) -> str:
+        return self.DATABASE_REMOTE_DIRECT  if self.ENV == "prod" else self.DATABASE_LOCAL
 
     @property
     def DEBUG(self) -> bool:
