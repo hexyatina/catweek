@@ -6,6 +6,7 @@
 
 ## Quick start using docker
 
+>`cd .\backend\`  
 >`cp .env.example .env`   
 >`docker compose up --build`
 
