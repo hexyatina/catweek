@@ -1,5 +1,4 @@
 import click
-from flask import current_app
 from flask.cli import with_appcontext, AppGroup
 from .services import ScheduleService, DatabaseService
 from .extensions import db
@@ -28,7 +27,7 @@ def reset_db():
     """HARD RESET: Drop and recreate schema."""
     click.confirm("HARD RESET?", abort=True)
     try:
-        DatabaseService.reset_db_schema(current_app)
+        DatabaseService.reset_db_schema()
         click.echo(f"Database recreated successfully.")
     except Exception as e:
         click.secho(f"Database recreation failed: {e}", fg="red")

@@ -1,5 +1,5 @@
 from typing import Literal
-from pydantic import Field
+from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
@@ -7,10 +7,25 @@ class Settings(BaseSettings):
     ENV: Literal["dev", "prod"] = "dev"
 
     DATABASE_LOCAL: str = Field(default=...)
-    DATABASE_REMOTE: str = Field(default=...)
-    DATABASE_REMOTE_DIRECT: str = Field(default=...)
-    SECRET_KEY: str = Field(default=...)
-    API_KEY: str = Field(default=...)
+    DATABASE_REMOTE: str = Field(default="")
+    DATABASE_REMOTE_DIRECT: str = Field(default="")
+    API_KEY: str = Field(default="")
+
+    # SECRET_KEY: str = Field(default="")
+
+    @model_validator(mode='after')
+    def check_prod_fields(self) -> "Settings":
+        if self.ENV == "prod":
+            missing = []
+            if not self.DATABASE_REMOTE:
+                missing.append("DATABASE_REMOTE")
+            if not self.DATABASE_REMOTE_DIRECT:
+                missing.append("DATABASE_REMOTE_DIRECT")
+            if not self.API_KEY:
+                missing.append("API_KEY")
+            if missing:
+                raise ValueError(f"Required in prod .env variables missing: {', '.join(missing)}")
+        return self
 
     @property
     def DATABASE_URL(self) -> str:

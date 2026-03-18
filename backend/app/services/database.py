@@ -20,18 +20,18 @@ class DatabaseService:
             conn.commit()
 
     @staticmethod
-    def reset_db_schema(app):
+    def reset_db_schema():
         target_schema = Base.metadata.schema
         engine = DatabaseService._direct_engine()
 
-        with db.engine.connect() as conn:
+        with engine.connect() as conn:
             conn.execute(schema.DropSchema(target_schema, cascade=True, if_exists=True))
             conn.execute(text("DROP TABLE IF EXISTS public.alembic_version"))
             conn.commit()
 
-        inspector = inspect(db.engine)
+        inspector = inspect(engine)
         if target_schema not in inspector.get_schema_names():
-            with db.engine.connect() as conn:
+            with engine.connect() as conn:
                 conn.execute(schema.CreateSchema(target_schema))
                 conn.commit()
 
