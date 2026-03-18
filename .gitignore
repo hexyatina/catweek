@@ -51,4 +51,6 @@ backend/.env
 instance/
 .webassets-cache
 
+# other
 *.xls;xlsx;csv
+*.http
