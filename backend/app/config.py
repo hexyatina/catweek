@@ -6,6 +6,9 @@ class Settings(BaseSettings):
 
     ENV: Literal["dev", "prod"] = "dev"
 
+    HOST: str = Field(default="0.0.0.0")
+    PORT: int = Field(default=5000)
+
     DATABASE_LOCAL: str = Field(default=...)
     DATABASE_REMOTE: str = Field(default="")
     DATABASE_REMOTE_DIRECT: str = Field(default="")

@@ -11,7 +11,6 @@ def create_app():
 
     app.config["SQLALCHEMY_DATABASE_URI"] = settings.DATABASE_URL
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    app.config["DEBUG"] = settings.DEBUG
 
     db.init_app(app)
     migrate.init_app(app, db)
@@ -35,7 +34,7 @@ def create_app():
             key = request.headers.get("X-Api-Key")
             if key != settings.API_KEY:
                 return jsonify({"error": "Unauthorized"}), 401
-
+            return None
     @app.route("/")
     def to_docs():
         return redirect("/apidocs/")

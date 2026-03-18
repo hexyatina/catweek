@@ -1,4 +1,4 @@
 ### GET request to example server
-GET http://127.0.0.1:5000
-
+GET http://localhost:5000/api/v1/lookup/days
+X-Api-Key: 917b3ae4dba6853b0877f3ed6f387d052370faea5fa6f1aa8bf4fc81b79c4f9d
 ###
