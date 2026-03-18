@@ -1,5 +1,10 @@
 ﻿# catweek
-## site to see the week schedule properly
+# site to see the week schedule properly
 
-### Docs
+## For quick start
+
+>`git clone https://github.com/hexyatina/catweek.git`
+
+## Docs
+
 - Api: see [backend/README.md](backend/README.md)
