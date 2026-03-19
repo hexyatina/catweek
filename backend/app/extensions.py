@@ -15,7 +15,7 @@ swagger_template = {
             "telegramHandle": "KergaX",
             "email": "pinchukkg@gmail.com",
         },
-        "version": "1.0.0"
+        "version": "1.0.1"
     },
     "basePath": "/",
     "securityDefinitions": {
@@ -72,6 +72,7 @@ swagger_config = {
         }
     ],
     "swagger_ui": True,
+    "auth": {},
     "specs_route": "/apidocs/",
     "static_url_path": "/flasgger_static",
 }
