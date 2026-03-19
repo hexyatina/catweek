@@ -15,7 +15,7 @@ swagger_template = {
             "telegramHandle": "KergaX",
             "email": "pinchukkg@gmail.com",
         },
-        "version": "1.0.1"
+        "version": "1.0.2"
     },
     "basePath": "/",
     "securityDefinitions": {
