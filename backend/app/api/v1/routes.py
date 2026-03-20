@@ -18,7 +18,7 @@ def get_schedule():
       - in: query
         name: day_id
         type: integer
-        example: 1
+        enum: [1, 2, 3, 4, 5, 6, 7]
         required: false
       - in: query
         name: week_id
