@@ -3,7 +3,7 @@ LESSONS = [
     {"name": "Лінійна алгебра", "code": "Лінійка", "url": ""},
     {"name": "Інженерія програмного забезпечення", "code": "ІПЗ", "url": "https://docs.google.com/document/d/1r4HsNPDvVTG1rOkAklezFvXB1oPsMUvJg3qxhBnJVp0/edit?usp=sharing"},
     {"name": "Сервіси та середовище розробки програмного забезпечення", "code": "РПЗ", "url": ""},
-    {"name": "Українська мова", "code": "Укр", "url": ""},
+    {"name": "Українська мова", "code": "Укр", "url": "https://us04web.zoom.us/j/73414445632?pwd=mbKyYapTmwOhL6t6yaMV8NfMrXba13.1"},
     {"name": "Англійська мова", "code": "Англ", "url": "https://us05web.zoom.us/j/6678001520?pwd=bDFQejZyVFRmZlJ1eTh6YzIzcVBzZz09"},
     {"name": "Французька мова", "code": "Фран", "url": "https://us04web.zoom.us/j/77048124742?pwd=pvsaMFGKvRoE3Oq4qiTauYFxV8Bkzq.1"},
     {"name": "Основи програмування та алгоритмічні мови", "code": "ОПАМ", "url": "https://docs.google.com/document/d/1r4HsNPDvVTG1rOkAklezFvXB1oPsMUvJg3qxhBnJVp0/edit?usp=sharing"},
@@ -16,4 +16,7 @@ LESSONS = [
     {"name": "Чисельні методи", "code": "Чисмети", "url": "https://discord.gg/SSFzX8a3"},
     {"name": "Інструментальні засоби візуального програмування", "code": "ІЗВП", "url": "https://us05web.zoom.us/j/89525632789?pwd=lvsjsxPulwqMMtIbB5yWCYP4ayMtUW.1"},
     {"name": "Диференціальні рівняння", "code": "Дифури", "url": "https://us04web.zoom.us/j/79893401746?pwd=lis2aFba6MbmaEhCykzjgSdl0UK95C.1"},
+    {"name": "Громадянська освіта", "code": "Громад", "url": "https://meet.google.com/yoo-buob-kui"},
+    {"name": "Математика", "code": "Матем", "url": "https://us04web.zoom.us/j/78495450630?pwd=ohRf1gxGmeymXCPgH2pfg9BfMCcObj.1"},
+    {"name": "Фізика", "code": "Фіз", "url": "https://us04web.zoom.us/j/72109034075?pwd=VXnxLavrrw6o17BN87Ay78bgtw54S8.1"},
 ]

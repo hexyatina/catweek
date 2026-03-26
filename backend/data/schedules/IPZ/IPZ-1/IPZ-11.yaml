@@ -1,0 +1,30 @@
+specialty: ІПЗ
+course: 1
+group: 1
+week: 1
+days: {}
+
+---
+specialty: ІПЗ
+course: 1
+group: 1
+week: 2
+days:
+
+  Thursday:
+    - time: 09:00-10:20
+      lesson: Матем
+      lecturer: Кучеренко
+      place: "Онлайн"
+    - time: 10:30-11:50
+      lesson: Укр
+      lecturer: Нестеренко
+      place: "Онлайн"
+    - time: 12:10-13:30
+      lesson: Громад
+      lecturer: Антохов
+      place: "Онлайн"
+    - time: 13:40-15:00
+      lesson: Фіз
+      lecturer: Степанюк
+      place: "Онлайн"

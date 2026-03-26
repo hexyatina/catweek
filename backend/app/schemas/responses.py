@@ -23,7 +23,7 @@ class ScheduleEntrySchema(BaseModel):
             time_end=r.slot.time_end.strftime("%H:%M"),
             lesson=r.lesson.name,
             lecturer=r.lecturer.surname,
-            venue=r.venue.name if r.venue else "online",
+            venue=r.venue.name if r.venue else "Онлайн",
             url=r.lesson.url or None,
             week=r.week_id,
             group=f"{r.group.specialty.code}-{r.group.course}{r.group.group_number}",

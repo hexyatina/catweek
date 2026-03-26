@@ -34,6 +34,10 @@ class ScheduleRepository:
         if week_id:
             stmt = stmt.where(Schedule.week_id == week_id)
 
-        stmt = stmt.order_by(Schedule.day_id.asc(), Schedule.slot_id.asc())
+        stmt = stmt.order_by(
+            Schedule.week_id.asc(),
+            Schedule.day_id.asc(),
+            Schedule.slot_id.asc()
+        )
 
         return db.session.scalars(stmt).all()
