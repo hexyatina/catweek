@@ -46,6 +46,7 @@ class Specialty(Base):
     id: Mapped[int] = mapped_column("specialty_id", primary_key=True)
     name: Mapped[str] = mapped_column(String(100), unique=True)
     code: Mapped[str] = mapped_column(String(10), unique=True)
+    number: Mapped[int] = mapped_column(unique=True)
 
 class StudentGroup(Base):
     __tablename__ = "student_groups"

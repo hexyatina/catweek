@@ -33,6 +33,7 @@ class SpecialtySchema(BaseModel):
     id: int
     name: str
     code: str
+    number: int
 
 
 class LecturerSchema(BaseModel):

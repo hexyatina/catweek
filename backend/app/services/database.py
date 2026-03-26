@@ -1,4 +1,4 @@
-from sqlalchemy import schema, inspect, text, create_engine
+from sqlalchemy import text, create_engine
 from ..extensions import db
 from ..models import Base, Day, Slot, Venue, Lecturer, Lesson, Specialty, StudentGroup
 from ..data import DAYS, SLOTS, VENUES, LECTURERS, LESSONS, SPECIALTIES, STUDENT_GROUPS
@@ -21,19 +21,12 @@ class DatabaseService:
 
     @staticmethod
     def reset_db_schema():
-        target_schema = Base.metadata.schema
         engine = DatabaseService._direct_engine()
 
-        with engine.connect() as conn:
-            conn.execute(schema.DropSchema(target_schema, cascade=True, if_exists=True))
+        with engine.begin() as conn:
+            conn.execute(text("DROP SCHEMA IF EXISTS schedule CASCADE"))
             conn.execute(text("DROP TABLE IF EXISTS public.alembic_version"))
-            conn.commit()
-
-        inspector = inspect(engine)
-        if target_schema not in inspector.get_schema_names():
-            with engine.connect() as conn:
-                conn.execute(schema.CreateSchema(target_schema))
-                conn.commit()
+            conn.execute(text("CREATE SCHEMA schedule"))
 
         upgrade()
 

@@ -38,6 +38,7 @@ class ScheduleEntryDetailSchema(ScheduleEntrySchema):
     lecturer_middle_name: str
     specialty_name: str
     specialty_code: str
+    specialty_number: int
     course: int
     group_number: int
 
@@ -52,6 +53,7 @@ class ScheduleEntryDetailSchema(ScheduleEntrySchema):
             lecturer_middle_name=r.lecturer.middle_name,
             specialty_name=r.group.specialty.name,
             specialty_code=r.group.specialty.code,
+            specialty_number=r.group.specialty.number,
             course=r.group.course,
             group_number=r.group.group_number,
         )
