@@ -1,0 +1,149 @@
+specialty: ІПЗ
+course: 3
+group: 3
+week: 1
+days:
+  Monday:
+    - time: 10:30-11:50
+      lesson: ІАД
+      lecturer: Лумпова
+      place: Онлайн
+    - time: 12:10-13:30
+      lesson: Англ
+      lecturer: Руденко
+      place: Онлайн
+    - time: 13:40-15:00
+      lesson: ООП
+      lecturer: Ходжаєв
+      place: Онлайн
+  Tuesday:
+    - time: 09:00-10:20
+      lesson: АККС
+      lecturer: Таран
+      place: Онлайн
+    - time: 10:30-11:50
+      lesson: Чисмети
+      lecturer: Капічина
+      place: Онлайн
+    - time: 12:10-13:30
+      lesson: ІПЗ
+      lecturer: Степанюк
+      place: Онлайн
+  Wednesday:
+    - time: 09:00-10:20
+      lesson: Англ
+      lecturer: Руденко
+      place: Онлайн
+    - time: 10:30-11:50
+      lesson: ООП
+      lecturer: Ходжаєв
+      place: Онлайн
+    - time: 12:10-13:30
+      lesson: ОПАМ
+      lecturer: Степанюк
+      place: Онлайн
+    - time: 13:40-15:00
+      lesson: Матан
+      lecturer: Затула
+      place: Онлайн
+  Thursday:
+    - time: 09:00-10:20
+      lesson: ОПАМ
+      lecturer: Степанюк
+      place: Онлайн
+    - time: 10:30-11:50
+      lesson: Фізра
+      lecturer: Тільга
+      place: Онлайн
+    - time: 12:10-13:30
+      lesson: Чисмети
+      lecturer: Капічина
+      place: Онлайн
+    - time: 13:40-15:00
+      lesson: Дифури
+      lecturer: Затула
+      place: Онлайн
+  Friday:
+    - time: 09:00-10:20
+      lesson: Фран
+      lecturer: Мироненко
+      place: Онлайн
+    - time: 10:30-11:50
+      lesson: ІЗВП
+      lecturer: Дунаєв
+      place: Онлайн
+    - time: 12:10-13:30
+      lesson: ІПЗ
+      lecturer: Степанюк
+      place: Онлайн
+    - time: 13:40-15:00
+      lesson: ІАД
+      lecturer: Лумпова
+      place: Онлайн
+
+---
+specialty: ІПЗ
+course: 3
+group: 3
+week: 2
+days:
+  Monday:
+    - time: 10:30-11:50
+      lesson: Фран
+      lecturer: Мироненко
+      place: "10"
+    - time: 12:10-13:30
+      lesson: ІПЗ
+      lecturer: Степанюк
+      place: "26"
+    - time: 13:40-15:00
+      lesson: Чисмети
+      lecturer: Капічина
+      place: "39"
+
+  Tuesday:
+    - time: 13:40-15:00
+      lesson: ОПАМ
+      lecturer: Степанюк
+      place: "37"
+    - time: 15:10-16:30
+      lesson: АККС
+      lecturer: Таран
+      place: "26"
+
+  Wednesday:
+    - time: 12:10-13:30
+      lesson: ІПЗ
+      lecturer: Степанюк
+      place: "14"
+    - time: 13:40-15:00
+      lesson: Матан
+      lecturer: Затула
+      place: "39"
+
+  Thursday:
+    - time: 10:30-11:50
+      lesson: Фізра
+      lecturer: Тільга
+      place: "С3"
+    - time: 12:10-13:30
+      lesson: Дифури
+      lecturer: Затула
+      place: "37"
+  Friday:
+    - time: 09:00-10:20
+      lesson: ОПАМ
+      lecturer: Степанюк
+      place: "26"
+    - time: 10:30-11:50
+      lesson: ІЗВП
+      lecturer: Дунаєв
+      place: "-"
+    - time: 12:10-13:30
+      lesson: Англ
+      lecturer: Руденко
+      place: "39"
+    - time: 13:40-15:00
+      lesson: ООП
+      lecturer: Ходжаєв
+      place: "25"

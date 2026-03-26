@@ -34,7 +34,7 @@ class IDResolver:
         })
 
         venue_id = None
-        if row["place"] != "online":
+        if row["place"] != "Онлайн":
             venue_id = self._get_id(Venue, {"name": row["place"]})
 
         spec_id = self._get_id(Specialty, {"code": row["specialty"]})

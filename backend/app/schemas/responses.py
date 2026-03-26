@@ -10,7 +10,7 @@ class ScheduleEntrySchema(BaseModel):
     time_end: str
     lesson: str
     lecturer: str
-    location: str | None
+    venue: str | None
     url: str | None
     week: int
     group: str
@@ -23,7 +23,7 @@ class ScheduleEntrySchema(BaseModel):
             time_end=r.slot.time_end.strftime("%H:%M"),
             lesson=r.lesson.name,
             lecturer=r.lecturer.surname,
-            location=r.venue.name if r.venue else None,
+            venue=r.venue.name if r.venue else "online",
             url=r.lesson.url or None,
             week=r.week_id,
             group=f"{r.group.specialty.code}-{r.group.course}{r.group.group_number}",

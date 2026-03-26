@@ -7,83 +7,83 @@ days:
     - time: 09:00-10:20
       lesson: Фран
       lecturer: Мироненко
-      place: online
+      place: Онлайн
     - time: 10:30-11:50
       lesson: Англ
       lecturer: Руденко
-      place: online
+      place: Онлайн
     - time: 12:10-13:30
       lesson: ООП
       lecturer: Ходжаєв
-      place: online
+      place: Онлайн
     - time: 13:40-15:00
       lesson: ІАД
       lecturer: Лумпова
-      place: online
+      place: Онлайн
 
   Tuesday:
     - time: 09:00-10:20
       lesson: Чисмети
       lecturer: Капічина
-      place: online
+      place: Онлайн
     - time: 10:30-11:50
       lesson: АККС
       lecturer: Таран
-      place: online
+      place: Онлайн
     - time: 12:10-13:30
       lesson: ІЗВП
       lecturer: Таран
-      place: online
+      place: Онлайн
     - time: 13:40-15:00
       lesson: ІПЗ
       lecturer: Степанюк
-      place: online
+      place: Онлайн
 
   Wednesday:
     - time: 10:30-11:50
       lesson: Англ
       lecturer: Руденко
-      place: online
+      place: Онлайн
     - time: 12:10-13:30
       lesson: Матан
       lecturer: Затула
-      place: online
+      place: Онлайн
     - time: 13:40-15:00
       lesson: ООП
       lecturer: Ходжаєв
-      place: online
+      place: Онлайн
 
   Thursday:
     - time: 09:00-10:20
       lesson: Чисмети
       lecturer: Капічина
-      place: online
+      place: Онлайн
     - time: 10:30-11:50
       lesson: Дифури
       lecturer: Затула
-      place: online
+      place: Онлайн
     - time: 12:10-13:30
       lesson: ОПАМ
       lecturer: Степанюк
-      place: online
+      place: Онлайн
     - time: 13:40-15:00
       lesson: Фізра
       lecturer: Тільга
-      place: online
+      place: Онлайн
 
   Friday:
     - time: 10:30-11:50
       lesson: ІПЗ
       lecturer: Степанюк
-      place: online
+      place: Онлайн
     - time: 12:10-13:30
       lesson: ІАД
       lecturer: Лумпова
-      place: online
+      place: Онлайн
     - time: 13:40-15:00
       lesson: ОПАМ
       lecturer: Степанюк
-      place: online
+      place: Онлайн
 
 ---
 specialty: ІПЗ

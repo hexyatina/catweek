@@ -12,4 +12,5 @@ LECTURERS = [
     {"name": "", "surname": "Гаращенкo", "middle_name": ""},
     {"name": "", "surname": "Коваль", "middle_name": ""},
     {"name": "", "surname": "Лумпова", "middle_name": ""},
+    {"name": "", "surname": "Дунаєв", "middle_name": ""},
 ]

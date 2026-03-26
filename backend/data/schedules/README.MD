@@ -1,24 +1,26 @@
 # data/schedules/example.yaml
 
 ## Two documents separated by --- for Week 1 and Week 2
-
-specialty: ІПЗ | specialty_code
-course: 3
-group: 1
-week: 1 
+```
+specialty: ІПЗ | specialty_code  
+course: 3  
+group: 1  
+week: 1  
 days:
   Monday:
-    - time: 09:00-10:20
-      lesson: Матан | lesson_code
-      lecturer: Затула | surname
-      place: 11 | or "online"
-    - time: "10:30-11:50"
-      lesson: Фізра
-      lecturer: Тільга
-      place: online
+    - time: 09:00-10:20  
+      lesson: Матан | lesson_code  
+      lecturer: Затула | surname  
+      place: "11" | or Онлайн
+    - time: "10:30-11:50"  
+      lesson: Фізра  
+      lecturer: Тільга 
+      place: Онлайн
 
 ---
+```
 
+```
 # Template
 
 specialty:
@@ -30,28 +32,29 @@ days:
     - time:
       lesson:
       lecturer:
-      place:
+      place: ""
 
   Tuesday:
     - time:
       lesson:
       lecturer:
-      place:
+      place: ""
 
   Wednesday:
     - time:
       lesson:
       lecturer:
-      place:
+      place: ""
 
   Thursday:
     - time:
       lesson:
       lecturer:
-      place:
+      place: ""
 
   Friday:
     - time:
       lesson:
       lecturer:
-      place:
+      place: ""
+```

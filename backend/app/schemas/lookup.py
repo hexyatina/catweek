@@ -13,8 +13,8 @@ class SlotSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
-    time_start: int
-    time_end: int
+    time_start: str
+    time_end: str
     is_short: bool
 
     @classmethod

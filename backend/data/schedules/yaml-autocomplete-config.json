@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org",
+  "type": "object",
+  "properties": {
+    "specialty": { "type": "string" },
+    "course": { "type": "integer", "minimum": 1, "maximum": 4 },
+    "group": { "type": "integer" },
+    "week": { "type": "integer", "enum": [1, 2] },
+    "days": {
+      "type": "object",
+      "properties": {
+        "Monday": { "$ref": "#/definitions/daySchedule" },
+        "Tuesday": { "$ref": "#/definitions/daySchedule" },
+        "Wednesday": { "$ref": "#/definitions/daySchedule" },
+        "Thursday": { "$ref": "#/definitions/daySchedule" },
+        "Friday": { "$ref": "#/definitions/daySchedule" }
+      }
+    }
+  },
+  "definitions": {
+    "daySchedule": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Format: HH:MM-HH:MM",
+            "enum": [
+              "09:00-10:20", "10:30-11:50", "12:10-13:30", "13:40-15:00", "15:10-16:30",
+              "09:00-10:00", "10:10-11:10", "11:20-12:20", "12:30-13:30", "13:40-14:40"
+            ]
+          },
+          "lesson": {
+            "type": "string",
+            "enum": [
+              "Матан",
+              "Лінійка",
+              "ІПЗ",
+              "РПЗ",
+              "Укр",
+              "Англ",
+              "Фран",
+              "ОПАМ",
+              "Фізра",
+              "АККС",
+              "Ймовірності",
+              "Дискретка",
+              "ООП",
+              "ІАД",
+              "Чисмети",
+              "ІЗВП",
+              "Дифури"
+            ]
+          },
+          "lecturer": {
+            "type": "string",
+            "enum": [
+              "Затула",
+              "Капічина",
+              "Степанюк",
+              "Ходжаєв",
+              "Головай",
+              "Руденко",
+              "Тільга",
+              "Таран",
+              "Мироненко",
+              "Герасимович",
+              "Гаращенкo",
+              "Коваль",
+              "Лумпова",
+              "Дунаєв"
+            ]
+          },
+          "place": {
+            "anyOf": [
+              {
+                "enum": ["Онлайн"],
+                "title": "Suggested"
+              },
+              {
+                "type": "string",
+                "title": "Custom location (Room, Link, etc.)"
+              }
+            ]
+          }
+        },
+        "required": ["time", "lesson", "lecturer", "place"]
+      }
+    }
+  }
+}
