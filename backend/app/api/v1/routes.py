@@ -1,11 +1,50 @@
 from flask import request, jsonify, Blueprint
+from sqlalchemy import text
 from app.repositories import ScheduleRepository, LookupRepository
 from app.schemas import *
+from app.extensions import db
 
 
 
 schedule_bp = Blueprint('schedule', __name__)
 lookup_bp = Blueprint('lookup', __name__, url_prefix='/lookup')
+
+system_bp = Blueprint('system', __name__)
+
+
+@system_bp.route("/health", methods=["GET"])
+def health():
+    """
+    Check the system health and database connectivity.
+    ---
+    responses:
+      200:
+        description: System is healthy
+        schema:
+          properties:
+            status:
+              type: string
+              example: ok
+            database:
+              type: string
+              example: ok
+      500:
+        description: System or Database error
+    """
+    status = {
+        "status": "ok",
+        "database": "ok"
+    }
+    try:
+        db.session.execute(text("SELECT 1")).scalar()
+        db.session.rollback()
+    except Exception as e:
+        status["status"] = "error"
+        status["database"] = "error"
+        status["error"] = str(e)
+        return jsonify(status), 500
+
+    return jsonify(status)
 
 @schedule_bp.route("/schedule", methods=["GET"])
 def get_schedule():

@@ -1,17 +1,21 @@
 FROM python:3.13-slim
 
-RUN pip install uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvbin/uv
+ENV PATH="/uvbin:${PATH}"
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=COPY
 
 WORKDIR /app
 
 COPY pyproject.toml uv.lock ./
-
-RUN uv sync --frozen --no-dev
+RUN uv sync --frozen --no-dev --no-install-project
 
 COPY . .
 
 RUN chmod +x entrypoint.sh
-
 EXPOSE 5000
 
-CMD ["./entrypoint.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]
