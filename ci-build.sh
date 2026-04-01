@@ -27,6 +27,6 @@ if [ $COUNT -eq $MAX_RETRIES ]; then
 fi
 
 echo "Smoke test passed!"
-docker compose -f docker-compose.backend.yaml down
+docker compose -f docker/docker-compose.backend.yaml down
 
 echo "CI Complete. Image $FULL_IMAGE is ready for registry."
