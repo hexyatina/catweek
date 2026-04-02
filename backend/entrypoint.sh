@@ -2,17 +2,11 @@
 set -e
 
 echo "Waiting for database..."
-MAX_WAIT=30
-COUNT=0
-until uv run python -c "import psycopg, os; psycopg.connect(os.environ['DATABASE_LOCAL'])" > /dev/null 2>&1; do
-    if [ "$COUNT" -ge "$MAX_WAIT" ]; then
-        echo "Database never became ready, exiting."
-        exit 1
-    fi
-    echo "DB not ready yet - sleeping ($COUNT/$MAX_WAIT)"
-    sleep 2
-    COUNT=$((COUNT+1))
+until uv run flask db current > /dev/null 2>&1; do
+  echo "DB not ready yet - sleeping"
+  sleep 2
 done
+
 
 echo "Running migrations..."
 uv run flask db upgrade

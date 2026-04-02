@@ -14,7 +14,6 @@ COPY pyproject.toml uv.lock ./
 RUN uv sync --frozen --no-dev --no-install-project
 
 COPY . .
-RUN uv sync --frozen --no-dev
 
 RUN chmod +x entrypoint.sh
 EXPOSE 5000
