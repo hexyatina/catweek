@@ -2,9 +2,16 @@
 set -e
 
 echo "Waiting for database..."
+
+if [ "$ENV" = "prod" ]; then
+    DB_URL="$DATABASE_REMOTE_DIRECT"
+else
+    DB_URL="$DATABASE_LOCAL"
+fi
+
 MAX_WAIT=30
 COUNT=0
-until uv run python -c "import psycopg, os; psycopg.connect(os.environ['DATABASE_LOCAL'])" > /dev/null 2>&1; do
+until uv run python -c "import psycopg; psycopg.connect('$DB_URL')" > /dev/null 2>&1; do
     if [ "$COUNT" -ge "$MAX_WAIT" ]; then
         echo "Database never became ready, exiting."
         exit 1
@@ -13,6 +20,7 @@ until uv run python -c "import psycopg, os; psycopg.connect(os.environ['DATABASE
     sleep 2
     COUNT=$((COUNT+1))
 done
+
 
 echo "Running migrations..."
 uv run flask db upgrade
