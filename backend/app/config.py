@@ -8,6 +8,7 @@ class Settings(BaseSettings):
 
     HOST: str = Field(default="0.0.0.0")
     PORT: int = Field(default=5000)
+    WORKERS: int = Field(default=4)
 
     DATABASE_LOCAL: str = Field(default=...)
     DATABASE_REMOTE: str = Field(default="")

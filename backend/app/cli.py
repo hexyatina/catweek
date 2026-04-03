@@ -70,3 +70,8 @@ def seed_if_empty():
             click.secho(f"Seed failed: {e}", fg="red")
     else:
         click.echo("Data.exists, skipping seed.")
+
+@manage_cli.command("test-db-conn")
+def test_db_conn():
+    """Tests database connection"""
+    DatabaseService.test_connection()

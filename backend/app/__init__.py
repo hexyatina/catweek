@@ -12,10 +12,6 @@ def create_app():
 
     configure_logging(app)
 
-    from .extensions import logger as ext_logger
-    ext_logger.info("--- LOGGING TEST START ---")  # Check if this appears in app.log
-
-
     app.config["SQLALCHEMY_DATABASE_URI"] = settings.DATABASE_URL
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 

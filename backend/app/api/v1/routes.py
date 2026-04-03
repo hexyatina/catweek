@@ -1,9 +1,9 @@
 from flask import request, jsonify, Blueprint
 from sqlalchemy import text
+from app import settings
 from app.repositories import ScheduleRepository, LookupRepository
 from app.schemas import *
 from app.extensions import db
-
 
 
 schedule_bp = Blueprint('schedule', __name__)
@@ -35,18 +35,18 @@ def health():
     """
     status = {
         "status": "ok",
-        "database": "ok"
+        "database": "ok",
+        "env": settings.ENV
     }
     try:
-        db.session.execute(text("SELECT 1")).scalar()
-        db.session.rollback()
+        db.session.execute(text("SELECT 1"), execution_options={"timeout": 5})
     except Exception as e:
         status["status"] = "error"
         status["database"] = "error"
         status["error"] = str(e)
         return jsonify(status), 500
 
-    return jsonify(status)
+    return jsonify(status), 200
 
 @schedule_bp.route("/schedule", methods=["GET"])
 def get_schedule():
