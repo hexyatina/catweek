@@ -17,6 +17,8 @@ def health():
     """
     Check the system health and database connectivity.
     ---
+    tags:
+      - System
     responses:
       200:
         description: System is healthy

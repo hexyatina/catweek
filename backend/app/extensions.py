@@ -1,10 +1,12 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flasgger import Swagger
+import logging
 from .models import Base
 
 db = SQLAlchemy(model_class=Base)
 migrate = Migrate()
+logger = logging.getLogger("catweek")
 
 swagger_template = {
     "swagger": "2.0",

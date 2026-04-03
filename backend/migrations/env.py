@@ -2,8 +2,10 @@ import logging
 from logging.config import fileConfig
 
 from flask import current_app
-from sqlalchemy import create_engine
+
 from alembic import context
+
+from app.models import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -14,6 +16,7 @@ config = context.config
 fileConfig(config.config_file_name)
 logger = logging.getLogger('alembic.env')
 
+target_metadata = Base.metadata
 
 def get_engine():
     try:
@@ -65,7 +68,11 @@ def run_migrations_offline():
     """
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
-        url=url, target_metadata=get_metadata(), literal_binds=True
+        url=url,
+        target_metadata=target_metadata,
+        include_schemas=True,
+        literal_binds=True,
+        version_table_schema='public'
     )
 
     with context.begin_transaction():
@@ -94,14 +101,14 @@ def run_migrations_online():
     if conf_args.get("process_revision_directives") is None:
         conf_args["process_revision_directives"] = process_revision_directives
 
-    from app.config import settings
-    connectable = create_engine(settings.DATABASE_URL_DIRECT)
+    connectable = get_engine()
 
     with connectable.connect() as connection:
         context.configure(
             connection=connection,
-            target_metadata=get_metadata(),
-            **conf_args
+            target_metadata=target_metadata,
+            include_schemas=True,
+            version_table_schema='public'
         )
 
         with context.begin_transaction():

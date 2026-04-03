@@ -1,0 +1,399 @@
+[2026-04-03 16:09:29,369] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:10:06,518] ERROR: (psycopg.errors.UndefinedColumn) column specialties.number does not exist
+LINE 1: ...dule.specialties.name, schedule.specialties.code, schedule.s...
+                                                             ^
+HINT:  Perhaps you meant to reference the column "specialties.name".
+[SQL: SELECT schedule.specialties.specialty_id, schedule.specialties.name, schedule.specialties.code, schedule.specialties.number 
+FROM schedule.specialties ORDER BY schedule.specialties.specialty_id]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\psycopg\cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+psycopg.errors.UndefinedColumn: column specialties.number does not exist
+LINE 1: ...dule.specialties.name, schedule.specialties.code, schedule.s...
+                                                             ^
+HINT:  Perhaps you meant to reference the column "specialties.name".
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\app\api\v1\routes.py", line 154, in get_specialties
+    for r in LookupRepository.get_specialties()
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\app\repositories\lookup.py", line 22, in get_specialties
+    return db.session.scalars(
+           ~~~~~~~~~~~~~~~~~~^
+        select(Specialty).order_by(Specialty.id)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ).all()
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\scoping.py", line 1891, in scalars
+    return self._proxied.scalars(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        **kw,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2459, in scalars
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        **kw,
+        ^^^^^
+    ).scalars()
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\psycopg\cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+sqlalchemy.exc.ProgrammingError: (psycopg.errors.UndefinedColumn) column specialties.number does not exist
+LINE 1: ...dule.specialties.name, schedule.specialties.code, schedule.s...
+                                                             ^
+HINT:  Perhaps you meant to reference the column "specialties.name".
+[SQL: SELECT schedule.specialties.specialty_id, schedule.specialties.name, schedule.specialties.code, schedule.specialties.number 
+FROM schedule.specialties ORDER BY schedule.specialties.specialty_id]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+[2026-04-03 16:17:15,175] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:17:39,318] ERROR: (psycopg.errors.UndefinedColumn) column specialties.number does not exist
+LINE 1: ...dule.specialties.name, schedule.specialties.code, schedule.s...
+                                                             ^
+HINT:  Perhaps you meant to reference the column "specialties.name".
+[SQL: SELECT schedule.specialties.specialty_id, schedule.specialties.name, schedule.specialties.code, schedule.specialties.number 
+FROM schedule.specialties ORDER BY schedule.specialties.specialty_id]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\psycopg\cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+psycopg.errors.UndefinedColumn: column specialties.number does not exist
+LINE 1: ...dule.specialties.name, schedule.specialties.code, schedule.s...
+                                                             ^
+HINT:  Perhaps you meant to reference the column "specialties.name".
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\app\api\v1\routes.py", line 154, in get_specialties
+    for r in LookupRepository.get_specialties()
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\app\repositories\lookup.py", line 22, in get_specialties
+    return db.session.scalars(
+           ~~~~~~~~~~~~~~~~~~^
+        select(Specialty).order_by(Specialty.id)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ).all()
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\scoping.py", line 1891, in scalars
+    return self._proxied.scalars(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        **kw,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2459, in scalars
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        **kw,
+        ^^^^^
+    ).scalars()
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\psycopg\cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+sqlalchemy.exc.ProgrammingError: (psycopg.errors.UndefinedColumn) column specialties.number does not exist
+LINE 1: ...dule.specialties.name, schedule.specialties.code, schedule.s...
+                                                             ^
+HINT:  Perhaps you meant to reference the column "specialties.name".
+[SQL: SELECT schedule.specialties.specialty_id, schedule.specialties.name, schedule.specialties.code, schedule.specialties.number 
+FROM schedule.specialties ORDER BY schedule.specialties.specialty_id]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+[2026-04-03 16:18:08,767] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:18:16,127] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:18:53,675] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:19:04,602] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:19:20,119] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:19:28,334] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:19:36,220] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:19:50,682] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:20:09,516] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:20:21,336] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:20:51,857] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:20:57,828] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:21:13,159] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:21:21,258] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:21:35,753] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:22:11,946] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:44:18,522] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:44:58,410] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:45:19,693] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:45:29,092] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:50:54,088] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:55:02,706] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:55:18,246] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:57:49,042] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:58:09,861] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:58:23,099] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:59:00,005] INFO: --- LOGGING TEST START ---
+[2026-04-03 16:59:17,809] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:00:13,886] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:00:21,795] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:01:31,344] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:01:33,152] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:02:03,736] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:02:05,597] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:02:37,582] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:02:39,610] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:02:41,513] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:02:43,460] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:02:48,705] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:02:49,838] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:24:40,228] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:26:27,131] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:30:55,285] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:31:00,703] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:31:13,609] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:31:57,101] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:32:03,439] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:32:17,418] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:33:30,902] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:35:52,599] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:35:54,837] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:36:28,965] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:37:03,747] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:37:15,221] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:37:25,869] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:42:47,372] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:42:57,552] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:43:25,660] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:45:07,549] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:45:20,442] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:47:24,127] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:47:38,208] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:47:55,421] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:48:14,507] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:48:37,397] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:48:49,063] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:49:06,882] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:49:13,243] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:49:42,274] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:50:00,896] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:50:08,732] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:50:42,819] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:50:47,714] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:51:17,891] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:51:22,758] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:51:32,949] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:51:38,410] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:51:45,309] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:52:03,306] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:52:27,233] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:52:42,454] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:59:41,420] INFO: --- LOGGING TEST START ---
+[2026-04-03 17:59:48,227] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:00:33,662] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:00:41,568] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:01:16,024] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:01:40,014] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:01:54,368] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:01:58,661] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:03:08,276] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:03:13,951] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:03:25,268] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:03:34,161] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:04:11,995] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:04:16,213] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:04:20,062] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:04:23,046] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:05:36,538] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:05:58,877] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:06:16,912] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:06:27,594] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:07:00,447] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:07:13,482] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:10:39,533] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:10:49,052] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:10:57,125] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:11:06,939] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:13:22,958] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:13:39,407] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:13:55,449] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:15:06,250] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:15:07,600] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:15:37,218] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:16:57,178] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:17:06,210] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:17:49,820] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:19:57,538] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:23:29,622] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:23:35,216] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:25:41,929] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:25:57,070] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:26:59,972] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:27:11,315] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:28:46,725] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:28:59,059] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:29:07,922] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:31:11,593] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:31:18,533] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:31:31,325] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:31:39,052] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:31:47,920] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:32:05,536] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:32:11,616] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:32:24,085] INFO: --- LOGGING TEST START ---
+[2026-04-03 18:32:32,244] INFO: --- LOGGING TEST START ---

@@ -1,13 +1,20 @@
 from flask import Flask, request, jsonify, redirect
-from .extensions import db, migrate, swagger
+from .extensions import db, migrate, swagger, logger
 from .config import settings
 from .cli import manage_cli
 from . import models
 from .api import api_bp
+from .utils import configure_logging
 
 def create_app():
 
     app = Flask(__name__)
+
+    configure_logging(app)
+
+    from .extensions import logger as ext_logger
+    ext_logger.info("--- LOGGING TEST START ---")  # Check if this appears in app.log
+
 
     app.config["SQLALCHEMY_DATABASE_URI"] = settings.DATABASE_URL
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -38,5 +45,10 @@ def create_app():
     @app.route("/")
     def to_docs():
         return redirect("/apidocs/")
+
+    @app.errorhandler(Exception)
+    def handle_exception(e):
+        logger.exception(e)
+        return jsonify({"error": "Internal Server Error"}), 500
 
     return app
