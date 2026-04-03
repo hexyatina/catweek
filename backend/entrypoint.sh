@@ -20,7 +20,7 @@ if [ "$ENV" = "prod" ]; then
     echo "Running Gunicorn (production)"
     exec uv run gunicorn \
         --bind "0.0.0.0:${PORT}" \
-        --workers "${WORKERS}" \
+        --workers "${WORKERS:-4}" \
         --timeout 120 \
         wsgi:app
 else
