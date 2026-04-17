@@ -10,11 +10,11 @@ class DatabaseService:
 
     @staticmethod
     def _direct_engine():
-        return create_engine(settings.DATABASE_URL_DIRECT)
+        return create_engine(settings.get_database_url(direct=True))
 
     @staticmethod
     def test_connection():
-        masked_url = settings.DATABASE_URL_DIRECT.split("@")[-1]
+        masked_url = settings.get_database_url(direct=True).split("@")[-1]
 
         print(f"DEBUG: Attempting to connect to {masked_url}")
 

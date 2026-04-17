@@ -1,6 +1,6 @@
 from flask import request, jsonify, Blueprint
 from sqlalchemy import text
-from app import settings
+from app.config import settings
 from app.repositories import ScheduleRepository, LookupRepository
 from app.schemas import *
 from app.extensions import db

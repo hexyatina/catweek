@@ -399,3 +399,491 @@ FROM schedule.specialties ORDER BY schedule.specialties.specialty_id]
 [2026-04-03 18:32:32,244] INFO: --- LOGGING TEST START ---
 [2026-04-03 20:12:35,416] INFO: --- LOGGING TEST START ---
 [2026-04-03 20:12:38,489] INFO: --- LOGGING TEST START ---
+[2026-04-17 23:07:39,741] INFO: Running in PRODUCTION MODE
+[2026-04-17 23:08:24,655] INFO: Running in PRODUCTION MODE at 5000
+[2026-04-17 23:08:29,401] ERROR: Exception on / [GET]
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 471, in _after_request
+    self._set_csrf_cookie(response)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 483, in _set_csrf_cookie
+    session[self._csrf_name] = csrf_token
+    ~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\sessions.py", line 90, in _fail
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+RuntimeError: The session is unavailable because no secret key was set.  Set the secret_key on the application to something unique and secret.
+[2026-04-17 23:08:29,404] ERROR: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 471, in _after_request
+    self._set_csrf_cookie(response)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 483, in _set_csrf_cookie
+    session[self._csrf_name] = csrf_token
+    ~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\sessions.py", line 90, in _fail
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+RuntimeError: The session is unavailable because no secret key was set.  Set the secret_key on the application to something unique and secret.
+[2026-04-17 23:08:29,405] ERROR: Request finalizing failed with an error while handling an error
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 471, in _after_request
+    self._set_csrf_cookie(response)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 483, in _set_csrf_cookie
+    session[self._csrf_name] = csrf_token
+    ~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\sessions.py", line 90, in _fail
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+RuntimeError: The session is unavailable because no secret key was set.  Set the secret_key on the application to something unique and secret.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 471, in _after_request
+    self._set_csrf_cookie(response)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 483, in _set_csrf_cookie
+    session[self._csrf_name] = csrf_token
+    ~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\sessions.py", line 90, in _fail
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+RuntimeError: The session is unavailable because no secret key was set.  Set the secret_key on the application to something unique and secret.
+[2026-04-17 23:08:29,482] ERROR: Exception on /favicon.ico [GET]
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flasgger\base.py", line 688, in after_request
+    for header, value in self.config.get('headers'):
+                         ~~~~~~~~~~~~~~~^^^^^^^^^^^
+TypeError: 'NoneType' object is not iterable
+[2026-04-17 23:08:29,485] ERROR: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flasgger\base.py", line 688, in after_request
+    for header, value in self.config.get('headers'):
+                         ~~~~~~~~~~~~~~~^^^^^^^^^^^
+TypeError: 'NoneType' object is not iterable
+[2026-04-17 23:08:29,486] ERROR: Request finalizing failed with an error while handling an error
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flasgger\base.py", line 688, in after_request
+    for header, value in self.config.get('headers'):
+                         ~~~~~~~~~~~~~~~^^^^^^^^^^^
+TypeError: 'NoneType' object is not iterable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flasgger\base.py", line 688, in after_request
+    for header, value in self.config.get('headers'):
+                         ~~~~~~~~~~~~~~~^^^^^^^^^^^
+TypeError: 'NoneType' object is not iterable
+[2026-04-17 23:08:57,598] ERROR: Exception on / [GET]
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 471, in _after_request
+    self._set_csrf_cookie(response)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 483, in _set_csrf_cookie
+    session[self._csrf_name] = csrf_token
+    ~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\sessions.py", line 90, in _fail
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+RuntimeError: The session is unavailable because no secret key was set.  Set the secret_key on the application to something unique and secret.
+[2026-04-17 23:08:57,599] ERROR: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 471, in _after_request
+    self._set_csrf_cookie(response)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 483, in _set_csrf_cookie
+    session[self._csrf_name] = csrf_token
+    ~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\sessions.py", line 90, in _fail
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+RuntimeError: The session is unavailable because no secret key was set.  Set the secret_key on the application to something unique and secret.
+[2026-04-17 23:08:57,602] ERROR: Request finalizing failed with an error while handling an error
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 471, in _after_request
+    self._set_csrf_cookie(response)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 483, in _set_csrf_cookie
+    session[self._csrf_name] = csrf_token
+    ~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\sessions.py", line 90, in _fail
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+RuntimeError: The session is unavailable because no secret key was set.  Set the secret_key on the application to something unique and secret.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 471, in _after_request
+    self._set_csrf_cookie(response)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 483, in _set_csrf_cookie
+    session[self._csrf_name] = csrf_token
+    ~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\sessions.py", line 90, in _fail
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+RuntimeError: The session is unavailable because no secret key was set.  Set the secret_key on the application to something unique and secret.
+[2026-04-17 23:08:57,644] ERROR: Exception on /favicon.ico [GET]
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flasgger\base.py", line 688, in after_request
+    for header, value in self.config.get('headers'):
+                         ~~~~~~~~~~~~~~~^^^^^^^^^^^
+TypeError: 'NoneType' object is not iterable
+[2026-04-17 23:08:57,645] ERROR: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flasgger\base.py", line 688, in after_request
+    for header, value in self.config.get('headers'):
+                         ~~~~~~~~~~~~~~~^^^^^^^^^^^
+TypeError: 'NoneType' object is not iterable
+[2026-04-17 23:08:57,646] ERROR: Request finalizing failed with an error while handling an error
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flasgger\base.py", line 688, in after_request
+    for header, value in self.config.get('headers'):
+                         ~~~~~~~~~~~~~~~^^^^^^^^^^^
+TypeError: 'NoneType' object is not iterable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flasgger\base.py", line 688, in after_request
+    for header, value in self.config.get('headers'):
+                         ~~~~~~~~~~~~~~~^^^^^^^^^^^
+TypeError: 'NoneType' object is not iterable
+[2026-04-17 23:11:27,855] ERROR: Exception on / [GET]
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 471, in _after_request
+    self._set_csrf_cookie(response)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 483, in _set_csrf_cookie
+    session[self._csrf_name] = csrf_token
+    ~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\sessions.py", line 90, in _fail
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+RuntimeError: The session is unavailable because no secret key was set.  Set the secret_key on the application to something unique and secret.
+[2026-04-17 23:11:27,856] ERROR: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 471, in _after_request
+    self._set_csrf_cookie(response)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 483, in _set_csrf_cookie
+    session[self._csrf_name] = csrf_token
+    ~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\sessions.py", line 90, in _fail
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+RuntimeError: The session is unavailable because no secret key was set.  Set the secret_key on the application to something unique and secret.
+[2026-04-17 23:11:27,860] ERROR: Request finalizing failed with an error while handling an error
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 471, in _after_request
+    self._set_csrf_cookie(response)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 483, in _set_csrf_cookie
+    session[self._csrf_name] = csrf_token
+    ~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\sessions.py", line 90, in _fail
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+RuntimeError: The session is unavailable because no secret key was set.  Set the secret_key on the application to something unique and secret.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 471, in _after_request
+    self._set_csrf_cookie(response)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask_seasurf.py", line 483, in _set_csrf_cookie
+    session[self._csrf_name] = csrf_token
+    ~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\sessions.py", line 90, in _fail
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+RuntimeError: The session is unavailable because no secret key was set.  Set the secret_key on the application to something unique and secret.
+[2026-04-17 23:11:27,901] ERROR: Exception on /favicon.ico [GET]
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flasgger\base.py", line 688, in after_request
+    for header, value in self.config.get('headers'):
+                         ~~~~~~~~~~~~~~~^^^^^^^^^^^
+TypeError: 'NoneType' object is not iterable
+[2026-04-17 23:11:27,902] ERROR: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flasgger\base.py", line 688, in after_request
+    for header, value in self.config.get('headers'):
+                         ~~~~~~~~~~~~~~~^^^^^^^^^^^
+TypeError: 'NoneType' object is not iterable
+[2026-04-17 23:11:27,903] ERROR: Request finalizing failed with an error while handling an error
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flasgger\base.py", line 688, in after_request
+    for header, value in self.config.get('headers'):
+                         ~~~~~~~~~~~~~~~^^^^^^^^^^^
+TypeError: 'NoneType' object is not iterable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flasgger\base.py", line 688, in after_request
+    for header, value in self.config.get('headers'):
+                         ~~~~~~~~~~~~~~~^^^^^^^^^^^
+TypeError: 'NoneType' object is not iterable
+[2026-04-17 23:16:31,483] ERROR: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 891, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 500, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\werkzeug\routing\map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2026-04-17 23:20:49,242] ERROR: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 891, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 500, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\werkzeug\routing\map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2026-04-17 23:20:53,646] ERROR: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 891, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 500, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\werkzeug\routing\map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2026-04-17 23:20:53,687] ERROR: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 891, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 500, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\werkzeug\routing\map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.

@@ -1,9 +1,10 @@
 from typing import Literal
+
 from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-class Settings(BaseSettings):
 
+class Settings(BaseSettings):
     ENV: Literal["dev", "prod"] = "dev"
 
     HOST: str = Field(default="0.0.0.0")
@@ -14,6 +15,8 @@ class Settings(BaseSettings):
     DATABASE_REMOTE: str = Field(default="")
     DATABASE_REMOTE_DIRECT: str = Field(default="")
     API_KEY: str = Field(default="")
+
+    ALLOWED_ORIGINS: list[str] = Field(default=["*"])
 
     # SECRET_KEY: str = Field(default="")
 
@@ -31,16 +34,13 @@ class Settings(BaseSettings):
                 raise ValueError(f"Required in prod .env variables missing: {', '.join(missing)}")
         return self
 
-    @property
-    def DATABASE_URL(self) -> str:
-        return self.DATABASE_REMOTE if self.ENV == "prod" else self.DATABASE_LOCAL
+    def get_database_url(self, direct: bool = False) -> str:
+        if self.ENV == "dev":
+            return self.DATABASE_LOCAL
+        return self.DATABASE_REMOTE_DIRECT if direct else self.DATABASE_REMOTE
 
     @property
-    def DATABASE_URL_DIRECT(self) -> str:
-        return self.DATABASE_REMOTE_DIRECT  if self.ENV == "prod" else self.DATABASE_LOCAL
-
-    @property
-    def DEBUG(self) -> bool:
+    def debug(self) -> bool:
         return self.ENV == "dev"
 
     model_config = SettingsConfigDict(

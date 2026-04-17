@@ -7,9 +7,9 @@ from pathlib import Path
 class ScheduleService:
 
     @staticmethod
-    def import_schedule_yaml(file_path: str):
+    def import_schedule_yaml(file_path_str: str):
 
-        file_path = Path(file_path)
+        file_path = Path(file_path_str)
 
         raw_data = load_and_normalize_all_yaml(file_path)
         resolver = IDResolver()
