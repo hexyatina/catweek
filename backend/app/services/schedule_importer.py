@@ -1,9 +1,13 @@
-from sqlalchemy import delete
-from ..utils import load_and_normalize_all_yaml, IDResolver
-from ..extensions import db
-from ..models import Schedule
 from pathlib import Path
 
+from sqlalchemy import delete
+
+from ..extensions import db
+from ..models import Schedule
+from ..utils import load_and_normalize_all_yaml, IDResolver
+
+
+# TODO: remake the commands
 class ScheduleService:
 
     @staticmethod

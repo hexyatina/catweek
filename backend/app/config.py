@@ -1,11 +1,15 @@
+import logging
 from typing import Literal
 
 from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+logger = logging.getLogger(__name__)
+
 
 class Settings(BaseSettings):
-    ENV: Literal["dev", "prod"] = "dev"
+    APP_ENV: Literal["dev", "prod"] = "dev"
+    DB_ENV: Literal["local", "remote"] = "local"
 
     HOST: str = Field(default="0.0.0.0")
     PORT: int = Field(default=5000)
@@ -17,31 +21,9 @@ class Settings(BaseSettings):
     API_KEY: str = Field(default="")
 
     ALLOWED_ORIGINS: list[str] = Field(default=["*"])
+    FORCE_HTTPS: bool = Field(default=True)
 
     # SECRET_KEY: str = Field(default="")
-
-    @model_validator(mode='after')
-    def check_prod_fields(self) -> "Settings":
-        if self.ENV == "prod":
-            missing = []
-            if not self.DATABASE_REMOTE:
-                missing.append("DATABASE_REMOTE")
-            if not self.DATABASE_REMOTE_DIRECT:
-                missing.append("DATABASE_REMOTE_DIRECT")
-            if not self.API_KEY:
-                missing.append("API_KEY")
-            if missing:
-                raise ValueError(f"Required in prod .env variables missing: {', '.join(missing)}")
-        return self
-
-    def get_database_url(self, direct: bool = False) -> str:
-        if self.ENV == "dev":
-            return self.DATABASE_LOCAL
-        return self.DATABASE_REMOTE_DIRECT if direct else self.DATABASE_REMOTE
-
-    @property
-    def debug(self) -> bool:
-        return self.ENV == "dev"
 
     model_config = SettingsConfigDict(
         case_sensitive=True,
@@ -49,12 +31,49 @@ class Settings(BaseSettings):
         extra="ignore"
     )
 
+    @model_validator(mode='after')
+    def check_prod_fields(self) -> "Settings":
+        if self.APP_ENV != "prod":
+            return self
 
-try:
-    settings = Settings()
-except Exception as e:
-    raise RuntimeError(
-        f"\n Configuration error: {e}"
-        f"\n Missing environment variables."
-        f"\n See .env.example for reference.\n"
-    ) from None
+        missing = [
+            field
+            for field, value in {
+                "DATABASE_REMOTE": self.DATABASE_REMOTE,
+                "DATABASE_REMOTE_DIRECT": self.DATABASE_REMOTE_DIRECT,
+                "API_KEY": self.API_KEY,
+            }.items()
+            if not value
+        ]
+
+        if missing:
+            raise ValueError(f"Missing required prod variables: {', '.join(missing)}")
+        return self
+
+    def get_database_url(self, direct: bool = False) -> str:
+        if self.DB_ENV == "local":
+            return self.DATABASE_LOCAL
+        return self.DATABASE_REMOTE_DIRECT if direct else self.DATABASE_REMOTE
+
+    @property
+    def debug(self) -> bool:
+        return self.APP_ENV == "dev"
+
+
+def _load_settings() -> Settings:
+    try:
+        s = Settings()
+        logger.debug(
+            "Config loaded - env=%s db_target=%s debug=%s",
+            s.APP_ENV, s.DB_ENV, s.debug
+        )
+        return s
+    except Exception as e:
+        logger.critical("Failed to load settings: %s", e)
+        raise RuntimeError(
+            f"\n Configuration error: {e}"
+            f"\n See .env.example for reference.\n"
+        ) from None
+
+
+settings = _load_settings()

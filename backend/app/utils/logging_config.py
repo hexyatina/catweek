@@ -1,21 +1,43 @@
 import logging
 import os
 from logging.handlers import RotatingFileHandler
-from ..extensions import logger as ext_logger
 
-def configure_logging(app):
-    if not os.path.exists('logs'):
-        os.mkdir('logs')
+def configure_logging(app) -> None:
+    root = logging.getLogger()
+    if getattr(app, "_logging_configured", False):
+        return
+    level = logging.DEBUG if app.config["DEBUG"] else logging.INFO
 
-    ext_logger.setLevel(logging.INFO)
+    formatter = logging.Formatter(
+        "[%(asctime)s] %(levelname)-8s %(name)s: %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
 
-    formatter = logging.Formatter('[%(asctime)s] %(levelname)s: %(message)s')
+    for handler in root.handlers[:]:
+        root.removeHandler(handler)
 
-    file_handler = RotatingFileHandler('logs/catweek.log', maxBytes=10 ** 6, backupCount=5)
-    file_handler.setFormatter(formatter)
-    file_handler.setLevel(logging.INFO)
+    handlers: list[logging.Handler] = []
 
-    ext_logger.addHandler(file_handler)
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(formatter)
+    handlers.append(stream_handler)
 
-    app.logger.addHandler(file_handler)
-    app.logger.setLevel(logging.INFO)
+    if not app.config["DEBUG"]:
+        os.makedirs("logs", exist_ok=True)
+        file_handler = RotatingFileHandler(
+            "logs/app.log", maxBytes=10 ** 6, backupCount=5
+        )
+        file_handler.setFormatter(formatter)
+        handlers.append(file_handler)
+
+
+    root.setLevel(level)
+    for handler in root.handlers:
+        handler.setLevel(level)
+        root.addHandler(handler)
+
+    logging.getLogger("sqlalchemy.engine").setLevel(
+        logging.INFO if app.config["DEBUG"] else logging.WARNING
+    )
+
+    app._logging_configured = True

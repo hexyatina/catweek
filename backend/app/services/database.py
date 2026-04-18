@@ -1,11 +1,15 @@
 import time
-from sqlalchemy import text, create_engine
-from ..extensions import db
-from ..models import Base, Day, Slot, Venue, Lecturer, Lesson, Specialty, StudentGroup
-from ..data import DAYS, SLOTS, VENUES, LECTURERS, LESSONS, SPECIALTIES, STUDENT_GROUPS
-from flask_migrate import upgrade
-from ..config import settings
 
+from flask_migrate import upgrade
+from sqlalchemy import text, create_engine
+
+from ..config import settings
+from ..data import DAYS, SLOTS, VENUES, LECTURERS, LESSONS, SPECIALTIES, STUDENT_GROUPS
+from ..extensions import db, Base
+from ..models import Day, Slot, Venue, Lecturer, Lesson, Specialty, StudentGroup
+
+
+# TODO: remake the commands
 class DatabaseService:
 
     @staticmethod

@@ -1,9 +1,14 @@
 import hmac
+import logging
+
 from flask import request, jsonify
-from ..extensions import logger
+
 from ..config import settings
 
+logger = logging.getLogger(__name__)
+
 EXEMPT_PREFIXES = {"/", "/apidocs", "/apispec", "/flasgger_static"}
+
 
 def require_api_key():
     if any(request.path == p or request.path.startswith(p) for p in EXEMPT_PREFIXES):
@@ -16,9 +21,11 @@ def require_api_key():
         return response, 401
     return None
 
+
 def handle_http_exception(e):
     """Handles Flask/Werkzeug HTTP errors"""
     return jsonify({"error": e.description}), e.code
+
 
 def handle_exception(e):
     """Catches all unhandled exceptions"""

@@ -1,19 +1,21 @@
-from typing import Optional
 from datetime import time as dt_time
+from typing import Optional
+
 from sqlalchemy import (
-    String, Time, Index, ForeignKey, MetaData,
+    String, Time, Index, ForeignKey,
     CheckConstraint, UniqueConstraint,
 )
-from sqlalchemy.orm import Mapped, mapped_column, relationship, DeclarativeBase
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-class Base(DeclarativeBase):
-    metadata = MetaData(schema="schedule")
+from ..extensions import Base
+
 
 class Day(Base):
     __tablename__ = "days"
     id: Mapped[int] = mapped_column("day_id", primary_key=True)
     name_uk: Mapped[str] = mapped_column(String(100), unique=True)
     name_en: Mapped[str] = mapped_column(String(100), unique=True)
+
 
 class Lecturer(Base):
     __tablename__ = "lecturers"
@@ -22,12 +24,14 @@ class Lecturer(Base):
     surname: Mapped[str] = mapped_column(String(100))
     middle_name: Mapped[str] = mapped_column(String(100))
 
+
 class Lesson(Base):
     __tablename__ = "lessons"
     id: Mapped[int] = mapped_column("lesson_id", primary_key=True)
     name: Mapped[str] = mapped_column(String(255), unique=True)
     code: Mapped[str] = mapped_column(String(100), unique=True)
     url: Mapped[Optional[str]] = mapped_column(String(500))
+
 
 class Slot(Base):
     __tablename__ = "slots"
@@ -36,10 +40,12 @@ class Slot(Base):
     time_end: Mapped[dt_time] = mapped_column(Time)
     is_short: Mapped[bool] = mapped_column(default=False)
 
+
 class Venue(Base):
     __tablename__ = "venues"
     id: Mapped[int] = mapped_column("venue_id", primary_key=True)
     name: Mapped[str] = mapped_column(String(100))
+
 
 class Specialty(Base):
     __tablename__ = "specialties"
@@ -47,6 +53,7 @@ class Specialty(Base):
     name: Mapped[str] = mapped_column(String(100), unique=True)
     code: Mapped[str] = mapped_column(String(10), unique=True)
     number: Mapped[int] = mapped_column(unique=True)
+
 
 class StudentGroup(Base):
     __tablename__ = "student_groups"
@@ -62,6 +69,7 @@ class StudentGroup(Base):
         CheckConstraint("course BETWEEN 1 AND 4", name="check_course_range"),
         UniqueConstraint("specialty_id", "course", "group_number"),
     )
+
 
 class Schedule(Base):
     __tablename__ = "schedules"

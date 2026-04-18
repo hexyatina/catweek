@@ -36,7 +36,8 @@ def health():
     status = {
         "status": "ok",
         "database": "ok",
-        "env": settings.ENV
+        "app_env": settings.APP_ENV,
+        "db_env": settings.DB_ENV,
     }
     try:
         db.session.execute(text("SELECT 1"), execution_options={"timeout": 5})
