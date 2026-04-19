@@ -3,8 +3,8 @@ import logging
 from alembic import context
 from flask import current_app
 
-from app.config import settings
-from app.extensions import Base
+from src.app.config import settings
+from src.app.extensions import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

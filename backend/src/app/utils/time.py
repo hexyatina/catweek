@@ -9,5 +9,5 @@ def parse_time_slot(value: str) -> tuple[time, time]:
             return time(h, m)
 
         return _to_t(start_time), _to_t(end_time)
-    except (ValueError, TypeError) as e:
+    except (ValueError, TypeError, AttributeError) as e:
         raise ValueError(f"Invalid time format '{value}': {e}") from e

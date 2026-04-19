@@ -4,7 +4,7 @@ from flask_migrate import upgrade
 from sqlalchemy import text, create_engine
 
 from ..config import settings
-from ..data import DAYS, SLOTS, VENUES, LECTURERS, LESSONS, SPECIALTIES, STUDENT_GROUPS
+from ..seed import DAYS, SLOTS, VENUES, LECTURERS, LESSONS, SPECIALTIES, STUDENT_GROUPS
 from ..extensions import db, Base
 from ..models import Day, Slot, Venue, Lecturer, Lesson, Specialty, StudentGroup
 

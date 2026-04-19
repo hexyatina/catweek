@@ -1,53 +1,83 @@
+import logging
+
 from flask import request, jsonify, Blueprint
 from sqlalchemy import text
-from app.config import settings
-from app.repositories import ScheduleRepository, LookupRepository
-from app.schemas import *
-from app.extensions import db
 
+from src.app.repositories import ScheduleRepository, LookupRepository
+from src.app.schemas import *
 
 schedule_bp = Blueprint('schedule', __name__)
 lookup_bp = Blueprint('lookup', __name__, url_prefix='/lookup')
 
 system_bp = Blueprint('system', __name__)
 
+logger = logging.getLogger(__name__)
+
 
 @system_bp.route("/health", methods=["GET"])
 def health():
     """
-    Check the system health and database connectivity.
-    ---
-    tags:
-      - System
-    responses:
-      200:
-        description: System is healthy
-        schema:
-          properties:
-            status:
-              type: string
-              example: ok
-            database:
-              type: string
-              example: ok
-      500:
-        description: System or Database error
-    """
-    status = {
-        "status": "ok",
-        "database": "ok",
-        "app_env": settings.APP_ENV,
-        "db_env": settings.DB_ENV,
-    }
+      Check system health and database connectivity.
+      ---
+      tags:
+        - System
+      responses:
+        200:
+          description: System and database are healthy
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: ok
+              database:
+                type: string
+                example: ok
+              app_env:
+                type: string
+                example: prod
+              db_env:
+                type: string
+                example: remote
+        500:
+          description: Database connectivity failed
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: error
+              database:
+                type: string
+                example: error
+              app_env:
+                type: string
+              db_env:
+                type: string
+              error:
+                type: string
+                example: connection timeout
+      """
     try:
         db.session.execute(text("SELECT 1"), execution_options={"timeout": 5})
-    except Exception as e:
-        status["status"] = "error"
-        status["database"] = "error"
-        status["error"] = str(e)
-        return jsonify(status), 500
 
-    return jsonify(status), 200
+        return jsonify({
+            "status": "ok",
+            "database": "ok",
+            "app_env": settings.APP_ENV,
+            "db_env": settings.DB_ENV,
+        }), 200
+
+    except Exception as e:
+        logger.error(e)
+        return jsonify({
+            "status": "error",
+            "database": "error",
+            "app_env": settings.APP_ENV,
+            "db_env": settings.DB_ENV,
+            "error": str(e),
+        }), 500
+
 
 @schedule_bp.route("/schedule", methods=["GET"])
 def get_schedule():
@@ -95,7 +125,6 @@ def get_schedule():
         "lecturer_id": request.args.get("lecturer_id", type=int),
     }
 
-
     results = ScheduleRepository.get_filtered(**filters)
     schema = ScheduleEntryDetailSchema if detailed else ScheduleEntrySchema
 
@@ -103,7 +132,6 @@ def get_schedule():
         schema.from_orm_row(r).model_dump()
         for r in results
     ])
-
 
 
 @lookup_bp.route("/days", methods=["GET"])
@@ -122,6 +150,7 @@ def get_days():
         for r in LookupRepository.get_days()
     ])
 
+
 @lookup_bp.route("/slots", methods=["GET"])
 def get_slots():
     """
@@ -139,6 +168,7 @@ def get_slots():
         for r in LookupRepository.get_slots()
     ])
 
+
 @lookup_bp.route("/specialties", methods=["GET"])
 def get_specialties():
     """
@@ -154,6 +184,7 @@ def get_specialties():
         SpecialtySchema.model_validate(r).model_dump()
         for r in LookupRepository.get_specialties()
     ])
+
 
 @lookup_bp.route("/lecturers", methods=["GET"])
 def get_lecturers():
@@ -171,6 +202,7 @@ def get_lecturers():
         for r in LookupRepository.get_lecturers()
     ])
 
+
 @lookup_bp.route("/lessons", methods=["GET"])
 def get_lessons():
     """
@@ -187,6 +219,7 @@ def get_lessons():
         for r in LookupRepository.get_lessons()
     ])
 
+
 @lookup_bp.route("/venues", methods=["GET"])
 def get_venues():
     """
@@ -202,6 +235,7 @@ def get_venues():
         VenueSchema.model_validate(r).model_dump()
         for r in LookupRepository.get_venues()
     ])
+
 
 @lookup_bp.route("/groups", methods=["GET"])
 def get_groups():
