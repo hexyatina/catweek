@@ -1,0 +1,137 @@
+Folder PATH listing
+Volume serial number is 141A-AB86
+C:.
+?   .dockerignore
+?   .env
+?   .env.example
+?   .env.prod
+?   .gitattributes
+?   .python-version
+?   Dockerfile
+?   entrypoint.py
+?   HTTPRequests.http
+?   project_tree.txt
+?   pyproject.toml
+?   README.md
+?   uv.lock
+?   wsgi.py
+?   
+?   ?   .gitignore
+?   ?   CACHEDIR.TAG
+?   ?   README.md
+?   ?
++---app
+?   ?   cli.py
+?   ?   config.py
+?   ?   extensions.py
+?   ?   swagger_template.py
+?   ?   __init__.py
+?   ?   
+?   +---api
+?   ?   ?   __init__.py
+?   ?   ?   
+?   ?   +---v1
+?   ?   ?   ?   routes.py
+?   ?   ?   ?   __init__.py
+?   ?   ?   ?   
+?   ?   ?   L---__pycache__
+?   ?   ?           
+?   ?   +---v2
+?   ?   L---__pycache__
+?   ?           
+?   +---data
+?   ?   ?   days.py
+?   ?   ?   lecturers.py
+?   ?   ?   lessons.py
+?   ?   ?   slots.py
+?   ?   ?   specialties.py
+?   ?   ?   student_groups.py
+?   ?   ?   venues.py
+?   ?   ?   __init__.py
+?   ?   ?   
+?   ?   L---__pycache__
+?   ?           
+?   +---models
+?   ?   ?   schedule.py
+?   ?   ?   user.py
+?   ?   ?   __init__.py
+?   ?   ?   
+?   ?   L---__pycache__
+?   ?           
+?   +---repositories
+?   ?   ?   lookup.py
+?   ?   ?   schedule.py
+?   ?   ?   __init__.py
+?   ?   ?   
+?   ?   L---__pycache__
+?   ?           
+?   +---schemas
+?   ?   ?   lookup.py
+?   ?   ?   responses.py
+?   ?   ?   schedule.py
+?   ?   ?   __init__.py
+?   ?   ?   
+?   ?   L---__pycache__
+?   ?           
+?   +---services
+?   ?   ?   database.py
+?   ?   ?   schedule_importer.py
+?   ?   ?   __init__.py
+?   ?   ?   
+?   ?   L---__pycache__
+?   ?           
+?   +---utils
+?   ?   ?   excel_parser_WIP.py
+?   ?   ?   logging_config.py
+?   ?   ?   resolvers.py
+?   ?   ?   security.py
+?   ?   ?   time.py
+?   ?   ?   yaml_parser.py
+?   ?   ?   __init__.py
+?   ?   ?   
+?   ?   L---__pycache__
+?   ?           
+?   L---__pycache__
+?           
++---data
+?   +---excel
+?   ?       1???????_??_???????.xlsx
+?   ?       
+?   L---schedules
+?       ?   README.MD
+?       ?   yaml-autocomplete-config.json
+?       ?   
+?       L---IPZ
+?           +---IPZ-1
+?           ?       IPZ-11.yaml
+?           ?       
+?           L---IPZ-3
+?                   IPZ-31.yaml
+?                   IPZ-32.yaml
+?                   IPZ-33.yaml
+?                   
++---logs
+?       app.log
+?       
++---migrations
+?   ?   alembic.ini
+?   ?   env.py
+?   ?   README
+?   ?   script.py.mako
+?   ?   
+?   +---versions
+?   ?   ?   d315c76565aa_initial_migration.py
+?   ?   ?   
+?   ?   L---__pycache__
+?   ?           
+?   L---__pycache__
+?           
++---tests
+?   ?   conftest.py
+?   ?   test_failing.py
+?   ?   __init__.py
+?   ?   
+?   L---__pycache__
+?           
+L---__pycache__
+        

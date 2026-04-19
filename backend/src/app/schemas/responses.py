@@ -1,5 +1,5 @@
 from pydantic import BaseModel, ConfigDict
-from app.models import Schedule
+from src.app.models import Schedule
 
 
 class ScheduleEntrySchema(BaseModel):

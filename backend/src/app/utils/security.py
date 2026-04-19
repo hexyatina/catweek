@@ -15,10 +15,20 @@ def require_api_key():
         return None
 
     key = request.headers.get("X-Api-Key", "")
+
+    if not key:
+        response = jsonify({
+            "error": "Bad request",
+            "message": "Missing X-Api-Key"
+        })
+        response.status_code = 400
+        return response
+
     if not hmac.compare_digest(key, settings.API_KEY):
         response = jsonify({"error": "Unauthorized"})
         response.headers["WWW-Authenticate"] = 'ApiKey realm="api"'
-        return response, 401
+        response.status_code = 401
+        return response
     return None
 
 

@@ -118,7 +118,7 @@ def start_server() -> None:
 
 
 def main() -> None:
-    log.info("STARTING BACKEND | MODE: %s | DB: %s", APP_ENV, DB_ENV)
+    log.info("===STARTING BACKEND===")
 
     validate_env()
 
