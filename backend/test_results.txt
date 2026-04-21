@@ -1,0 +1,1319 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.13, pytest-9.0.3, pluggy-1.6.0
+rootdir: C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend
+configfile: pyproject.toml
+testpaths: tests
+plugins: cov-7.1.0
+collected 26 items
+
+tests\integrations\test_api_v1.py .FFFFF...
+tests\integrations\test_repositories.py FSeed failed with (psycopg.errors.UndefinedTable) relation "schedule.days" does not exist
+LINE 1: INSERT INTO schedule.days (day_id, name_uk, name_en) VALUES ...
+                    ^
+[SQL: INSERT INTO schedule.days (day_id, name_uk, name_en) VALUES (%(day_id)s::INTEGER, %(name_uk)s::VARCHAR, %(name_en)s::VARCHAR)]
+[parameters: [{'day_id': 1, 'name_uk': 'Понеділок', 'name_en': 'Monday'}, {'day_id': 2, 'name_uk': 'Вівторок', 'name_en': 'Tuesday'}, {'day_id': 3, 'name_uk': 'Середа', 'name_en': 'Wednesday'}, {'day_id': 4, 'name_uk': 'Четвер', 'name_en': 'Thursday'}, {'day_id': 5, 'name_uk': "П'ятниця", 'name_en': 'Friday'}, {'day_id': 6, 'name_uk': 'Субота', 'name_en': 'Saturday'}, {'day_id': 7, 'name_uk': 'Неділя', 'name_en': 'Sunday'}]]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+F
+tests\unit\services\test_database.py .F..
+tests\unit\utils\test_time.py ...........
+
+================================== FAILURES ===================================
+_____________________ test_schedule_endpoint_returns_200 ______________________
+
+client = <FlaskClient <Flask 'src.app'>>
+
+    def test_schedule_endpoint_returns_200(client):
+        response = client.get("/api/v1/schedule")
+>       assert response.status_code == 200
+E       assert 500 == 200
+E        +  where 500 = <WrapperTestResponse streamed [500 INTERNAL SERVER ERROR]>.status_code
+
+tests\integrations\test_api_v1.py:13: AssertionError
+----------------------------- Captured log setup ------------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+------------------------------ Captured log call ------------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT schedule.schedules.schedule_id, schedule.schedules.week_id, schedule.schedules.day_id, schedule.schedules.slot_id, schedule.schedules.venue_id, schedule.schedules.group_id, schedule.schedules.lesson_id, schedule.schedules.lecturer_id 
+FROM schedule.schedules ORDER BY schedule.schedules.week_id, schedule.schedules.day_id, schedule.schedules.slot_id
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00011s] {}
+ERROR    src.app.utils.security:security.py:38 (psycopg.errors.UndefinedTable) relation "schedule.schedules" does not exist
+LINE 2: FROM schedule.schedules ORDER BY schedule.schedules.week_id,...
+             ^
+[SQL: SELECT schedule.schedules.schedule_id, schedule.schedules.week_id, schedule.schedules.day_id, schedule.schedules.slot_id, schedule.schedules.venue_id, schedule.schedules.group_id, schedule.schedules.lesson_id, schedule.schedules.lecturer_id 
+FROM schedule.schedules ORDER BY schedule.schedules.week_id, schedule.schedules.day_id, schedule.schedules.slot_id]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\psycopg\cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+psycopg.errors.UndefinedTable: relation "schedule.schedules" does not exist
+LINE 2: FROM schedule.schedules ORDER BY schedule.schedules.week_id,...
+             ^
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\src\app\utils\security.py", line 16, in decorated
+    return f(*args, **kwargs)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\src\app\api\v1\routes.py", line 113, in get_schedule
+    results = repo.get_filtered(**filters)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\src\app\repositories\schedule.py", line 45, in get_filtered
+    return self.session.scalars(stmt).all()
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\scoping.py", line 1891, in scalars
+    return self._proxied.scalars(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        **kw,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2459, in scalars
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        **kw,
+        ^^^^^
+    ).scalars()
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\psycopg\cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+sqlalchemy.exc.ProgrammingError: (psycopg.errors.UndefinedTable) relation "schedule.schedules" does not exist
+LINE 2: FROM schedule.schedules ORDER BY schedule.schedules.week_id,...
+             ^
+[SQL: SELECT schedule.schedules.schedule_id, schedule.schedules.week_id, schedule.schedules.day_id, schedule.schedules.slot_id, schedule.schedules.venue_id, schedule.schedules.group_id, schedule.schedules.lesson_id, schedule.schedules.lecturer_id 
+FROM schedule.schedules ORDER BY schedule.schedules.week_id, schedule.schedules.day_id, schedule.schedules.slot_id]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+---------------------------- Captured log teardown ----------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+____________________ test_schedule_empty_db_returns_empty _____________________
+
+client = <FlaskClient <Flask 'src.app'>>
+
+    def test_schedule_empty_db_returns_empty(client):
+        response = client.get("/api/v1/schedule")
+>       assert response.status_code == 200
+E       assert 500 == 200
+E        +  where 500 = <WrapperTestResponse streamed [500 INTERNAL SERVER ERROR]>.status_code
+
+tests\integrations\test_api_v1.py:18: AssertionError
+----------------------------- Captured log setup ------------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+------------------------------ Captured log call ------------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT schedule.schedules.schedule_id, schedule.schedules.week_id, schedule.schedules.day_id, schedule.schedules.slot_id, schedule.schedules.venue_id, schedule.schedules.group_id, schedule.schedules.lesson_id, schedule.schedules.lecturer_id 
+FROM schedule.schedules ORDER BY schedule.schedules.week_id, schedule.schedules.day_id, schedule.schedules.slot_id
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.2253s ago] {}
+ERROR    src.app.utils.security:security.py:38 (psycopg.errors.UndefinedTable) relation "schedule.schedules" does not exist
+LINE 2: FROM schedule.schedules ORDER BY schedule.schedules.week_id,...
+             ^
+[SQL: SELECT schedule.schedules.schedule_id, schedule.schedules.week_id, schedule.schedules.day_id, schedule.schedules.slot_id, schedule.schedules.venue_id, schedule.schedules.group_id, schedule.schedules.lesson_id, schedule.schedules.lecturer_id 
+FROM schedule.schedules ORDER BY schedule.schedules.week_id, schedule.schedules.day_id, schedule.schedules.slot_id]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\psycopg\cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+psycopg.errors.UndefinedTable: relation "schedule.schedules" does not exist
+LINE 2: FROM schedule.schedules ORDER BY schedule.schedules.week_id,...
+             ^
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\src\app\utils\security.py", line 16, in decorated
+    return f(*args, **kwargs)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\src\app\api\v1\routes.py", line 113, in get_schedule
+    results = repo.get_filtered(**filters)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\src\app\repositories\schedule.py", line 45, in get_filtered
+    return self.session.scalars(stmt).all()
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\scoping.py", line 1891, in scalars
+    return self._proxied.scalars(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        **kw,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2459, in scalars
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        **kw,
+        ^^^^^
+    ).scalars()
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\psycopg\cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+sqlalchemy.exc.ProgrammingError: (psycopg.errors.UndefinedTable) relation "schedule.schedules" does not exist
+LINE 2: FROM schedule.schedules ORDER BY schedule.schedules.week_id,...
+             ^
+[SQL: SELECT schedule.schedules.schedule_id, schedule.schedules.week_id, schedule.schedules.day_id, schedule.schedules.slot_id, schedule.schedules.venue_id, schedule.schedules.group_id, schedule.schedules.lesson_id, schedule.schedules.lecturer_id 
+FROM schedule.schedules ORDER BY schedule.schedules.week_id, schedule.schedules.day_id, schedule.schedules.slot_id]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+---------------------------- Captured log teardown ----------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+____________ test_lookup_routes_return_200[/api/v1/lookup/groups] _____________
+
+client = <FlaskClient <Flask 'src.app'>>, route = '/api/v1/lookup/groups'
+
+    @pytest.mark.parametrize("route", [
+        "/api/v1/lookup/groups",
+        "/api/v1/lookup/lecturers",
+        "/api/v1/lookup/venues",
+    ])
+    def test_lookup_routes_return_200(client, route):
+        response = client.get(route)
+>       assert response.status_code == 200
+E       assert 500 == 200
+E        +  where 500 = <WrapperTestResponse streamed [500 INTERNAL SERVER ERROR]>.status_code
+
+tests\integrations\test_api_v1.py:33: AssertionError
+----------------------------- Captured log setup ------------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+------------------------------ Captured log call ------------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT schedule.student_groups.group_id, schedule.student_groups.specialty_id, schedule.student_groups.course, schedule.student_groups.group_number, specialties_1.specialty_id AS specialty_id_1, specialties_1.name, specialties_1.code, specialties_1.number 
+FROM schedule.student_groups LEFT OUTER JOIN schedule.specialties AS specialties_1 ON specialties_1.specialty_id = schedule.student_groups.specialty_id ORDER BY schedule.student_groups.specialty_id, schedule.student_groups.course, schedule.student_groups.group_number
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00012s] {}
+ERROR    src.app.utils.security:security.py:38 (psycopg.errors.UndefinedTable) relation "schedule.student_groups" does not exist
+LINE 2: FROM schedule.student_groups LEFT OUTER JOIN schedule.specia...
+             ^
+[SQL: SELECT schedule.student_groups.group_id, schedule.student_groups.specialty_id, schedule.student_groups.course, schedule.student_groups.group_number, specialties_1.specialty_id AS specialty_id_1, specialties_1.name, specialties_1.code, specialties_1.number 
+FROM schedule.student_groups LEFT OUTER JOIN schedule.specialties AS specialties_1 ON specialties_1.specialty_id = schedule.student_groups.specialty_id ORDER BY schedule.student_groups.specialty_id, schedule.student_groups.course, schedule.student_groups.group_number]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\psycopg\cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+psycopg.errors.UndefinedTable: relation "schedule.student_groups" does not exist
+LINE 2: FROM schedule.student_groups LEFT OUTER JOIN schedule.specia...
+             ^
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\src\app\utils\security.py", line 16, in decorated
+    return f(*args, **kwargs)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\src\app\api\v1\routes.py", line 283, in get_groups
+    groups = repo.get_groups()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\src\app\repositories\lookup.py", line 40, in get_groups
+    return self.session.scalars(
+           ~~~~~~~~~~~~~~~~~~~~^
+        select(StudentGroup)
+        ^^^^^^^^^^^^^^^^^^^^
+        .options(joinedload(StudentGroup.specialty))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        .order_by(StudentGroup.specialty_id, StudentGroup.course, StudentGroup.group_number)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ).all()
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\scoping.py", line 1891, in scalars
+    return self._proxied.scalars(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        **kw,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2459, in scalars
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        **kw,
+        ^^^^^
+    ).scalars()
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\psycopg\cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+sqlalchemy.exc.ProgrammingError: (psycopg.errors.UndefinedTable) relation "schedule.student_groups" does not exist
+LINE 2: FROM schedule.student_groups LEFT OUTER JOIN schedule.specia...
+             ^
+[SQL: SELECT schedule.student_groups.group_id, schedule.student_groups.specialty_id, schedule.student_groups.course, schedule.student_groups.group_number, specialties_1.specialty_id AS specialty_id_1, specialties_1.name, specialties_1.code, specialties_1.number 
+FROM schedule.student_groups LEFT OUTER JOIN schedule.specialties AS specialties_1 ON specialties_1.specialty_id = schedule.student_groups.specialty_id ORDER BY schedule.student_groups.specialty_id, schedule.student_groups.course, schedule.student_groups.group_number]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+---------------------------- Captured log teardown ----------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+___________ test_lookup_routes_return_200[/api/v1/lookup/lecturers] ___________
+
+client = <FlaskClient <Flask 'src.app'>>, route = '/api/v1/lookup/lecturers'
+
+    @pytest.mark.parametrize("route", [
+        "/api/v1/lookup/groups",
+        "/api/v1/lookup/lecturers",
+        "/api/v1/lookup/venues",
+    ])
+    def test_lookup_routes_return_200(client, route):
+        response = client.get(route)
+>       assert response.status_code == 200
+E       assert 500 == 200
+E        +  where 500 = <WrapperTestResponse streamed [500 INTERNAL SERVER ERROR]>.status_code
+
+tests\integrations\test_api_v1.py:33: AssertionError
+----------------------------- Captured log setup ------------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+------------------------------ Captured log call ------------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT schedule.lecturers.lecturer_id, schedule.lecturers.name, schedule.lecturers.surname, schedule.lecturers.middle_name 
+FROM schedule.lecturers ORDER BY schedule.lecturers.surname
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00009s] {}
+ERROR    src.app.utils.security:security.py:38 (psycopg.errors.UndefinedTable) relation "schedule.lecturers" does not exist
+LINE 2: FROM schedule.lecturers ORDER BY schedule.lecturers.surname
+             ^
+[SQL: SELECT schedule.lecturers.lecturer_id, schedule.lecturers.name, schedule.lecturers.surname, schedule.lecturers.middle_name 
+FROM schedule.lecturers ORDER BY schedule.lecturers.surname]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\psycopg\cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+psycopg.errors.UndefinedTable: relation "schedule.lecturers" does not exist
+LINE 2: FROM schedule.lecturers ORDER BY schedule.lecturers.surname
+             ^
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\src\app\utils\security.py", line 16, in decorated
+    return f(*args, **kwargs)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\src\app\api\v1\routes.py", line 211, in get_lecturers
+    lecturers = repo.get_lecturers()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\src\app\repositories\lookup.py", line 25, in get_lecturers
+    return self.session.scalars(
+           ~~~~~~~~~~~~~~~~~~~~^
+        select(Lecturer).order_by(Lecturer.surname)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ).all()
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\scoping.py", line 1891, in scalars
+    return self._proxied.scalars(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        **kw,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2459, in scalars
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        **kw,
+        ^^^^^
+    ).scalars()
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\psycopg\cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+sqlalchemy.exc.ProgrammingError: (psycopg.errors.UndefinedTable) relation "schedule.lecturers" does not exist
+LINE 2: FROM schedule.lecturers ORDER BY schedule.lecturers.surname
+             ^
+[SQL: SELECT schedule.lecturers.lecturer_id, schedule.lecturers.name, schedule.lecturers.surname, schedule.lecturers.middle_name 
+FROM schedule.lecturers ORDER BY schedule.lecturers.surname]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+---------------------------- Captured log teardown ----------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+____________ test_lookup_routes_return_200[/api/v1/lookup/venues] _____________
+
+client = <FlaskClient <Flask 'src.app'>>, route = '/api/v1/lookup/venues'
+
+    @pytest.mark.parametrize("route", [
+        "/api/v1/lookup/groups",
+        "/api/v1/lookup/lecturers",
+        "/api/v1/lookup/venues",
+    ])
+    def test_lookup_routes_return_200(client, route):
+        response = client.get(route)
+>       assert response.status_code == 200
+E       assert 500 == 200
+E        +  where 500 = <WrapperTestResponse streamed [500 INTERNAL SERVER ERROR]>.status_code
+
+tests\integrations\test_api_v1.py:33: AssertionError
+----------------------------- Captured log setup ------------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+------------------------------ Captured log call ------------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT schedule.venues.venue_id, schedule.venues.name 
+FROM schedule.venues ORDER BY schedule.venues.venue_id
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00015s] {}
+ERROR    src.app.utils.security:security.py:38 (psycopg.errors.UndefinedTable) relation "schedule.venues" does not exist
+LINE 2: FROM schedule.venues ORDER BY schedule.venues.venue_id
+             ^
+[SQL: SELECT schedule.venues.venue_id, schedule.venues.name 
+FROM schedule.venues ORDER BY schedule.venues.venue_id]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\psycopg\cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+psycopg.errors.UndefinedTable: relation "schedule.venues" does not exist
+LINE 2: FROM schedule.venues ORDER BY schedule.venues.venue_id
+             ^
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\src\app\utils\security.py", line 16, in decorated
+    return f(*args, **kwargs)
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\src\app\api\v1\routes.py", line 259, in get_venues
+    venues = repo.get_venues()
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\src\app\repositories\lookup.py", line 35, in get_venues
+    return self.session.scalars(
+           ~~~~~~~~~~~~~~~~~~~~^
+        select(Venue).order_by(Venue.id)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ).all()
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\scoping.py", line 1891, in scalars
+    return self._proxied.scalars(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        **kw,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2459, in scalars
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        **kw,
+        ^^^^^
+    ).scalars()
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kyrya\Documents\PycharmProjects\catweek\backend\.venv\Lib\site-packages\psycopg\cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+sqlalchemy.exc.ProgrammingError: (psycopg.errors.UndefinedTable) relation "schedule.venues" does not exist
+LINE 2: FROM schedule.venues ORDER BY schedule.venues.venue_id
+             ^
+[SQL: SELECT schedule.venues.venue_id, schedule.venues.name 
+FROM schedule.venues ORDER BY schedule.venues.venue_id]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+---------------------------- Captured log teardown ----------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+____________________ test_schedule_repository_returns_list ____________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000023A3DDF3EE0>
+dialect = <sqlalchemy.dialects.postgresql.psycopg.PGDialect_psycopg object at 0x0000023A3DD1E120>
+context = <sqlalchemy.dialects.postgresql.psycopg.PGExecutionContext_psycopg object at 0x0000023A3DD5B570>
+statement = <sqlalchemy.dialects.postgresql.psycopg.PGCompiler_psycopg object at 0x0000023A3DE07110>
+parameters = [{}]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Any]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+    
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+    
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+    
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        effective_parameters: Optional[_AnyExecuteParams]
+    
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+    
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                str_statement, effective_parameters = fn(
+                    self,
+                    cursor,
+                    str_statement,
+                    effective_parameters,
+                    context,
+                    context.executemany,
+                )
+    
+        if self._echo:
+            self._log_info(str_statement)
+    
+            stats = context._get_cache_stats()
+    
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        effective_parameters,
+                        batches=10,
+                        ismulti=context.executemany,
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]",
+                    stats,
+                )
+    
+        evt_handled: bool = False
+        try:
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1967: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=localhost user=postgres database=test_catweek) at 0x23a3dd61d90>
+query = 'SELECT schedule.schedules.schedule_id, schedule.schedules.week_id, schedule.schedules.day_id, schedule.schedules.slot...d \nFROM schedule.schedules ORDER BY schedule.schedules.week_id, schedule.schedules.day_id, schedule.schedules.slot_id'
+params = {}
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           psycopg.errors.UndefinedTable: relation "schedule.schedules" does not exist
+E           LINE 2: FROM schedule.schedules ORDER BY schedule.schedules.week_id,...
+E                        ^
+
+.venv\Lib\site-packages\psycopg\cursor.py:117: UndefinedTable
+
+The above exception was the direct cause of the following exception:
+
+app = <Flask 'src.app'>
+db_session = <sqlalchemy.orm.scoping.scoped_session object at 0x0000023A3D6941A0>
+
+    def test_schedule_repository_returns_list(app, db_session):
+        from src.app.repositories.schedule import ScheduleRepository
+    
+        with app.app_context():
+            repo = ScheduleRepository(db_session)
+>           result = repo.get_filtered()
+                     ^^^^^^^^^^^^^^^^^^^
+
+tests\integrations\test_repositories.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\app\repositories\schedule.py:45: in get_filtered
+    return self.session.scalars(stmt).all()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\scoping.py:1891: in scalars
+    return self._proxied.scalars(
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2459: in scalars
+    return self._execute_internal(
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2249: in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+.venv\Lib\site-packages\sqlalchemy\orm\context.py:306: in orm_execute_statement
+    result = conn.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1846: in _execute_context
+    return self._exec_single_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1986: in _exec_single_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1967: in _exec_single_context
+    self.dialect.do_execute(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=localhost user=postgres database=test_catweek) at 0x23a3dd61d90>
+query = 'SELECT schedule.schedules.schedule_id, schedule.schedules.week_id, schedule.schedules.day_id, schedule.schedules.slot...d \nFROM schedule.schedules ORDER BY schedule.schedules.week_id, schedule.schedules.day_id, schedule.schedules.slot_id'
+params = {}
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           sqlalchemy.exc.ProgrammingError: (psycopg.errors.UndefinedTable) relation "schedule.schedules" does not exist
+E           LINE 2: FROM schedule.schedules ORDER BY schedule.schedules.week_id,...
+E                        ^
+E           [SQL: SELECT schedule.schedules.schedule_id, schedule.schedules.week_id, schedule.schedules.day_id, schedule.schedules.slot_id, schedule.schedules.venue_id, schedule.schedules.group_id, schedule.schedules.lesson_id, schedule.schedules.lecturer_id 
+E           FROM schedule.schedules ORDER BY schedule.schedules.week_id, schedule.schedules.day_id, schedule.schedules.slot_id]
+E           (Background on this error at: https://sqlalche.me/e/20/f405)
+
+.venv\Lib\site-packages\psycopg\cursor.py:117: ProgrammingError
+----------------------------- Captured log setup ------------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+------------------------------ Captured log call ------------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT schedule.schedules.schedule_id, schedule.schedules.week_id, schedule.schedules.day_id, schedule.schedules.slot_id, schedule.schedules.venue_id, schedule.schedules.group_id, schedule.schedules.lesson_id, schedule.schedules.lecturer_id 
+FROM schedule.schedules ORDER BY schedule.schedules.week_id, schedule.schedules.day_id, schedule.schedules.slot_id
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.2809s ago] {}
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+---------------------------- Captured log teardown ----------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+_____________________ test_lookup_repository_returns_list _____________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000023A3EF0B2B0>
+dialect = <sqlalchemy.dialects.postgresql.psycopg.PGDialect_psycopg object at 0x0000023A3DD1E120>
+context = <sqlalchemy.dialects.postgresql.psycopg.PGExecutionContext_psycopg object at 0x0000023A3E466140>
+statement = <sqlalchemy.dialects.postgresql.psycopg.PGCompiler_psycopg object at 0x0000023A3E456E90>
+parameters = [{'day_id': 1, 'name_en': 'Monday', 'name_uk': 'Понеділок'}, {'day_id': 2, 'name_en': 'Tuesday', 'name_uk': 'Вівторок'...ay_id': 5, 'name_en': 'Friday', 'name_uk': "П'ятниця"}, {'day_id': 6, 'name_en': 'Saturday', 'name_uk': 'Субота'}, ...]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Any]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+    
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+    
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+    
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        effective_parameters: Optional[_AnyExecuteParams]
+    
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+    
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                str_statement, effective_parameters = fn(
+                    self,
+                    cursor,
+                    str_statement,
+                    effective_parameters,
+                    context,
+                    context.executemany,
+                )
+    
+        if self._echo:
+            self._log_info(str_statement)
+    
+            stats = context._get_cache_stats()
+    
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        effective_parameters,
+                        batches=10,
+                        ismulti=context.executemany,
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]",
+                    stats,
+                )
+    
+        evt_handled: bool = False
+        try:
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1936: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:949: in do_executemany
+    cursor.executemany(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=localhost user=postgres database=test_catweek) at 0x23a3dd62e10>
+query = 'INSERT INTO schedule.days (day_id, name_uk, name_en) VALUES (%(day_id)s::INTEGER, %(name_uk)s::VARCHAR, %(name_en)s::VARCHAR)'
+params_seq = [{'day_id': 1, 'name_en': 'Monday', 'name_uk': 'Понеділок'}, {'day_id': 2, 'name_en': 'Tuesday', 'name_uk': 'Вівторок'...ay_id': 5, 'name_en': 'Friday', 'name_uk': "П'ятниця"}, {'day_id': 6, 'name_en': 'Saturday', 'name_uk': 'Субота'}, ...]
+
+    def executemany(
+        self, query: Query, params_seq: Iterable[Params], *, returning: bool = False
+    ) -> None:
+        """
+        Execute the same command with a sequence of input data.
+        """
+        try:
+            with self._conn.lock:
+                if Pipeline.is_supported():
+                    # If there is already a pipeline, ride it, in order to avoid
+                    # sending unnecessary Sync.
+                    if self._conn._pipeline:
+                        self._conn.wait(
+                            self._executemany_gen_pipeline(query, params_seq, returning)
+                        )
+                    else:
+                        # Otherwise, make a new one
+                        with self._conn._pipeline_nolock():
+                            self._conn.wait(
+                                self._executemany_gen_pipeline(
+                                    query, params_seq, returning
+                                )
+                            )
+                else:
+                    self._conn.wait(
+                        self._executemany_gen_no_pipeline(query, params_seq, returning)
+                    )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           psycopg.errors.UndefinedTable: relation "schedule.days" does not exist
+E           LINE 1: INSERT INTO schedule.days (day_id, name_uk, name_en) VALUES ...
+E                               ^
+
+.venv\Lib\site-packages\psycopg\cursor.py:148: UndefinedTable
+
+The above exception was the direct cause of the following exception:
+
+app = <Flask 'src.app'>
+db_session = <sqlalchemy.orm.scoping.scoped_session object at 0x0000023A3D6941A0>
+
+    def test_lookup_repository_returns_list(app, db_session):
+        from src.app.services.database import DatabaseService
+        from src.app.repositories.lookup import LookupRepository
+    
+        with app.app_context():
+>           DatabaseService.seed_system_data()
+
+tests\integrations\test_repositories.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\app\services\database.py:86: in seed_system_data
+    raise e
+src\app\services\database.py:70: in seed_system_data
+    db.session.flush()
+.venv\Lib\site-packages\sqlalchemy\orm\scoping.py:924: in flush
+    return self._proxied.flush(objects=objects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:121: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1048: in _emit_insert_statements
+    result = connection.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1846: in _execute_context
+    return self._exec_single_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1986: in _exec_single_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1936: in _exec_single_context
+    self.dialect.do_executemany(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:949: in do_executemany
+    cursor.executemany(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=localhost user=postgres database=test_catweek) at 0x23a3dd62e10>
+query = 'INSERT INTO schedule.days (day_id, name_uk, name_en) VALUES (%(day_id)s::INTEGER, %(name_uk)s::VARCHAR, %(name_en)s::VARCHAR)'
+params_seq = [{'day_id': 1, 'name_en': 'Monday', 'name_uk': 'Понеділок'}, {'day_id': 2, 'name_en': 'Tuesday', 'name_uk': 'Вівторок'...ay_id': 5, 'name_en': 'Friday', 'name_uk': "П'ятниця"}, {'day_id': 6, 'name_en': 'Saturday', 'name_uk': 'Субота'}, ...]
+
+    def executemany(
+        self, query: Query, params_seq: Iterable[Params], *, returning: bool = False
+    ) -> None:
+        """
+        Execute the same command with a sequence of input data.
+        """
+        try:
+            with self._conn.lock:
+                if Pipeline.is_supported():
+                    # If there is already a pipeline, ride it, in order to avoid
+                    # sending unnecessary Sync.
+                    if self._conn._pipeline:
+                        self._conn.wait(
+                            self._executemany_gen_pipeline(query, params_seq, returning)
+                        )
+                    else:
+                        # Otherwise, make a new one
+                        with self._conn._pipeline_nolock():
+                            self._conn.wait(
+                                self._executemany_gen_pipeline(
+                                    query, params_seq, returning
+                                )
+                            )
+                else:
+                    self._conn.wait(
+                        self._executemany_gen_no_pipeline(query, params_seq, returning)
+                    )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           sqlalchemy.exc.ProgrammingError: (psycopg.errors.UndefinedTable) relation "schedule.days" does not exist
+E           LINE 1: INSERT INTO schedule.days (day_id, name_uk, name_en) VALUES ...
+E                               ^
+E           [SQL: INSERT INTO schedule.days (day_id, name_uk, name_en) VALUES (%(day_id)s::INTEGER, %(name_uk)s::VARCHAR, %(name_en)s::VARCHAR)]
+E           [parameters: [{'day_id': 1, 'name_uk': 'Понеділок', 'name_en': 'Monday'}, {'day_id': 2, 'name_uk': 'Вівторок', 'name_en': 'Tuesday'}, {'day_id': 3, 'name_uk': 'Середа', 'name_en': 'Wednesday'}, {'day_id': 4, 'name_uk': 'Четвер', 'name_en': 'Thursday'}, {'day_id': 5, 'name_uk': "П'ятниця", 'name_en': 'Friday'}, {'day_id': 6, 'name_uk': 'Субота', 'name_en': 'Saturday'}, {'day_id': 7, 'name_uk': 'Неділя', 'name_en': 'Sunday'}]]
+E           (Background on this error at: https://sqlalche.me/e/20/f405)
+
+.venv\Lib\site-packages\psycopg\cursor.py:148: ProgrammingError
+----------------------------- Captured log setup ------------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+------------------------------ Captured log call ------------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO schedule.days (day_id, name_uk, name_en) VALUES (%(day_id)s::INTEGER, %(name_uk)s::VARCHAR, %(name_en)s::VARCHAR)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00012s] [{'day_id': 1, 'name_uk': 'Понеділок', 'name_en': 'Monday'}, {'day_id': 2, 'name_uk': 'Вівторок', 'name_en': 'Tuesday'}, {'day_id': 3, 'name_uk': 'Середа', 'name_en': 'Wednesday'}, {'day_id': 4, 'name_uk': 'Четвер', 'name_en': 'Thursday'}, {'day_id': 5, 'name_uk': "П'ятниця", 'name_en': 'Friday'}, {'day_id': 6, 'name_uk': 'Субота', 'name_en': 'Saturday'}, {'day_id': 7, 'name_uk': 'Неділя', 'name_en': 'Sunday'}]
+WARNING  psycopg:_pipeline.py:77 error ignored terminating <psycopg.Pipeline [INERROR, pipeline=ON] (host=localhost user=postgres database=test_catweek) at 0x23a3e4bd010>: pipeline aborted
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+---------------------------- Captured log teardown ----------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+________________________ test_migrations_create_table _________________________
+
+app = <Flask 'src.app'>, db_tables = None
+
+    def test_migrations_create_table(app, db_tables):
+        from src.app.extensions import db
+        from sqlalchemy import inspect
+    
+        with app.app_context():
+            inspector = inspect(db.engine)
+            existing = set(inspector.get_table_names(schema="schedule"))
+    
+        expected = {
+            "specialties", "student_groups", "days",
+            "schedules", "lecturers", "lessons", "slots", "venues",
+        }
+        missing = expected - existing
+>       assert not missing, f"Missing tables: {missing}"
+E       AssertionError: Missing tables: {'specialties', 'student_groups', 'venues', 'lecturers', 'lessons', 'schedules', 'slots', 'days'}
+E       assert not {'days', 'lecturers', 'lessons', 'schedules', 'slots', 'specialties', ...}
+
+tests\unit\services\test_database.py:42: AssertionError
+------------------------------ Captured log call ------------------------------
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s::VARCHAR, %(param_2)s::VARCHAR]) AND pg_catalog.pg_class.relpersistence != %(relpersistence_1)s::VARCHAR AND pg_catalog.pg_namespace.nspname = %(nspname_1)s::VARCHAR
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00011s] {'param_1': 'r', 'param_2': 'p', 'relpersistence_1': 't', 'nspname_1': 'schedule'}
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+=========================== short test summary info ===========================
+FAILED tests/integrations/test_api_v1.py::test_schedule_endpoint_returns_200
+FAILED tests/integrations/test_api_v1.py::test_schedule_empty_db_returns_empty
+FAILED tests/integrations/test_api_v1.py::test_lookup_routes_return_200[/api/v1/lookup/groups]
+FAILED tests/integrations/test_api_v1.py::test_lookup_routes_return_200[/api/v1/lookup/lecturers]
+FAILED tests/integrations/test_api_v1.py::test_lookup_routes_return_200[/api/v1/lookup/venues]
+FAILED tests/integrations/test_repositories.py::test_schedule_repository_returns_list
+FAILED tests/integrations/test_repositories.py::test_lookup_repository_returns_list
+FAILED tests/unit/services/test_database.py::test_migrations_create_table - A...
+======================== 8 failed, 18 passed in 2.16s =========================

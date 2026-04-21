@@ -25,6 +25,7 @@ PORT = os.environ.get("PORT", "5000")
 WORKERS = os.environ.get("WORKERS", "4")
 FLASK_APP = os.environ.get("FLASK_APP", "wsgi:app")
 
+
 def validate_env() -> None:
     errors = []
 

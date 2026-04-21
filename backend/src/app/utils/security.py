@@ -1,5 +1,6 @@
 import hmac
 import logging
+from functools import wraps
 
 from flask import request, jsonify
 
@@ -7,29 +8,24 @@ from ..config import settings
 
 logger = logging.getLogger(__name__)
 
-EXEMPT_PREFIXES = {"/", "/apidocs", "/apispec", "/flasgger_static"}
 
+def require_api_key(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if settings.debug:
+            return f(*args, **kwargs)
 
-def require_api_key():
-    if any(request.path == p or request.path.startswith(p) for p in EXEMPT_PREFIXES):
-        return None
+        key = request.headers.get("X-Api-Key", "")
 
-    key = request.headers.get("X-Api-Key", "")
+        if not key:
+            return jsonify({"error": "Missing API Key"}), 401
 
-    if not key:
-        response = jsonify({
-            "error": "Bad request",
-            "message": "Missing X-Api-Key"
-        })
-        response.status_code = 400
-        return response
+        if not hmac.compare_digest(key, settings.API_KEY):
+            return jsonify({"error": "Invalid API Key"}), 403
 
-    if not hmac.compare_digest(key, settings.API_KEY):
-        response = jsonify({"error": "Unauthorized"})
-        response.headers["WWW-Authenticate"] = 'ApiKey realm="api"'
-        response.status_code = 401
-        return response
-    return None
+        return f(*args, **kwargs)
+
+    return decorated
 
 
 def handle_http_exception(e):

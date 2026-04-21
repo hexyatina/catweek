@@ -1,4 +1,4 @@
-from flask import Flask, redirect
+from flask import Flask, redirect, url_for
 from werkzeug.exceptions import HTTPException
 
 from . import models
@@ -7,7 +7,7 @@ from .cli import manage_cli
 from .config import settings
 from .extensions import db, migrate, swagger, talisman, cors
 from .utils import (
-    configure_logging, require_api_key, handle_exception, handle_http_exception
+    configure_logging, handle_exception, handle_http_exception
 )
 
 
@@ -42,10 +42,9 @@ def create_app():
     app.cli.add_command(manage_cli)
     app.register_blueprint(api_bp)
 
-    if not settings.debug:
-        app.before_request(require_api_key)
-
-    app.add_url_rule("/", "to_docs", lambda: redirect("/apidocs/"))
+    @app.route('/')
+    def index():
+        return redirect(url_for("flasgger.apidocs"))
 
     app.register_error_handler(HTTPException, handle_http_exception)
     app.register_error_handler(Exception, handle_exception)

@@ -48,7 +48,7 @@ def seed_db():
 def import_schedule():
     """Processes all YAMLs, cleans existing entries and inserts new ones."""
     try:
-        ScheduleService.import_schedule_yaml("seed/schedules")
+        ScheduleService.import_schedule_yaml("data/schedules/")
         click.echo(f"Imported schedule successfully")
     except Exception as e:
         db.session.rollback()

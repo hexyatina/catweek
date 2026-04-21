@@ -1,23 +1,25 @@
 from sqlalchemy import select
-from sqlalchemy.orm import joinedload
-from ..models import Schedule, StudentGroup
-from ..extensions import db
+from sqlalchemy.orm import selectinload
 
-class ScheduleRepository:
+from .base import BaseRepository
+from ..models import Schedule, StudentGroup
+
+
+class ScheduleRepository(BaseRepository):
 
     @staticmethod
     def _base_stmt():
         return select(Schedule).options(
-            joinedload(Schedule.day),
-            joinedload(Schedule.slot),
-            joinedload(Schedule.lesson),
-            joinedload(Schedule.lecturer),
-            joinedload(Schedule.venue),
-            joinedload(Schedule.group).joinedload(StudentGroup.specialty),
+            selectinload(Schedule.day),
+            selectinload(Schedule.slot),
+            selectinload(Schedule.lesson),
+            selectinload(Schedule.lecturer),
+            selectinload(Schedule.venue),
+            selectinload(Schedule.group).selectinload(StudentGroup.specialty),
         )
 
-    @staticmethod
     def get_filtered(
+            self,
             group_id: int | None = None,
             lecturer_id: int | None = None,
             day_id: int | None = None,
@@ -25,19 +27,19 @@ class ScheduleRepository:
     ) -> list[Schedule]:
         stmt = ScheduleRepository._base_stmt()
 
-        if day_id:
+        if day_id is not None:
             stmt = stmt.where(Schedule.day_id == day_id)
-        if lecturer_id:
+        if lecturer_id is not None:
             stmt = stmt.where(Schedule.lecturer_id == lecturer_id)
-        if group_id:
+        if group_id is not None:
             stmt = stmt.where(Schedule.group_id == group_id)
-        if week_id:
+        if week_id is not None:
             stmt = stmt.where(Schedule.week_id == week_id)
 
         stmt = stmt.order_by(
-            Schedule.week_id.asc(),
-            Schedule.day_id.asc(),
-            Schedule.slot_id.asc()
+            Schedule.week_id,
+            Schedule.day_id,
+            Schedule.slot_id
         )
 
-        return db.session.scalars(stmt).all()
+        return self.session.scalars(stmt).all()
