@@ -1,5 +1,6 @@
 import {useQuery} from "@tanstack/react-query";
 import {getSchedule} from "./api.ts";
+import TableComponent from "./TableComponent.tsx";
 
 function App() {
 
@@ -10,7 +11,12 @@ function App() {
 
   return (
     <>
-        {JSON.stringify({data})}
+        <header className="content-center">
+            <h1 className="justify-center">Table IPZ-32</h1>
+        </header>
+        <div>
+            <TableComponent data={data} />
+        </div>
     </>
   )
 }

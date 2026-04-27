@@ -4,15 +4,12 @@ const API_URL = import.meta.env.VITE_API_URL
 
 
 export async function getSchedule() {
-    const res = await fetch(`${API_URL}/schedule`, {
+    const res = await fetch(`${API_URL}/api/v1/schedule?day_id=2&week_id=2&group_id=2`, {
         method: 'GET',
         headers: {
             'X-Api-Key': API_KEY
         }
     } )
-    console.log(API_KEY)
-
-console.log(`${API_URL}/schedule`)
-    const data = await res.json()
-    return data
+    const jsonData = await res.json()
+    return jsonData
 }

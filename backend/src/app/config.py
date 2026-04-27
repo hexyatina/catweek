@@ -20,7 +20,10 @@ class Settings(BaseSettings):
     DATABASE_REMOTE_DIRECT: str = Field(default="")
     API_KEY: str = Field(default="")
 
-    ALLOWED_ORIGINS: list[str] = Field(default=["*"])
+    ALLOWED_ORIGINS: list[str] = Field(default=[
+        "http://localhost:8080",
+        "https://localhost:5173",
+    ])
     FORCE_HTTPS: bool = Field(default=True)
 
     # SECRET_KEY: str = Field(default="")
