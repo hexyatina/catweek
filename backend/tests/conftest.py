@@ -1,63 +1,53 @@
 import os
+from pathlib import Path
 
 import pytest
-from alembic import command
-from alembic.config import Config
-from sqlalchemy import text
+from alembic.command import upgrade, downgrade
+from alembic.config import Config as AlembicConfig
 
-TEST_DATABASE_LOCAL = os.environ.get(
-    "TEST_DATABASE_LOCAL",
-    "postgresql+psycopg://postgres:1845@localhost:5432/test_catweek"
-)
+from app import create_app
+from app.config import Settings
+from app.extensions import db as _db
+from app.models import Day
 
-os.environ.setdefault("APP_ENV", "dev")
-os.environ.setdefault("DB_ENV", "local")
-os.environ.setdefault("API_KEY", "test-api-key")
-os.environ["DATABASE_LOCAL"] = TEST_DATABASE_LOCAL
+ROOT = Path(__file__).parent.parent
+
+
+class TestSettings(Settings):
+    model_config = Settings.model_config
+
+    APP_ENV: str = "dev"
+    DB_ENV: str = "local"
+    DATABASE_LOCAL: str = os.environ.get(
+        "TEST_DATABASE_LOCAL",
+        "postgresql+psycopg://postgres:1845@localhost:5432/test_catweek"
+    )
+    FORCE_HTTPS: bool = False
+    ALLOWED_ORIGINS: list[str] = []
 
 
 @pytest.fixture(scope="session")
 def app():
-    from src.app import create_app
-
-    flask_app = create_app()
-    flask_app.config["TESTING"] = True
-    flask_app.config["SQLALCHEMY_DATABASE_URI"] = TEST_DATABASE_LOCAL
-
-    yield flask_app
+    cfg = TestSettings()
+    application = create_app(settings=cfg)
+    return application
 
 
-@pytest.fixture(scope="module")
-def alembic_config(app):
-    cfg = Config("alembic.ini")
-    cfg.set_main_option("script_location", "migrations")
-    cfg.set_main_option(
-        "sqlalchemy.url",
-        app.config["SQLALCHEMY_DATABASE_URI"].replace("%", "%%")
-    )
-
-    return cfg
-
-
-@pytest.fixture(scope="module", autouse=True)
-def db_tables(app, alembic_config):
-    from src.app.extensions import db
+@pytest.fixture(scope="session")
+def db(app):
     with app.app_context():
-        db.session.execute(text("DROP SCHEMA IF EXISTS schedule CASCADE"))
-        db.session.execute(text("CREATE SCHEMA schedule"))
-        db.session.commit()
+        alembic_config = AlembicConfig(str(ROOT / "alembic.ini"))
+        alembic_config.set_main_option("sqlalchemy.url",
+                                       app.config["SQLALCHEMY_DATABASE_URI"]
+                                       )
+        alembic_config.set_main_option("script_location", str(ROOT / "migrations"))
+        upgrade(alembic_config, "head")
+        yield _db
+        downgrade(alembic_config, "base")
 
-        command.upgrade(alembic_config, "head")
 
-        yield
-
-        db.session.remove()
-
-
-@pytest.fixture()
-def db_session(app, db_tables):
-    from src.app.extensions import db as _db
-
+@pytest.fixture(scope="function")
+def db_session(db, app):
     with app.app_context():
         connection = _db.engine.connect()
         transaction = connection.begin()
@@ -78,5 +68,8 @@ def client(app, db_session):
 
 
 @pytest.fixture()
-def auth_header():
-    return {"X-Api-Key": os.environ["API_KEY"]}
+def day(db_session):
+    obj = Day(id=1, name_uk="Понеділок", name_en="Monday")
+    db_session.add(obj)
+    db_session.flush()
+    return obj

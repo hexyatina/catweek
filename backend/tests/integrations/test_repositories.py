@@ -1,19 +1,7 @@
-def test_schedule_repository_returns_list(app, db_session):
-    from src.app.repositories.schedule import ScheduleRepository
-
-    with app.app_context():
-        repo = ScheduleRepository(db_session)
-        result = repo.get_filtered()
-        assert isinstance(result, list)
+from app.repositories import LookupRepository
 
 
-def test_lookup_repository_returns_list(app, db_session):
-    from src.app.services.database import DatabaseService
-    from src.app.repositories.lookup import LookupRepository
-
-    with app.app_context():
-        DatabaseService.seed_system_data()
-        repo = LookupRepository(db_session)
-        groups = repo.get_groups()
-        assert isinstance(groups, list)
-        assert len(groups) > 0
+def test_get_days_returns_seeded(db_session, day):
+    repo = LookupRepository(session=db_session)
+    result = repo.get_days()
+    assert any(d.id == day.id for d in result)

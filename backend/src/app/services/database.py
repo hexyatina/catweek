@@ -1,12 +1,12 @@
 import time
 
+from flask import current_app
 from flask_migrate import upgrade
 from sqlalchemy import text, create_engine
 
-from ..config import settings
-from ..seed import DAYS, SLOTS, VENUES, LECTURERS, LESSONS, SPECIALTIES, STUDENT_GROUPS
 from ..extensions import db, Base
 from ..models import Day, Slot, Venue, Lecturer, Lesson, Specialty, StudentGroup
+from ..seed import DAYS, SLOTS, VENUES, LECTURERS, LESSONS, SPECIALTIES, STUDENT_GROUPS
 
 
 # TODO: remake the commands
@@ -14,11 +14,11 @@ class DatabaseService:
 
     @staticmethod
     def _direct_engine():
-        return create_engine(settings.get_database_url(direct=True))
+        return create_engine(current_app.config["DATABASE_URL_DIRECT"])
 
     @staticmethod
     def test_connection():
-        masked_url = settings.get_database_url(direct=True).split("@")[-1]
+        masked_url = current_app.config["DATABASE_URL_DIRECT"].split("@")[-1]
 
         print(f"DEBUG: Attempting to connect to {masked_url}")
 
@@ -61,7 +61,7 @@ class DatabaseService:
             db.session.add_all([Lecturer(**lec) for lec in LECTURERS])
             db.session.add_all([Lesson(**l) for l in LESSONS])
 
-            spec_map = {}
+            spec_map: dict[str, Specialty] = {}
             for s_data in SPECIALTIES:
                 spec = Specialty(**s_data)
                 db.session.add(spec)

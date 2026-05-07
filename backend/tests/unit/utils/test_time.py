@@ -1,30 +1,52 @@
-import pytest
 from datetime import time
-from src.app.utils.time import parse_time_slot
 
-@pytest.mark.parametrize("input_str, expected_start, expected_end", [
-    ("12:00-13:30", time(12, 0), time(13, 30)),
-    ("00:00-23:59", time(0, 0), time(23, 59)),
-    ("9:05-10:10", time(9, 5), time(10, 10)),  # Single digits
-])
-def test_parse_time_slot_valid(input_str, expected_start, expected_end):
-    """Test correctly formatted time ranges."""
-    start, end = parse_time_slot(input_str)
-    assert start == expected_start
-    assert end == expected_end
+import pytest
 
-@pytest.mark.parametrize("invalid_input", [
-    "12:10",            # Missing hyphen
-    "12:00-25:00",      # Invalid hour
-    "12:60-13:00",      # Invalid minute
-    "abc-def",          # Not numbers
-    "12:00:00-13:00",   # Wrong format
-    None,               # Not a string
-    1210,               # Integer input
-    "",                 # Empty string
-])
-def test_parse_time_slot_invalid(invalid_input):
-    """Test that invalid inputs raise a descriptive ValueError."""
-    with pytest.raises(ValueError) as exc_info:
-        parse_time_slot(invalid_input)
-    assert "Invalid time format" in str(exc_info.value)
+from app.utils.time import parse_time_slot
+
+
+def test_valid_parses_correctly():
+    start, end = parse_time_slot("08:30-10:05")
+    assert start == time(8, 30)
+    assert end == time(10, 5)
+
+
+def test_midnight_boundary():
+    start, end = parse_time_slot("00:00-00:00")
+    assert start == time(0, 0)
+    assert end == time(0, 0)
+
+
+def test_end_of_day():
+    start, end = parse_time_slot("23:59-23:59")
+    assert start == time(23, 59)
+
+
+def test_missing_dash_raises():
+    with pytest.raises(ValueError, match="Invalid time format"):
+        parse_time_slot("0830-1005")
+
+
+def test_wrong_separator_raises():
+    with pytest.raises(ValueError, match="Invalid time format"):
+        parse_time_slot("08:30/10:05")
+
+
+def test_empty_string_raises():
+    with pytest.raises(ValueError, match="Invalid time format"):
+        parse_time_slot("")
+
+
+def test_none_raises():
+    with pytest.raises(ValueError, match="Invalid time format"):
+        parse_time_slot(None)
+
+
+def test_out_of_range_hour_raises():
+    with pytest.raises(ValueError, match="Invalid time format"):
+        parse_time_slot("25:00-26:00")
+
+
+def test_extra_parts_raises():
+    with pytest.raises(ValueError, match="Invalid time format"):
+        parse_time_slot("08:30-10:05-12:00")

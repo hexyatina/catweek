@@ -1,14 +1,14 @@
 import logging
 
+from flask import current_app
 from flask import request, jsonify, Blueprint
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
-from src.app.config import settings
-from src.app.extensions import db
-from src.app.repositories import ScheduleRepository, LookupRepository
-from src.app.schemas import *
-from src.app.utils import require_api_key
+from app.extensions import db
+from app.repositories import ScheduleRepository, LookupRepository
+from app.schemas import *
+from app.utils import require_api_key
 
 schedule_bp = Blueprint('schedule', __name__)
 lookup_bp = Blueprint('lookup', __name__, url_prefix='/lookup')
@@ -37,8 +37,8 @@ def health():
         return jsonify({
             "status": "ok",
             "database": "ok",
-            "app_env": settings.APP_ENV,
-            "db_env": settings.DB_ENV,
+            "app_env": current_app.config["APP_ENV"],
+            "db_env": current_app.config["DB_ENV"],
         }), 200
 
     except SQLAlchemyError:
@@ -47,8 +47,8 @@ def health():
         return jsonify({
             "status": "error",
             "database": "error",
-            "app_env": settings.APP_ENV,
-            "db_env": settings.DB_ENV,
+            "app_env": current_app.config["APP_ENV"],
+            "db_env": current_app.config["DB_ENV"],
         }), 500
 
 

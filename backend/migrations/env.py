@@ -3,12 +3,14 @@ import logging
 from alembic import context
 from flask import current_app
 
-from src.app.config import settings
-from src.app.extensions import Base
+from app.config import load_settings
+from app.extensions import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
+
+cfg = load_settings()
 
 logger = logging.getLogger(__name__)
 
@@ -37,7 +39,7 @@ def get_engine_url():
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 config.set_main_option('sqlalchemy.url',
-                       settings.get_database_url(direct=True).replace('%', '%%'))
+                       cfg.get_database_url(direct=True).replace('%', '%%'))
 
 target_db = current_app.extensions['migrate'].db
 

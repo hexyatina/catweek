@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     PORT: int = Field(default=5000)
     WORKERS: int = Field(default=4)
 
-    DATABASE_LOCAL: str = Field(default=...)
+    DATABASE_LOCAL: str = Field(default="")
     DATABASE_REMOTE: str = Field(default="")
     DATABASE_REMOTE_DIRECT: str = Field(default="")
     API_KEY: str = Field(default="")
@@ -24,6 +24,7 @@ class Settings(BaseSettings):
         "http://localhost:8080",
         "https://localhost:5173",
     ])
+    CORS_API_PREFIX: str = Field(default="/api/*")
     FORCE_HTTPS: bool = Field(default=True)
 
     # SECRET_KEY: str = Field(default="")
@@ -35,7 +36,10 @@ class Settings(BaseSettings):
     )
 
     @model_validator(mode='after')
-    def check_prod_fields(self) -> "Settings":
+    def check_db_fields(self) -> "Settings":
+        if self.DB_ENV == "remote" and not self.DATABASE_REMOTE:
+            raise ValueError("DB_ENV=remote requires DATABASE_LOCAL to be set")
+
         if self.APP_ENV != "prod":
             return self
 
@@ -63,7 +67,7 @@ class Settings(BaseSettings):
         return self.APP_ENV == "dev"
 
 
-def _load_settings() -> Settings:
+def load_settings() -> Settings:
     try:
         s = Settings()
         logger.debug(
@@ -77,6 +81,3 @@ def _load_settings() -> Settings:
             f"\n Configuration error: {e}"
             f"\n See .env.example for reference.\n"
         ) from None
-
-
-settings = _load_settings()
