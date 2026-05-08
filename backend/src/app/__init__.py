@@ -1,4 +1,6 @@
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, jsonify
+from sqlalchemy import text
+from sqlalchemy.exc import SQLAlchemyError
 from werkzeug.exceptions import HTTPException
 
 from . import models
@@ -6,6 +8,7 @@ from .api import api_bp
 from .cli import manage_cli
 from .config import Settings, load_settings
 from .extensions import db, migrate, swagger, talisman, cors
+from .swagger_template import get_swagger_template, get_swagger_config
 from .utils import (
     configure_logging, handle_exception, handle_http_exception
 )
@@ -25,10 +28,16 @@ def create_app(settings: Settings | None = None) -> Flask:
     app.config["API_KEY"] = cfg.API_KEY
     app.config["DATABASE_URL_DIRECT"] = cfg.get_database_url(direct=True)
 
+    app.config["APP_VERSION"] = cfg.APP_VERSION
+    app.config["GIT_SHA"] = cfg.GIT_SHA
+
     configure_logging(app)
 
     db.init_app(app)
     migrate.init_app(app, db)
+
+    swagger.template = get_swagger_template(app)
+    swagger.config = get_swagger_config()
     swagger.init_app(app)
 
     cors.init_app(app, resources={
@@ -63,6 +72,30 @@ def create_app(settings: Settings | None = None) -> Flask:
         def index():
             return redirect(url_for("flasgger.apidocs"))
 
+    @app.route('/health')
+    def health():
+        """
+        Liveness probe.
+        """
+        return jsonify(
+            status="ok",
+        ), 200
+
+    @app.route('/ready')
+    def ready():
+        """
+        Readiness probe.
+        """
+        checks = {"database": "ok"}
+
+        try:
+            db.session.execute(text("SELECT 1"))
+        except SQLAlchemyError:
+            checks["database"] = "error"
+            return jsonify(status="not_ready", checks=checks), 503
+
+        return jsonify(status="ready", checks=checks), 200
+    
     app.register_error_handler(HTTPException, handle_http_exception)
     app.register_error_handler(Exception, handle_exception)
 

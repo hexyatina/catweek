@@ -20,16 +20,21 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 
 FROM python:3.13-slim-bookworm
 
-RUN groupadd --system --gid 999 nonroot \
-    && useradd --system --gid 999 --uid 999 --create-home nonroot
-
-COPY --from=builder --chown=nonroot:nonroot /app /app
+ARG VERSION=0.0.0
+ARG GIT_SHA=unknown
 
 ENV PATH="/app/.venv/bin:$PATH" \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     FLASK_APP=wsgi:app \
-    PYTHONPATH="/app/src"
+    PYTHONPATH="/app/src" \
+    APP_VERSION="${VERSION}" \
+    GIT_SHA="${GIT_SHA}"
+
+RUN groupadd --system --gid 999 nonroot \
+    && useradd --system --gid 999 --uid 999 --create-home nonroot
+
+COPY --from=builder --chown=nonroot:nonroot /app /app
 
 USER nonroot
 WORKDIR /app

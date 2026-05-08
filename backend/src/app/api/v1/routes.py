@@ -1,11 +1,7 @@
 import logging
 
-from flask import current_app
-from flask import request, jsonify, Blueprint
-from sqlalchemy import text
-from sqlalchemy.exc import SQLAlchemyError
+from flask import request, Blueprint, current_app, jsonify
 
-from app.extensions import db
 from app.repositories import ScheduleRepository, LookupRepository
 from app.schemas import *
 from app.utils import require_api_key
@@ -18,38 +14,27 @@ system_bp = Blueprint('system', __name__)
 logger = logging.getLogger(__name__)
 
 
-@system_bp.get("/health")
-def health():
+@system_bp.get("/info")
+def info():
     """
-    Check system health and database connectivity.
+    Application metadata.
     ---
     tags:
-      - System
+        - System
     responses:
       200:
-        description: System and database are healthy
-      500:
-        description: Database connectivity failed
+        description: App info
     """
-    try:
-        db.session.execute(text("SELECT 1"))
 
-        return jsonify({
-            "status": "ok",
-            "database": "ok",
-            "app_env": current_app.config["APP_ENV"],
-            "db_env": current_app.config["DB_ENV"],
-        }), 200
+    config = current_app.config
 
-    except SQLAlchemyError:
-        logger.exception("Health check failed")
-
-        return jsonify({
-            "status": "error",
-            "database": "error",
-            "app_env": current_app.config["APP_ENV"],
-            "db_env": current_app.config["DB_ENV"],
-        }), 500
+    return jsonify(
+        app_name="Catweek",
+        environment=config["APP_ENV"],
+        database_environment=config["DB_ENV"],
+        version=config["APP_VERSION"],
+        commit=config["GIT_SHA"],
+    ), 200
 
 
 @schedule_bp.get("/schedule")

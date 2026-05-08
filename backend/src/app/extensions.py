@@ -6,8 +6,6 @@ from flask_talisman import Talisman
 from sqlalchemy import MetaData
 from sqlalchemy.orm import DeclarativeBase
 
-from .swagger_template import swagger_template, swagger_config
-
 
 class Base(DeclarativeBase):
     metadata = MetaData(schema="schedule")
@@ -15,6 +13,6 @@ class Base(DeclarativeBase):
 
 db = SQLAlchemy(model_class=Base)
 migrate = Migrate()
-swagger = Swagger(template=swagger_template, config=swagger_config)
+swagger = Swagger()
 cors = CORS()
 talisman = Talisman()

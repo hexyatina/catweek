@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     DATABASE_REMOTE_DIRECT: str = Field(default="")
     API_KEY: str = Field(default="")
 
+    APP_VERSION: str = Field(default="0.0.0-dev")
+    GIT_SHA: str = Field(default="unknown")
+
     ALLOWED_ORIGINS: list[str] = Field(default=[
         "http://localhost:8080",
         "https://localhost:5173",
