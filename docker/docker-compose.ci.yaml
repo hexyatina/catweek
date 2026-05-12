@@ -1,6 +1,6 @@
 services:
   backend:
-    image: ${IMAGE_NAME:-ghcr.io/hexyatina/catweek-backend:latest}
+    image: ${IMAGE_NAME:-ghcr.io/hexyatina/catweek/backend:latest}
     restart: "no"
     build:
       context: ../backend
