@@ -1,9 +1,11 @@
 import os
 from pathlib import Path
+from typing import Literal
 
 import pytest
 from alembic.command import upgrade, downgrade
 from alembic.config import Config as AlembicConfig
+from sqlalchemy.orm import Session
 
 from app import create_app
 from app.config import Settings
@@ -16,11 +18,11 @@ ROOT = Path(__file__).parent.parent
 class TestSettings(Settings):
     model_config = Settings.model_config
 
-    APP_ENV: str = "dev"
-    DB_ENV: str = "local"
-    DATABASE_LOCAL: str = os.environ.get(
-        "TEST_DATABASE_LOCAL",
-        "postgresql+psycopg://postgres:1845@localhost:5432/test_catweek"
+    APP_ENV: Literal["dev", "prod"] = "dev"
+    DB_ENV: Literal["local", "remote"] = "local"
+    DATABASE_URL_LOCAL: str = os.environ.get(
+        "TEST_DATABASE_URL_LOCAL",
+        "postgresql+psycopg://postgres:1845@localhost:5432/test_catweek",
     )
     FORCE_HTTPS: bool = False
     ALLOWED_ORIGINS: list[str] = []
@@ -37,9 +39,9 @@ def app():
 def db(app):
     with app.app_context():
         alembic_config = AlembicConfig(str(ROOT / "alembic.ini"))
-        alembic_config.set_main_option("sqlalchemy.url",
-                                       app.config["SQLALCHEMY_DATABASE_URI"]
-                                       )
+        alembic_config.set_main_option(
+            "sqlalchemy.url", app.config["SQLALCHEMY_DATABASE_URI"]
+        )
         alembic_config.set_main_option("script_location", str(ROOT / "migrations"))
         upgrade(alembic_config, "head")
         yield _db
@@ -49,16 +51,11 @@ def db(app):
 @pytest.fixture(scope="function")
 def db_session(db, app):
     with app.app_context():
-        connection = _db.engine.connect()
-        transaction = connection.begin()
-
-        _db.session.bind = connection
-
-        yield _db.session
-
-        _db.session.remove()
-        transaction.rollback()
-        connection.close()
+        with _db.engine.connect() as connection:
+            with connection.begin():
+                session = Session(bind=connection, join_transaction_mode="create_savepoint")
+                yield session
+                session.close()
 
 
 @pytest.fixture()

@@ -20,28 +20,28 @@ target_metadata = Base.metadata
 def get_engine():
     try:
         # this works with Flask-SQLAlchemy<3 and Alchemical
-        return current_app.extensions['migrate'].db.engine()
+        return current_app.extensions["migrate"].db.engine()
     except (TypeError, AttributeError):
         # this works with Flask-SQLAlchemy>=3
-        return current_app.extensions['migrate'].db.engine
+        return current_app.extensions["migrate"].db.engine
 
 
 def get_engine_url():
     try:
-        return get_engine().url.render_as_string(hide_password=False).replace(
-            '%', '%%')
+        return get_engine().url.render_as_string(hide_password=False).replace("%", "%%")
     except AttributeError:
-        return str(get_engine().url).replace('%', '%%')
+        return str(get_engine().url).replace("%", "%%")
 
 
 # add your model's MetaData object here
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-config.set_main_option('sqlalchemy.url',
-                       cfg.get_database_url(direct=True).replace('%', '%%'))
+config.set_main_option(
+    "sqlalchemy.url", cfg.get_database_url(direct=True).replace("%", "%%")
+)
 
-target_db = current_app.extensions['migrate'].db
+target_db = current_app.extensions["migrate"].db
 
 
 # other values from the config, defined by the needs of env.py,
@@ -51,7 +51,7 @@ target_db = current_app.extensions['migrate'].db
 
 
 def get_metadata():
-    if hasattr(target_db, 'metadatas'):
+    if hasattr(target_db, "metadatas"):
         return target_db.metadatas[None]
     return target_db.metadata
 
@@ -74,7 +74,7 @@ def run_migrations_offline():
         target_metadata=target_metadata,
         include_schemas=True,
         literal_binds=True,
-        version_table_schema='public'
+        version_table_schema="public",
     )
 
     with context.begin_transaction():
@@ -93,13 +93,13 @@ def run_migrations_online():
     # when there are no changes to the schema
     # reference: http://alembic.zzzcomputing.com/en/latest/cookbook.html
     def process_revision_directives(context, revision, directives):
-        if getattr(config.cmd_opts, 'autogenerate', False):
+        if getattr(config.cmd_opts, "autogenerate", False):
             script = directives[0]
             if script.upgrade_ops.is_empty():
                 directives[:] = []
-                logger.info('No changes in schema detected.')
+                logger.info("No changes in schema detected.")
 
-    conf_args = current_app.extensions['migrate'].configure_args
+    conf_args = current_app.extensions["migrate"].configure_args
     if conf_args.get("process_revision_directives") is None:
         conf_args["process_revision_directives"] = process_revision_directives
 
@@ -110,7 +110,7 @@ def run_migrations_online():
             connection=connection,
             target_metadata=target_metadata,
             include_schemas=True,
-            version_table_schema='public'
+            version_table_schema="public",
         )
 
         with context.begin_transaction():

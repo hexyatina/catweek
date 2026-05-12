@@ -1,2 +1,2 @@
-from .database import DatabaseService
-from .schedule_importer import ScheduleService
+from .database import DatabaseService as DatabaseService
+from .schedule_importer import ScheduleService as ScheduleService

@@ -36,7 +36,9 @@ class Settings(BaseSettings):
 
     # SECRET_KEY: str = Field(default="")
 
-    model_config = SettingsConfigDict(case_sensitive=True, env_file=".env", extra="ignore")
+    model_config = SettingsConfigDict(
+        case_sensitive=True, env_file=".env", extra="ignore"
+    )
 
     @property
     def debug(self) -> bool:
@@ -56,9 +58,11 @@ class Settings(BaseSettings):
                 errors.append("DB_ENV=remote requires DATABASE_URL_REMOTE to be set")
 
             if not self.DATABASE_URL_REMOTE_DIRECT:
-                errors.append("DB_ENV=remote requires DATABASE_URL_REMOTE_DIRECT to be set")
+                errors.append(
+                    "DB_ENV=remote requires DATABASE_URL_REMOTE_DIRECT to be set"
+                )
 
-        #API_KEY only validated and used in prod mode.
+        # API_KEY only validated and used in prod mode.
         if self.APP_ENV == "prod":
             if not self.API_KEY:
                 errors.append("APP_ENV=prod requires API_KEY to be set")
@@ -78,7 +82,9 @@ class Settings(BaseSettings):
 def load_settings() -> Settings:
     try:
         s = Settings()
-        logger.debug("Config loaded - env=%s db_target=%s debug=%s", s.APP_ENV, s.DB_ENV, s.debug)
+        logger.debug(
+            "Config loaded - env=%s db_target=%s debug=%s", s.APP_ENV, s.DB_ENV, s.debug
+        )
 
         return s
 

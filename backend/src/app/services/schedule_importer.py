@@ -9,7 +9,6 @@ from ..utils import load_and_normalize_all_yaml, IDResolver
 
 # TODO: remake the commands
 class ScheduleService:
-
     @staticmethod
     def import_schedule_yaml(file_path_str: str):
 

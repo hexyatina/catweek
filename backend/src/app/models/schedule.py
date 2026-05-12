@@ -2,8 +2,12 @@ from datetime import time as dt_time
 from typing import Optional
 
 from sqlalchemy import (
-    String, Time, Index, ForeignKey,
-    CheckConstraint, UniqueConstraint,
+    String,
+    Time,
+    Index,
+    ForeignKey,
+    CheckConstraint,
+    UniqueConstraint,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -59,7 +63,9 @@ class StudentGroup(Base):
     __tablename__ = "student_groups"
 
     id: Mapped[int] = mapped_column("group_id", primary_key=True)
-    specialty_id: Mapped[int] = mapped_column(ForeignKey("schedule.specialties.specialty_id", ondelete="CASCADE"))
+    specialty_id: Mapped[int] = mapped_column(
+        ForeignKey("schedule.specialties.specialty_id", ondelete="CASCADE")
+    )
     course: Mapped[int]
     group_number: Mapped[int]
 
@@ -77,12 +83,24 @@ class Schedule(Base):
     id: Mapped[int] = mapped_column("schedule_id", primary_key=True)
     week_id: Mapped[int]
 
-    day_id: Mapped[int] = mapped_column(ForeignKey("schedule.days.day_id", ondelete="CASCADE"))
-    slot_id: Mapped[int] = mapped_column(ForeignKey("schedule.slots.slot_id", ondelete="CASCADE"))
-    venue_id: Mapped[Optional[int]] = mapped_column(ForeignKey("schedule.venues.venue_id", ondelete="SET NULL"))
-    group_id: Mapped[int] = mapped_column(ForeignKey("schedule.student_groups.group_id", ondelete="CASCADE"))
-    lesson_id: Mapped[int] = mapped_column(ForeignKey("schedule.lessons.lesson_id", ondelete="CASCADE"))
-    lecturer_id: Mapped[int] = mapped_column(ForeignKey("schedule.lecturers.lecturer_id", ondelete="CASCADE"))
+    day_id: Mapped[int] = mapped_column(
+        ForeignKey("schedule.days.day_id", ondelete="CASCADE")
+    )
+    slot_id: Mapped[int] = mapped_column(
+        ForeignKey("schedule.slots.slot_id", ondelete="CASCADE")
+    )
+    venue_id: Mapped[Optional[int]] = mapped_column(
+        ForeignKey("schedule.venues.venue_id", ondelete="SET NULL")
+    )
+    group_id: Mapped[int] = mapped_column(
+        ForeignKey("schedule.student_groups.group_id", ondelete="CASCADE")
+    )
+    lesson_id: Mapped[int] = mapped_column(
+        ForeignKey("schedule.lessons.lesson_id", ondelete="CASCADE")
+    )
+    lecturer_id: Mapped[int] = mapped_column(
+        ForeignKey("schedule.lecturers.lecturer_id", ondelete="CASCADE")
+    )
 
     day: Mapped["Day"] = relationship()
     slot: Mapped["Slot"] = relationship()

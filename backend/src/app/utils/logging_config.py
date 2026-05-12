@@ -2,6 +2,7 @@ import logging
 import os
 from logging.handlers import RotatingFileHandler
 
+
 def configure_logging(app) -> None:
     root = logging.getLogger()
     if getattr(app, "_logging_configured", False):
@@ -25,11 +26,10 @@ def configure_logging(app) -> None:
     if not app.config["DEBUG"]:
         os.makedirs("logs", exist_ok=True)
         file_handler = RotatingFileHandler(
-            "logs/app.log", maxBytes=10 ** 6, backupCount=5
+            "logs/app.log", maxBytes=10**6, backupCount=5
         )
         file_handler.setFormatter(formatter)
         handlers.append(file_handler)
-
 
     root.setLevel(level)
     for handler in root.handlers:

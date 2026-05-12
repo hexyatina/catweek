@@ -4,6 +4,7 @@ from .time import parse_time_slot
 from ..schemas.schedule import WeekSchedule
 from pydantic import ValidationError
 
+
 def load_and_normalize_all_yaml(data_dir: Path) -> list[dict]:
     normalized: list[dict] = []
     path = data_dir
@@ -15,12 +16,12 @@ def load_and_normalize_all_yaml(data_dir: Path) -> list[dict]:
         print(f"Processing {file_path.name}...")
 
         with file_path.open("r", encoding="utf-8") as file:
-
             documents = yaml.safe_load_all(file)
 
             for doc in documents:
                 i = 0
-                if doc is None: continue
+                if doc is None:
+                    continue
 
                 try:
                     validated = WeekSchedule(**doc)
@@ -28,7 +29,7 @@ def load_and_normalize_all_yaml(data_dir: Path) -> list[dict]:
                     raise RuntimeError(
                         f"Validation failed for {file_path.name} (Week {doc.get('week', 'unknown')}): \n{e}"
                     ) from e
-                
+
                 for day_name, lessons in validated.days.items():
                     if lessons is None:
                         continue
@@ -37,17 +38,19 @@ def load_and_normalize_all_yaml(data_dir: Path) -> list[dict]:
                         i = i + 1
                         time_start, time_end = parse_time_slot(entry.time)
 
-                        normalized.append({
-                            "specialty": validated.specialty,
-                            "course": validated.course,
-                            "group": validated.group,
-                            "week": validated.week,
-                            "day": day_name,
-                            "time_start": time_start,
-                            "time_end": time_end,
-                            "lesson": entry.lesson,
-                            "lecturer": entry.lecturer,
-                            "place": entry.place,
-                        })
+                        normalized.append(
+                            {
+                                "specialty": validated.specialty,
+                                "course": validated.course,
+                                "group": validated.group,
+                                "week": validated.week,
+                                "day": day_name,
+                                "time_start": time_start,
+                                "time_end": time_end,
+                                "lesson": entry.lesson,
+                                "lecturer": entry.lecturer,
+                                "place": entry.place,
+                            }
+                        )
                 print(f"Normalized {i} lessons from {file_path.name}")
     return normalized

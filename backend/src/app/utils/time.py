@@ -1,5 +1,6 @@
 from datetime import time
 
+
 def parse_time_slot(value: str) -> tuple[time, time]:
     try:
         start_time, end_time = value.split("-")

@@ -1,7 +1,9 @@
 from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound
+
 from ..extensions import db
-from ..models import *
+from ..models import Day, Slot, Venue, Specialty, StudentGroup, Lesson, Lecturer
+
 
 class IDResolver:
     def __init__(self):
@@ -22,16 +24,19 @@ class IDResolver:
         self._cache[cache_key] = result
         return result
 
-    def resolve_row(self, row:dict):
+    def resolve_row(self, row: dict):
 
         is_en = all(ord(c) < 128 for c in row["day"])
         day_col = "name_en" if is_en else "name_uk"
         day_id = self._get_id(Day, {day_col: row["day"]})
 
-        slot_id = self._get_id(Slot, {
-            "time_start": row["time_start"],
-            "time_end": row["time_end"],
-        })
+        slot_id = self._get_id(
+            Slot,
+            {
+                "time_start": row["time_start"],
+                "time_end": row["time_end"],
+            },
+        )
 
         venue_id = None
         if row["place"] != "Онлайн":
@@ -39,11 +44,14 @@ class IDResolver:
 
         spec_id = self._get_id(Specialty, {"code": row["specialty"]})
 
-        group_id = self._get_id(StudentGroup, {
-            "specialty_id": spec_id,
-            "course": row["course"],
-            "group_number": row["group"]
-        })
+        group_id = self._get_id(
+            StudentGroup,
+            {
+                "specialty_id": spec_id,
+                "course": row["course"],
+                "group_number": row["group"],
+            },
+        )
 
         lesson_id = self._get_id(Lesson, {"code": row["lesson"]})
         lecturer_id = self._get_id(Lecturer, {"surname": row["lecturer"]})

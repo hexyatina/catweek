@@ -29,8 +29,8 @@ class ScheduleEntrySchema(BaseModel):
             group=f"{r.group.specialty.code}-{r.group.course}{r.group.group_number}",
         )
 
-class ScheduleEntryDetailSchema(ScheduleEntrySchema):
 
+class ScheduleEntryDetailSchema(ScheduleEntrySchema):
     day_en: str
     is_short: bool
     lesson_code: str

@@ -6,7 +6,6 @@ from ..models import Schedule, StudentGroup
 
 
 class ScheduleRepository(BaseRepository):
-
     @staticmethod
     def _base_stmt():
         return select(Schedule).options(
@@ -19,11 +18,11 @@ class ScheduleRepository(BaseRepository):
         )
 
     def get_filtered(
-            self,
-            group_id: int | None = None,
-            lecturer_id: int | None = None,
-            day_id: int | None = None,
-            week_id: int | None = None,
+        self,
+        group_id: int | None = None,
+        lecturer_id: int | None = None,
+        day_id: int | None = None,
+        week_id: int | None = None,
     ) -> list[Schedule]:
         stmt = ScheduleRepository._base_stmt()
 
@@ -36,10 +35,6 @@ class ScheduleRepository(BaseRepository):
         if week_id is not None:
             stmt = stmt.where(Schedule.week_id == week_id)
 
-        stmt = stmt.order_by(
-            Schedule.week_id,
-            Schedule.day_id,
-            Schedule.slot_id
-        )
+        stmt = stmt.order_by(Schedule.week_id, Schedule.day_id, Schedule.slot_id)
 
         return self.session.scalars(stmt).all()

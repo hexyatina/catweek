@@ -3,11 +3,14 @@ from flask.cli import with_appcontext, AppGroup
 from .services import ScheduleService, DatabaseService
 from .extensions import db
 
-manage_cli = AppGroup("manage", help=""
-                                     "DO NOT USE IN PROD unless you know what you are doing."
-                                     "Bypasses alembic migrations."
-                                     "Database management commands."
-                      )
+manage_cli = AppGroup(
+    "manage",
+    help=""
+    "DO NOT USE IN PROD unless you know what you are doing."
+    "Bypasses alembic migrations."
+    "Database management commands.",
+)
+
 
 @manage_cli.command("reset-content")
 @with_appcontext
@@ -21,6 +24,7 @@ def reset_content():
         db.session.rollback()
         click.secho(f"Database reset failed: {e}", fg="red")
 
+
 @manage_cli.command("reset-db")
 @with_appcontext
 def reset_db():
@@ -28,9 +32,10 @@ def reset_db():
     click.confirm("HARD RESET?", abort=True)
     try:
         DatabaseService.reset_db_schema()
-        click.echo(f"Database recreated successfully.")
+        click.echo("Database recreated successfully.")
     except Exception as e:
         click.secho(f"Database recreation failed: {e}", fg="red")
+
 
 @manage_cli.command("seed")
 @with_appcontext
@@ -43,16 +48,18 @@ def seed_db():
         db.session.rollback()
         click.echo(f"Database seeding failed: {e}")
 
+
 @manage_cli.command("import-schedule-yaml")
 @with_appcontext
 def import_schedule():
     """Processes all YAMLs, cleans existing entries and inserts new ones."""
     try:
         ScheduleService.import_schedule_yaml("data/schedules/")
-        click.echo(f"Imported schedule successfully")
+        click.echo("Imported schedule successfully")
     except Exception as e:
         db.session.rollback()
         click.secho(f"Import schedule failed: {e}", fg="red")
+
 
 @manage_cli.command("seed-if-empty")
 @with_appcontext
@@ -61,15 +68,17 @@ def seed_if_empty():
     from .models import Day
     from .extensions import db
     from sqlalchemy import select
+
     if db.session.scalars(select(Day)).first() is None:
         try:
             DatabaseService.seed_system_data()
-            click.echo(f"Seed successful.")
+            click.echo("Seed successful.")
         except Exception as e:
             db.session.rollback()
             click.secho(f"Seed failed: {e}", fg="red")
     else:
         click.echo("Data.exists, skipping seed.")
+
 
 @manage_cli.command("test-db-conn")
 def test_db_conn():

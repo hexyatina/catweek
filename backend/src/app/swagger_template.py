@@ -4,8 +4,7 @@ def get_swagger_template(app):
         "info": {
             "title": "CatWeek Backend API",
             "version": app.config["APP_VERSION"],
-            "description":
-                """# Flexible API for college and alike schedules.
+            "description": """# Flexible API for college and alike schedules.
     
     ## Authentication
     All endpoints require `X-Api-Key` header when `ENV=prod`. In `ENV=dev` the API is open.
@@ -34,7 +33,10 @@ def get_swagger_template(app):
         },
         "basePath": "/",
         "tags": [
-            {"name": "Schedule", "description": "Main schedule endpoint. Add `?detailed` for full response."},
+            {
+                "name": "Schedule",
+                "description": "Main schedule endpoint. Add `?detailed` for full response.",
+            },
             {"name": "Lookup", "description": "Reference data for filter dropdowns."},
             {"name": "System", "description": "Health and connectivity checks."},
         ],
@@ -49,13 +51,20 @@ def get_swagger_template(app):
                     "day": {"type": "string", "example": "Понеділок"},
                     "time_start": {"type": "string", "example": "09:00"},
                     "time_end": {"type": "string", "example": "10:20"},
-                    "lesson": {"type": "string", "example": "Інженерія Програмного Забезпечення"},
+                    "lesson": {
+                        "type": "string",
+                        "example": "Інженерія Програмного Забезпечення",
+                    },
                     "lecturer": {"type": "string", "example": "Степанюк"},
                     "location": {"type": "string", "example": "14", "x-nullable": True},
-                    "url": {"type": "string", "example": "https://zoom.us/j/123", "x-nullable": True},
+                    "url": {
+                        "type": "string",
+                        "example": "https://zoom.us/j/123",
+                        "x-nullable": True,
+                    },
                     "week": {"type": "integer", "example": 1},
                     "group": {"type": "string", "example": "ІПЗ-31"},
-                }
+                },
             },
             "ScheduleEntryDetailed": {
                 "allOf": [
@@ -64,19 +73,28 @@ def get_swagger_template(app):
                         "type": "object",
                         "properties": {
                             "day_en": {"type": "string", "example": "Monday"},
-                            "is_short": {"type": "boolean", "example": False,
-                                         "description": "True for shortened day slots (6-10), False for normal slots (1-5)"},
+                            "is_short": {
+                                "type": "boolean",
+                                "example": False,
+                                "description": "True for shortened day slots (6-10), False for normal slots (1-5)",
+                            },
                             "lesson_code": {"type": "string", "example": "ІПЗ"},
                             "lecturer_name": {"type": "string", "example": "Андрій"},
-                            "lecturer_middle_name": {"type": "string", "example": "Андрійович"},
-                            "specialty_name": {"type": "string", "example": "Інженерія Програмного Забезпечення"},
+                            "lecturer_middle_name": {
+                                "type": "string",
+                                "example": "Андрійович",
+                            },
+                            "specialty_name": {
+                                "type": "string",
+                                "example": "Інженерія Програмного Забезпечення",
+                            },
                             "specialty_code": {"type": "string", "example": "ІПЗ"},
                             "course": {"type": "integer", "example": 3},
                             "group_number": {"type": "integer", "example": 1},
-                        }
-                    }
+                        },
+                    },
                 ]
-            }
+            },
         },
     }
 

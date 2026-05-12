@@ -1,6 +1,7 @@
 from pydantic import BaseModel, ConfigDict
 from ..models import Slot, StudentGroup
 
+
 class DaySchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -21,8 +22,8 @@ class SlotSchema(BaseModel):
     def from_orm_row(cls, r: Slot) -> "SlotSchema":
         return cls(
             id=r.id,
-            time_start=r.time_start.strftime('%H:%M'),
-            time_end=r.time_end.strftime('%H:%M'),
+            time_start=r.time_start.strftime("%H:%M"),
+            time_end=r.time_end.strftime("%H:%M"),
             is_short=r.is_short,
         )
 

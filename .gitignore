@@ -415,3 +415,5 @@ vite.config.ts.timestamp-*
 # React Router
 /.react-router/
 /build/
+
+.secrets

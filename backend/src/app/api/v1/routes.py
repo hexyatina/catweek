@@ -3,13 +3,23 @@ import logging
 from flask import request, Blueprint, current_app, jsonify
 
 from app.repositories import ScheduleRepository, LookupRepository
-from app.schemas import *
+from app.schemas import (
+    ScheduleEntrySchema,
+    ScheduleEntryDetailSchema,
+    DaySchema,
+    SlotSchema,
+    SpecialtySchema,
+    LecturerSchema,
+    LessonSchema,
+    VenueSchema,
+    GroupSchema,
+)
 from app.utils import require_api_key
 
-schedule_bp = Blueprint('schedule', __name__)
-lookup_bp = Blueprint('lookup', __name__, url_prefix='/lookup')
+schedule_bp = Blueprint("schedule", __name__)
+lookup_bp = Blueprint("lookup", __name__, url_prefix="/lookup")
 
-system_bp = Blueprint('system', __name__)
+system_bp = Blueprint("system", __name__)
 
 logger = logging.getLogger(__name__)
 
@@ -98,10 +108,7 @@ def get_schedule():
     results = repo.get_filtered(**filters)
     schema = ScheduleEntryDetailSchema if detailed else ScheduleEntrySchema
 
-    return jsonify([
-        schema.from_orm_row(r).model_dump()
-        for r in results
-    ])
+    return jsonify([schema.from_orm_row(r).model_dump() for r in results])
 
 
 @lookup_bp.get("/days")
@@ -122,10 +129,7 @@ def get_days():
     """
     repo = LookupRepository()
     days = repo.get_days()
-    return jsonify([
-        DaySchema.model_validate(d).model_dump()
-        for d in days
-    ])
+    return jsonify([DaySchema.model_validate(d).model_dump() for d in days])
 
 
 @lookup_bp.get("/slots")
@@ -146,10 +150,7 @@ def get_slots():
     """
     repo = LookupRepository()
     slots = repo.get_slots()
-    return jsonify([
-        SlotSchema.from_orm_row(s).model_dump()
-        for s in slots
-    ])
+    return jsonify([SlotSchema.from_orm_row(s).model_dump() for s in slots])
 
 
 @lookup_bp.get("/specialties")
@@ -170,10 +171,9 @@ def get_specialties():
     """
     repo = LookupRepository()
     specialties = repo.get_specialties()
-    return jsonify([
-        SpecialtySchema.model_validate(s).model_dump()
-        for s in specialties
-    ])
+    return jsonify(
+        [SpecialtySchema.model_validate(s).model_dump() for s in specialties]
+    )
 
 
 @lookup_bp.get("/lecturers")
@@ -194,10 +194,9 @@ def get_lecturers():
     """
     repo = LookupRepository()
     lecturers = repo.get_lecturers()
-    return jsonify([
-        LecturerSchema.model_validate(l).model_dump()
-        for l in lecturers
-    ])
+    return jsonify(
+        [LecturerSchema.model_validate(lecturer).model_dump() for lecturer in lecturers]
+    )
 
 
 @lookup_bp.get("/lessons")
@@ -218,10 +217,9 @@ def get_lessons():
     """
     repo = LookupRepository()
     lessons = repo.get_lessons()
-    return jsonify([
-        LessonSchema.model_validate(l).model_dump()
-        for l in lessons
-    ])
+    return jsonify(
+        [LessonSchema.model_validate(lesson).model_dump() for lesson in lessons]
+    )
 
 
 @lookup_bp.get("/venues")
@@ -242,10 +240,7 @@ def get_venues():
     """
     repo = LookupRepository()
     venues = repo.get_venues()
-    return jsonify([
-        VenueSchema.model_validate(v).model_dump()
-        for v in venues
-    ])
+    return jsonify([VenueSchema.model_validate(v).model_dump() for v in venues])
 
 
 @lookup_bp.get("/groups")
@@ -266,7 +261,4 @@ def get_groups():
     """
     repo = LookupRepository()
     groups = repo.get_groups()
-    return jsonify([
-        GroupSchema.from_orm_row(g).model_dump()
-        for g in groups
-    ])
+    return jsonify([GroupSchema.from_orm_row(g).model_dump() for g in groups])

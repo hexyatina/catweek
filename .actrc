@@ -1,0 +1,4 @@
+-P ubuntu-latest=catthehacker/ubuntu:act-latest
+--secret-file .secrets
+--env RUNNER_TOOL_CACHE=/opt/acttoolcache
+--artifact-server-path /tmp/act-artifacts

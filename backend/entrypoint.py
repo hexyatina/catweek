@@ -38,15 +38,12 @@ def main() -> None:
     migration_env = {"DATABASE_URL": db_url}
 
     log.info("Running migrations...")
-    run_command(
-        ["flask", "--app", "wsgi:app", "db", "upgrade"],
-        env_vars=migration_env
-    )
+    run_command(["flask", "--app", "wsgi:app", "db", "upgrade"], env_vars=migration_env)
 
     log.info("Checking seeds...")
-    run_command([
-        "flask", "--app", "wsgi:app", "manage", "seed-if-empty"],
-        env_vars=migration_env
+    run_command(
+        ["flask", "--app", "wsgi:app", "manage", "seed-if-empty"],
+        env_vars=migration_env,
     )
 
     if cfg.APP_ENV == "prod":
@@ -56,13 +53,19 @@ def main() -> None:
             "gunicorn",
             [
                 "gunicorn",
-                "--bind", f"0.0.0.0:{cfg.PORT}",
-                "--workers", str(cfg.WORKERS),
-                "--timeout", "120",
-                "--access-logfile", "-",
-                "--error-logfile", "-",
+                "--bind",
+                f"0.0.0.0:{cfg.PORT}",
+                "--workers",
+                str(cfg.WORKERS),
+                "--timeout",
+                "120",
+                "--access-logfile",
+                "-",
+                "--error-logfile",
+                "-",
                 "wsgi:app",
-            ])
+            ],
+        )
     else:
         log.info("Starting Flask Dev Server on port %s", cfg.PORT)
 
@@ -70,11 +73,15 @@ def main() -> None:
             "flask",
             [
                 "flask",
-                "--app", "wsgi:app",
+                "--app",
+                "wsgi:app",
                 "run",
-                "--host", "0.0.0.0",
-                "--port", str(cfg.PORT)
-            ])
+                "--host",
+                "0.0.0.0",
+                "--port",
+                str(cfg.PORT),
+            ],
+        )
 
 
 if __name__ == "__main__":

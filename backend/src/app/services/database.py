@@ -11,7 +11,6 @@ from ..seed import DAYS, SLOTS, VENUES, LECTURERS, LESSONS, SPECIALTIES, STUDENT
 
 # TODO: remake the commands
 class DatabaseService:
-
     @staticmethod
     def _direct_engine():
         return create_engine(current_app.config["DATABASE_URL_DIRECT"])
@@ -59,7 +58,7 @@ class DatabaseService:
             db.session.add_all([Slot(**s) for s in SLOTS])
             db.session.add_all([Venue(**v) for v in VENUES])
             db.session.add_all([Lecturer(**lec) for lec in LECTURERS])
-            db.session.add_all([Lesson(**l) for l in LESSONS])
+            db.session.add_all([Lesson(**lesson) for lesson in LESSONS])
 
             spec_map: dict[str, Specialty] = {}
             for s_data in SPECIALTIES:
@@ -73,11 +72,13 @@ class DatabaseService:
                 spec = spec_map.get(g_data["specialty_code"])
                 if spec is None:
                     raise ValueError(f"Unknown specialty: {g_data['specialty_code']}")
-                db.session.add(StudentGroup(
-                    specialty_id=spec.id,
-                    course=g_data["course"],
-                    group_number=g_data["group_number"],
-                ))
+                db.session.add(
+                    StudentGroup(
+                        specialty_id=spec.id,
+                        course=g_data["course"],
+                        group_number=g_data["group_number"],
+                    )
+                )
 
             db.session.commit()
         except Exception as e:

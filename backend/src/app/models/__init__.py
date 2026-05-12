@@ -1,6 +1,12 @@
 from .schedule import (
-    Day, Lecturer, Lesson,
-    Slot, Venue, Specialty, StudentGroup, Schedule
+    Day,
+    Lecturer,
+    Lesson,
+    Slot,
+    Venue,
+    Specialty,
+    StudentGroup,
+    Schedule,
 )
 
 __all__ = [
