@@ -7,6 +7,8 @@ on:
       - prod
     paths:
       - 'backend/**'
+      - 'docker/**'
+      - '.github/**'
   pull_request:
     branches:
       - main
