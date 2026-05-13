@@ -47,7 +47,7 @@ jobs:
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
           echo "git_sha=${GIT_SHA}" >> $GITHUB_OUTPUT
           echo "sha_tag=${SHA_TAG}" >> $GITHUB_OUTPUT
-          echo "Tag: $TAG | Version: $VERSION | SHA: $GIT_SHA" | Image tag: $SHA_TAG"
+          echo "Tag: $TAG | Version: $VERSION | SHA: $GIT_SHA | Image tag: $SHA_TAG"
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
