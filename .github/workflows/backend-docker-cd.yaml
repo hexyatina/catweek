@@ -58,7 +58,7 @@ jobs:
 
       - name: Re-tag and push
         run: |
-          SHA_IMAGE="{{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.sha_tag }}"
+          SHA_IMAGE="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.sha_tag }}"
           VERSION_IMAGE="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}"
           LATEST_IMAGE="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
           
