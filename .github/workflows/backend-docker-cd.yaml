@@ -47,7 +47,7 @@ jobs:
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
           echo "git_sha=${GIT_SHA}" >> $GITHUB_OUTPUT
           echo "sha_tag=${SHA_TAG}" >> $GITHUB_OUTPUT
-          echo "Tag: $TAG | Version: $VERSION | SHA: $GIT_SHA" | Image tag: $SHA_TAG
+          echo "Tag: $TAG | Version: $VERSION | SHA: $GIT_SHA | Image tag: $SHA_TAG"
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
@@ -73,6 +73,20 @@ jobs:
           
           echo "Pushing $LATEST_IMAGE ..."
           docker push "$LATEST_IMAGE"
+
+      - name: Update VERSION on Render
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          curl -fsSL -X PUT \
+            "https://api.render.com/v1/services/${RENDER_SERVICE_ID}/env-vars/APP_VERSION" \
+            -H "Authorization: Bearer ${RENDER_API_KEY}" \
+            -H "Content-Type: application/json" \
+            -d "{\"value\": \"${VERSION}\"}"
+          echo "APP_VERSION set to ${VERSION}"
+          
 
       - name: Trigger Render deploy
         env:

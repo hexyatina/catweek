@@ -28,7 +28,6 @@ ENV PATH="/app/.venv/bin:$PATH" \
     PYTHONUNBUFFERED=1 \
     FLASK_APP=wsgi:app \
     PYTHONPATH="/app/src" \
-    APP_VERSION="${VERSION}" \
     GIT_SHA="${GIT_SHA}"
 
 RUN groupadd --system --gid 999 nonroot \
