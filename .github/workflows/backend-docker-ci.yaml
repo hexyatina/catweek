@@ -118,8 +118,8 @@ jobs:
       contents: read
       packages: write
     outputs:
-      sha-tag: ${{ steps.version.outputs.sha_tag }}
-      git-sha: ${{ steps.version.outputs.git_sha }}
+      sha_tag: ${{ steps.version.outputs.sha_tag }}
+      git_tag: ${{ steps.version.outputs.git_sha }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -144,7 +144,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push SHA-tagged image
+      - name: Build and push sha_tagged image
         uses: docker/build-push-action@v5
         with:
           context: ./backend
