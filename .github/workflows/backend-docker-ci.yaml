@@ -119,7 +119,7 @@ jobs:
       packages: write
     outputs:
       sha_tag: ${{ steps.version.outputs.sha_tag }}
-      git_tag: ${{ steps.version.outputs.git_sha }}
+      git_sha: ${{ steps.version.outputs.git_sha }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -172,7 +172,7 @@ jobs:
 
       - name: Run smoke test
         env:
-          IMAGE_NAME: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.sha_tag }}
+          IMAGE_NAME: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.build-and-push.outputs.sha_tag }}
         run: |
           docker compose -f docker/docker-compose.ci.yaml up -d --wait
 
