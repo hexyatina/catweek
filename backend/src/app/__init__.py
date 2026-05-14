@@ -26,8 +26,7 @@ def create_app(settings: Settings | None = None) -> Flask:
     app.config["API_KEY"] = cfg.API_KEY
     app.config["DATABASE_URL_DIRECT"] = cfg.get_database_url(direct=True)
 
-    app.config["APP_VERSION"] = cfg.APP_VERSION
-    app.config["GIT_SHA"] = cfg.GIT_SHA
+    app.config["APP_VERSION"] = cfg.GIT_SHA if not cfg.APP_VERSION else cfg.APP_VERSION
 
     configure_logging(app)
 
