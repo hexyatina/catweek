@@ -4,29 +4,35 @@ from flask import render_template
 
 app = Flask(__name__)
 
-@app.route('/')
+
+@app.route("/")
 def index():
-    return 'Index Page'
+    return "Index Page"
 
-@app.route('/hello/')
-@app.route('/hello/<name>')
+
+@app.route("/hello/")
+@app.route("/hello/<name>")
 def hello(name=None):
-    return render_template('hello.html', person=name)
+    return render_template("hello.html", person=name)
 
-#@app.route('/api/schedule/<group_name>')
+
+# @app.route('/api/schedule/<group_name>')
 #   def get_schedule(group_name):
 
-@app.route('/lecturers/<lecturer_name>')
-def lecturer_table(lecturer_name):
-    data = get_lecturer_table_data(lecturer_name)
-    return render_template('index.html', schedule=data)
 
-@app.route('/login', methods=['GET', 'POST'])
+# @app.route("/lecturers/<lecturer_name>")
+# def lecturer_table(lecturer_name):
+#     data = get_lecturer_table_data(lecturer_name)
+#     return render_template("index.html", schedule=data)
+
+
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == 'POST':
-        return 'do_the_login()'
+    if request.method == "POST":
+        return "do_the_login()"
     else:
-        return 'show_the_login_form()'
+        return "show_the_login_form()"
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     app.run(debug=True)
