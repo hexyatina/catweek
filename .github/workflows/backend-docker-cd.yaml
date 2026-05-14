@@ -86,7 +86,7 @@ jobs:
             -H "Content-Type: application/json" \
             -d "{\"value\": \"${VERSION}\"}"
           echo "APP_VERSION set to ${VERSION}"
-          
+
 
       - name: Trigger Render deploy
         env:

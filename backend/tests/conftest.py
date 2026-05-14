@@ -53,7 +53,9 @@ def db_session(db, app):
     with app.app_context():
         with _db.engine.connect() as connection:
             with connection.begin():
-                session = Session(bind=connection, join_transaction_mode="create_savepoint")
+                session = Session(
+                    bind=connection, join_transaction_mode="create_savepoint"
+                )
                 yield session
                 session.close()
 
