@@ -46,12 +46,26 @@ class Settings(BaseSettings):
 
     def get_database_url(self, direct: bool = False) -> str:
         if self.DB_ENV == "local":
-            return self.DATABASE_URL_LOCAL
-        return self.DATABASE_URL_REMOTE_DIRECT if direct else self.DATABASE_URL_REMOTE
+            url = self.DATABASE_URL_LOCAL
+        elif direct:
+            url = self.DATABASE_URL_REMOTE_DIRECT
+        else:
+            url = self.DATABASE_URL_REMOTE
+
+        if not url:
+            raise ValueError(
+                f"No database URL configured for DB_ENV={self.DB_ENV} "
+                f"(direct={direct}) — check your .env or environment variables"
+            )
+        return url
 
     @model_validator(mode="after")
     def check_required_fields(self) -> "Settings":
         errors = []
+
+        if self.DB_ENV == "local":
+            if not self.DATABASE_URL_LOCAL:
+                errors.append("DB_ENV=local requires DATABASE_URL_LOCAL to be set")
 
         if self.DB_ENV == "remote":
             if not self.DATABASE_URL_REMOTE:

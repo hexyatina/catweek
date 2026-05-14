@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-from typing import Literal
 
 import pytest
 from alembic.command import upgrade, downgrade
@@ -14,25 +13,23 @@ from app.models import Day
 
 ROOT = Path(__file__).parent.parent
 
-
-class TestSettings(Settings):
-    model_config = Settings.model_config
-
-    APP_ENV: Literal["dev", "prod"] = "dev"
-    DB_ENV: Literal["local", "remote"] = "local"
-    DATABASE_URL_LOCAL: str = os.environ.get(
-        "TEST_DATABASE_URL_LOCAL",
-        "postgresql+psycopg://postgres:1845@localhost:5432/test_catweek",
-    )
-    FORCE_HTTPS: bool = False
-    ALLOWED_ORIGINS: list[str] = []
+TEST_DB_URL = os.environ.get(
+    "TEST_DATABASE_URL_LOCAL",
+    "postgresql+psycopg://postgres:1845@localhost:5432/test_catweek",
+)
 
 
 @pytest.fixture(scope="session")
 def app():
-    cfg = TestSettings()
-    application = create_app(settings=cfg)
-    return application
+    cfg = Settings(
+        APP_ENV="dev",
+        DB_ENV="local",
+        DATABASE_URL_LOCAL=TEST_DB_URL,
+        FORCE_HTTPS=False,
+        ALLOWED_ORIGINS=[],
+        API_KEY="test-api-key",
+    )
+    return create_app(settings=cfg)
 
 
 @pytest.fixture(scope="session")
