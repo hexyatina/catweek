@@ -1,9 +1,11 @@
-import os
 from pathlib import Path
+from typing import Literal
 
 import pytest
 from alembic.command import upgrade, downgrade
 from alembic.config import Config as AlembicConfig
+from dotenv import load_dotenv
+from pydantic_settings import SettingsConfigDict
 from sqlalchemy.orm import Session
 
 from app import create_app
@@ -11,24 +13,27 @@ from app.config import Settings
 from app.extensions import db as _db
 from app.models import Day
 
+load_dotenv(".env.test", override=True)
+
 ROOT = Path(__file__).parent.parent
 
-TEST_DB_URL = os.environ.get(
-    "TEST_DATABASE_URL_LOCAL",
-    "postgresql+psycopg://postgres:1845@localhost:5432/test_catweek",
-)
+
+class TestSettings(Settings):
+    model_config = SettingsConfigDict(
+        case_sensitive=True,
+        env_file=None,
+        extra="ignore"
+    )
+    DB_ENV: Literal["local", "remote", "test"] = "test"
+    FORCE_HTTPS: bool = False
+    ALLOWED_ORIGINS: list[str] = []
 
 
 @pytest.fixture(scope="session")
 def app():
-    cfg = Settings(
-        APP_ENV="dev",
-        DB_ENV="local",
-        DATABASE_URL_LOCAL=TEST_DB_URL,
-        FORCE_HTTPS=False,
-        ALLOWED_ORIGINS=[],
-        API_KEY="test-api-key",
-    )
+    import os
+    print(f"DEBUG: ENV URL IS {os.environ.get('DATABASE_URL_LOCAL')}")
+    cfg = TestSettings()
     return create_app(settings=cfg)
 
 

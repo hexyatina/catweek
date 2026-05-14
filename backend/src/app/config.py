@@ -9,13 +9,14 @@ logger = logging.getLogger(__name__)
 
 class Settings(BaseSettings):
     APP_ENV: Literal["dev", "prod"] = "dev"
-    DB_ENV: Literal["local", "remote"] = "local"
+    DB_ENV: Literal["local", "remote", "test"] = "local"
 
     HOST: str = "0.0.0.0"
     PORT: int = 5000
     WORKERS: int = 4
 
     DATABASE_URL_LOCAL: str = ""
+    TEST_DATABASE_URL_LOCAL: str = ""
     DATABASE_URL_REMOTE: str = ""
     DATABASE_URL_REMOTE_DIRECT: str = ""
 
@@ -47,6 +48,8 @@ class Settings(BaseSettings):
     def get_database_url(self, direct: bool = False) -> str:
         if self.DB_ENV == "local":
             url = self.DATABASE_URL_LOCAL
+        elif self.DB_ENV == "test":
+            url = self.TEST_DATABASE_URL_LOCAL
         elif direct:
             url = self.DATABASE_URL_REMOTE_DIRECT
         else:
@@ -61,20 +64,17 @@ class Settings(BaseSettings):
 
     @model_validator(mode="after")
     def check_required_fields(self) -> "Settings":
+        db_requirements = {
+            "local": ["DATABASE_URL_LOCAL"],
+            "test": ["TEST_DATABASE_URL_LOCAL"],
+            "remote": ["DATABASE_URL_REMOTE", "DATABASE_URL_REMOTE_DIRECT"],
+        }
+
         errors = []
 
-        if self.DB_ENV == "local":
-            if not self.DATABASE_URL_LOCAL:
-                errors.append("DB_ENV=local requires DATABASE_URL_LOCAL to be set")
-
-        if self.DB_ENV == "remote":
-            if not self.DATABASE_URL_REMOTE:
-                errors.append("DB_ENV=remote requires DATABASE_URL_REMOTE to be set")
-
-            if not self.DATABASE_URL_REMOTE_DIRECT:
-                errors.append(
-                    "DB_ENV=remote requires DATABASE_URL_REMOTE_DIRECT to be set"
-                )
+        for field in db_requirements.get(self.DB_ENV, []):
+            if not getattr(self, field, "").strip():
+                errors.append(f"DB_ENV={self.DB_ENV} requires {field} to be set")
 
         # API_KEY only validated and used in prod mode.
         if self.APP_ENV == "prod":

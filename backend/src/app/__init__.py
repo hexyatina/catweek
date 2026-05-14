@@ -13,7 +13,7 @@ from .utils import configure_logging, handle_exception, handle_http_exception
 
 
 def create_app(settings: Settings | None = None) -> Flask:
-    cfg = settings or load_settings()
+    cfg = settings if settings is not None else load_settings()
 
     app = Flask(__name__)
 

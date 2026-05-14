@@ -10,10 +10,17 @@ from app.extensions import Base
 # access to the values within the .ini file in use.
 config = context.config
 
-cfg = load_settings()
+if current_app:
+    database_url = current_app.config["SQLALCHEMY_DATABASE_URI"]
+else:
+    cfg = load_settings()
+    database_url = cfg.get_database_url()
+
+config.set_main_option(
+    "sqlalchemy.url", database_url.replace("%", "%%")
+)
 
 logger = logging.getLogger(__name__)
-
 target_metadata = Base.metadata
 
 
@@ -37,9 +44,6 @@ def get_engine_url():
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-config.set_main_option(
-    "sqlalchemy.url", cfg.get_database_url(direct=True).replace("%", "%%")
-)
 
 target_db = current_app.extensions["migrate"].db
 
