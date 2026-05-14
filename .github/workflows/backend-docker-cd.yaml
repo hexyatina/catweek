@@ -74,6 +74,20 @@ jobs:
           echo "Pushing $LATEST_IMAGE ..."
           docker push "$LATEST_IMAGE"
 
+      - name: Update VERSION on Render
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          curl -fsSL -X PATCH \
+            "https://api.render.com/v1/services/${RENDER_SERVICE_ID}/env-vars" \
+            -H "Authorization: Bearer ${RENDER_API_KEY}" \
+            -H "Content-Type: application/json" \
+            -d "[{\"key\": \"APP_VERSION\", \"value\": \"${VERSION}\"}]"
+          echo "APP_VERSION set to ${VERSION}"
+          
+
       - name: Trigger Render deploy
         env:
           RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
